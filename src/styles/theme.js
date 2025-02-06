@@ -16,18 +16,18 @@ const light = {
 };
 
 const dark = {
-  darknavy: 'rgba(2, 4, 15, 0.85)',
-  navy: '#000000',
-  lightnavy: '#011627',
-  lightestnavy: '#ced4da',
-  navyshadow: 'rgba(2, 12, 27, 0.7)',
+  darknavy: '#010810',
+  navy: '#0d315b',
+  lightnavy: '#183362',
+  lightestnavy: '#394d71',
+  navyshadow: 'rgba(2, 14, 32, 0.7)',
   darkslate: '#495670',
-  slate: '#ffffff',
-  lightslate: '#ced4da',
-  lightestslate: '#ffffff',
+  slate: '#8892b0',
+  lightslate: '#a8b2d1',
+  lightestslate: '#ccd6f6',
   white: '#e6f1ff',
-  higlight: '#e63946',
-  higlighttint: 'rgba(230, 57, 70, 0.1)',
+  higlight: #24b4fd,
+  higlighttint: 'rgba(36, 180, 253, 0.6)',
 };
 
 const theme = isDark => {
