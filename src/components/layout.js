@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import styled, { ThemeProvider } from 'styled-components';
-import { Head, Loader, Nav, Social, Email, Footer } from '@components';
-import { GlobalStyle, theme } from '@styles';
+import styled, { ThemeProvider, ThemeContext } from 'styled-components';
+import { Head, Loader, Nav, Social, Email, Footer, useDarkMode} from '@components';
+import { GlobalStyle, theme as getTheme } from '@styles';
 import '../styles/style.css'
+
 const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,6 +13,7 @@ const StyledContent = styled.div`
 
 const Layout = ({ children, location }) => {
   const isHome = location && location.pathname === '/';
+  useContext(ThemeContext);
   const [isLoading, setIsLoading] = useState(isHome);
 
   // Sets target="_blank" rel="noopener noreferrer" on external links
@@ -46,12 +48,14 @@ const Layout = ({ children, location }) => {
     handleExternalLinks();
   }, [isLoading]);
 
+  const [theme, themeToggler] = useDarkMode();
+  const isDark = () => theme === 'dark';
   return (
     <>
       <Head />
 
       <div id="root">
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={getTheme(isDark())}>
           <GlobalStyle />
 
           <a className="skip-to-content" href="#content">
@@ -62,7 +66,7 @@ const Layout = ({ children, location }) => {
             <Loader finishLoading={() => setIsLoading(false)} />
           ) : (
             <StyledContent>
-              <Nav isHome={isHome} />
+              <Nav isHome={isHome} changeTheme={themeToggler} isDark={isDark} />
               <Social isHome={isHome} />
               <Email isHome={isHome} />
 

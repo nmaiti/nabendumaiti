@@ -15,7 +15,7 @@ const variables = css`
     --green: #64ffda;
     --green-tint: rgba(100, 255, 218, 0.1);
     --pink: #f57dff;
-    
+
     --blue: #24b4fd;
     --blue-tint:  rgba(36, 180, 253, 0.2);;
 

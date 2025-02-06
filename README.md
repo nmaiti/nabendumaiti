@@ -83,6 +83,7 @@ Yes, you can fork this repo. Please give me, and others proper credit by linking
 
 ## 🎨 Color Reference
 
+### Dark
 | Color          | Hex                                                                |
 | -------------- | ------------------------------------------------------------------ |
 | Navy           | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) `#0a192f` |
@@ -94,3 +95,17 @@ Yes, you can fork this repo. Please give me, and others proper credit by linking
 | White          | ![#e6f1ff](https://via.placeholder.com/10/e6f1ff?text=+) `#e6f1ff` |
 | Green          | ![#64ffda](https://via.placeholder.com/10/64ffda?text=+) `#64ffda` |
 | Blue           | ![#24b4fd](https://via.placeholder.com/10/24b4fd?text=+) `#24b4fd` |
+
+### Light
++| Color          | Hex                                                                |
++| -------------- | ------------------------------------------------------------------ |
++| Dark Navy      | ![#FFFCF2](https://via.placeholder.com/10/FFFCF2?text=+) `#FFFCF2` |
++| Navy           | ![#fbfefb](https://via.placeholder.com/10/fbfefb?text=+) `#fbfefb` |
++| Light Navy     | ![#ffffff](https://via.placeholder.com/10/ffffff?text=+) `#ffffff` |
++| Lightest Navy  | ![#bcb8b1](https://via.placeholder.com/10/bcb8b1?text=+) `#bcb8b1` |
++| Slate          | ![#000000](https://via.placeholder.com/10/000000?text=+) `#000000` |
++| Light Slate    | ![#082032](https://via.placeholder.com/10/082032?text=+) `#082032` |
++| Lightest Slate | ![#334756](https://via.placeholder.com/10/334756?text=+) `#334756` |
++| White          | ![#fffbff](https://via.placeholder.com/10/fffbff?text=+) `#fffbff` |
++| Highlight      | ![#e63946](https://via.placeholder.com/10/e63946?text=+) `#e63946` |
+ 

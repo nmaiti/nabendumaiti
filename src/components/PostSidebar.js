@@ -14,24 +14,24 @@ export const PostSidebar = ({
   let formtdte = new Date(date)
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
   let monthName = months[formtdte.getMonth()]
-  formtdte = monthName + ' ' + formtdte.getDate() + ', ' + formtdte.getFullYear()  
-  
-  const formattedDate = formtdte 
-  
+  formtdte = monthName + ' ' + formtdte.getDate() + ', ' + formtdte.getFullYear()
+
+  const formattedDate = formtdte
+
   return (
-    
+
     <aside className="post-sidebar">
 
       <div className="post-sidebar-card">
         <h2>About me</h2>
-       
+
         <p>
-          Hello and thanks for visiting! My name is Nabenu Maiti, and this is my personal website.
+          Hello and thanks for visiting! My name is Nabendu Maiti, and this is my personal website.
         </p>
         <p>
           I'm a software developer, Design, build hardware and softwares, make them secure. I
           use technical skills whenever get scopes. Often I write articales here about technology mostly,
-          sometime on life/travel. 
+          sometime on life/travel.
         </p>
       </div>
 
@@ -42,7 +42,7 @@ export const PostSidebar = ({
         </ul>
 
         {categoryAll && (
-          <div>     
+          <div>
             <h2>Category</h2>
             <ul>
             {categoryAll.map((category) => {
@@ -57,7 +57,7 @@ export const PostSidebar = ({
             </ul>
           </div>
         )}
-            
+
         <h2>Tags</h2>
         <div className="tags">
           {tags.map((tag) => {

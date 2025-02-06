@@ -19,6 +19,8 @@ import {
   IconStar,
   IconTwitter,
   IconYoutube,
+  IconSun,
+  IconMoon,
 } from '@components/icons';
 
 const Icon = ({ name }) => {
@@ -59,6 +61,10 @@ const Icon = ({ name }) => {
       return <IconTwitter />;
     case 'Youtube':
       return <IconYoutube />;
+    case 'Moon':
+      return <IconMoon />;
+    case 'Sun':
+      return <IconSun />;
     default:
       return <IconExternal />;
   }

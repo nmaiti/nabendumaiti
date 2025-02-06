@@ -488,7 +488,7 @@ main {
 
 
 .highlight {
-  color: var(--blue);
+  color: var(--higlight);
 }
 
 /* Preview */
@@ -617,7 +617,7 @@ a.post {
   padding: 0.4rem 0;
   background: transparent;
   text-decoration: none;
-  border-bottom: 1px solid var(--dark-slate);
+  border-bottom: 1px solid var(--darkslate);
 }
 
 a.post:last-of-type {
@@ -626,7 +626,7 @@ a.post:last-of-type {
 
 a.post:hover,
 a.post:hover h3 {
-  color: var(--blue);
+  color: var(--higlight);
 }
 
 a.post:hover h3 {
@@ -646,7 +646,7 @@ a.post h3 {
 a.post time {
   display: none;
   font-family: var(--font-family-monospace);
-  color: var(--blue);
+  color: var(--higlight);
   font-size: 0.9rem;
   font-weight: 500;
   white-space: nowrap;
@@ -696,7 +696,7 @@ a.post time {
 /* Sidebar */
 
 .post-sidebar-card {
-  border: 1px solid var(--dark-slate);
+  border: 1px solid var(--darkslate);
   background: var(--card-background-color);
   padding: 1.5rem;
   border-radius: var(--border-radius);
@@ -755,7 +755,7 @@ a.post time {
 
 .list a:hover {
   background: rgba(255, 255, 255, 0.05);
-  color: var(--blue);
+  color: var(--higlight);
   text-decoration: none;
 }
 
@@ -780,16 +780,16 @@ a.tag {
 }
 
 a.tag:hover {
-  color: var(--blue);
+  color: var(--higlight);
   border: 1px solid var(--slate);
   border-color: var(--slate);
   text-decoration: none;
 }
 
 a.tag.active {
-  color: var(--blue);
-  border-color: var(--blue);
-  border: 1px solid var(--blue);
+  color: var(--higlight);
+  border-color: var(--higlight);
+  border: 1px solid var(--higlight);
   font-weight: 500;
 }
 
@@ -810,7 +810,7 @@ a.category {
 }
 
 a.category.active {
-  color: var(--blue);
+  color: var(--higlight);
 }
 
 a.category:hover .count,

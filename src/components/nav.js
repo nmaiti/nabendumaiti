@@ -7,7 +7,7 @@ import { navLinks } from '@config';
 import { loaderDelay } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
 import { Menu } from '@components';
-import { IconLogo } from '@components/icons';
+import { IconLogo,  IconSun, IconMoon } from '@components/icons';
 
 const StyledHeader = styled.header`
   ${({ theme }) => theme.mixins.flexBetween};
@@ -17,7 +17,7 @@ const StyledHeader = styled.header`
   padding: 0px 50px;
   width: 100%;
   height: var(--nav-height);
-  background-color: rgba(2, 14, 32, 0.85);
+  background-color: ${props => props.theme.darknavy};
   filter: none !important;
   pointer-events: auto !important;
   user-select: auto !important;
@@ -38,8 +38,8 @@ const StyledHeader = styled.header`
     css`
         height: var(--nav-scroll-height);
         transform: translateY(0px);
-        background-color: rgba(10, 25, 47, 0.85);
-        box-shadow: 0 10px 30px -10px var(--navy-shadow);
+        background-color: ${props => props.theme.darknavy};
+        box-shadow: 0 10px 30px -10px ${props => props.theme.navyshadow};
       `};
 
     ${props =>
@@ -48,7 +48,7 @@ const StyledHeader = styled.header`
     css`
         height: var(--nav-scroll-height);
         transform: translateY(calc(var(--nav-scroll-height) * -1));
-        box-shadow: 0 10px 30px -10px var(--navy-shadow);
+        box-shadow: 0 10px 30px -10px ${props => props.theme.navyshadow};
       `};
   }
 `;
@@ -57,23 +57,32 @@ const StyledNav = styled.nav`
   ${({ theme }) => theme.mixins.flexBetween};
   position: relative;
   width: 100%;
-  color: var(--lightest-slate);
+  color: ${props => props.theme.lightestslate};
   font-family: var(--font-mono);
   counter-reset: item 0;
   z-index: 12;
+
+  .dark-mode {
+    width: 42px;
+    height: 42px;
+    background-color: transparent;
+    > svg {
+      color: ${props => props.theme.higlight};
+    }
+  }
 
   .logo {
     ${({ theme }) => theme.mixins.flexCenter};
 
     a {
-      color: var(--blue);
+      color: ${props => props.theme.higlight};
       width: 42px;
       height: 42px;
 
       &:hover,
       &:focus {
         svg {
-          fill: var(--blue-tint);
+          fill: ${props => props.theme.higlighttint};
         }
       }
 
@@ -112,7 +121,7 @@ const StyledLinks = styled.div`
         &:before {
           content: '0' counter(item) '.';
           margin-right: 5px;
-          color: var(--blue);
+          color: ${props => props.theme.higlight};
           font-size: var(--fz-xxs);
           text-align: right;
         }
@@ -127,7 +136,7 @@ const StyledLinks = styled.div`
   }
 `;
 
-const Nav = ({ isHome }) => {
+const Nav = ({ isHome, changeTheme, isDark }) => {
   const [isMounted, setIsMounted] = useState(!isHome);
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
@@ -172,6 +181,12 @@ const Nav = ({ isHome }) => {
     </div>
   );
 
+  const DarkMode = (
+    <button className="dark-mode" onClick={() => changeTheme()}>
+      {isDark() ? <IconSun /> : <IconMoon />}
+    </button>
+  );
+
   const ResumeLink = (
     <a className="resume-button" href="/Nabendu_Resume.pdf" target="_blank" rel="noopener noreferrer">
       Resume
@@ -194,6 +209,7 @@ const Nav = ({ isHome }) => {
                     </li>
                   ))}
               </ol>
+              <div>{DarkMode}</div>
               <div>{ResumeLink}</div>
             </StyledLinks>
 
@@ -238,7 +254,14 @@ const Nav = ({ isHome }) => {
             <TransitionGroup component={null}>
               {isMounted && (
                 <CSSTransition classNames={fadeClass} timeout={timeout}>
-                  <Menu />
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}>
+                    {DarkMode}
+                    <Menu />
+                  </div>
                 </CSSTransition>
               )}
             </TransitionGroup>
@@ -251,6 +274,8 @@ const Nav = ({ isHome }) => {
 
 Nav.propTypes = {
   isHome: PropTypes.bool,
+  isDark: PropTypes.func,
+  changeTheme: PropTypes.func,
 };
 
 export default Nav;
