@@ -1,7 +1,7 @@
 import mixins from './mixins';
 
 const light = {
-  darknavy: 'rgba(255, 252, 242, 0.85)',
+  darknavy: '#c2d3e5',
   navy: '#fbfefb',
   lightnavy: '#ffffff',
   lightestnavy: '#bcb8b1',
@@ -11,23 +11,23 @@ const light = {
   lightslate: '#082032',
   lightestslate: '#334756',
   white: '#fffbff',
-  higlight: '#e63946',
-  higlighttint: 'rgba(230, 57, 70, 0.1)',
+  higlight: '#2080ff',
+  higlighttint: 'rgba(30, 125, 250, 0.2)',
 };
 
 const dark = {
-  darknavy: '#010810',
-  navy: '#0d315b',
-  lightnavy: '#183362',
-  lightestnavy: '#394d71',
+  darknavy: '#020e20',
+  navy: '#0a0e20',
+  lightnavy: '#26509a',
+  lightestnavy: '#376ccc',
   navyshadow: 'rgba(2, 14, 32, 0.7)',
   darkslate: '#495670',
-  slate: '#8892b0',
-  lightslate: '#a8b2d1',
+  slate: '#c8d4f7',
+  lightslate: '#ebeffb',
   lightestslate: '#ccd6f6',
-  white: '#e6f1ff',
-  higlight: #24b4fd,
-  higlighttint: 'rgba(36, 180, 253, 0.6)',
+  white: '#f7f7fe',
+  higlight: '#24b4fd',
+  higlighttint: 'rgba(43, 181, 250, 0.6)',
 };
 
 const theme = isDark => {

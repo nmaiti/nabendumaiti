@@ -50,9 +50,9 @@ const Icon = ({ name }) => {
     case 'PlayStore':
       return <IconPlayStore />;
     case 'Post':
-        return <IconPost />;
+      return <IconPost />;
     case 'Project':
-        return <IconProject />;
+      return <IconProject />;
     case 'Sandbox':
       return <IconSandbox />;
     case 'Star':

@@ -63,8 +63,8 @@ const StyledNav = styled.nav`
   z-index: 12;
 
   .dark-mode {
-    width: 42px;
-    height: 42px;
+    width: 70px;
+    height: 70px;
     background-color: transparent;
     > svg {
       color: ${props => props.theme.higlight};
@@ -209,10 +209,16 @@ const Nav = ({ isHome, changeTheme, isDark }) => {
                     </li>
                   ))}
               </ol>
-              <div>{DarkMode}</div>
-              <div>{ResumeLink}</div>
-            </StyledLinks>
 
+              <div>{ResumeLink}</div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}>
+                {DarkMode}
+              </div>
+            </StyledLinks>
             <Menu />
           </>
         ) : (
@@ -249,19 +255,13 @@ const Nav = ({ isHome, changeTheme, isDark }) => {
                   </CSSTransition>
                 )}
               </TransitionGroup>
+              {DarkMode}
             </StyledLinks>
 
             <TransitionGroup component={null}>
               {isMounted && (
                 <CSSTransition classNames={fadeClass} timeout={timeout}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                    }}>
-                    {DarkMode}
-                    <Menu />
-                  </div>
+                  <Menu />
                 </CSSTransition>
               )}
             </TransitionGroup>
