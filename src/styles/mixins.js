@@ -1,9 +1,9 @@
 import { css } from 'styled-components';
 
 const button = css`
-  color: ${props => props.theme.higlight};
+  color: var(--blue);
   background-color: transparent;
-  border: 1px solid ${props => props.theme.higlight};
+  border: 1px solid var(--blue);
   border-radius: var(--border-radius);
   font-size: var(--fz-xs);
   font-family: var(--font-mono);
@@ -16,7 +16,7 @@ const button = css`
   &:hover,
   &:focus,
   &:active {
-    background-color: ${props => props.theme.higlighttint};
+    background-color: var(--blue-tint);
     outline: none;
   }
   &:after {
@@ -47,7 +47,7 @@ const mixins = {
     &:hover,
     &:active,
     &:focus {
-      color: ${props => props.theme.higlight};
+      color: var(--blue);
       outline: 0;
     }
   `,
@@ -58,17 +58,17 @@ const mixins = {
     text-decoration-skip-ink: auto;
     position: relative;
     transition: var(--transition);
-    color: ${props => props.theme.higlight};
+    color: var(--blue);
     &:hover,
     &:focus,
     &:active {
-      color: ${props => props.theme.higlight};
+      color: var(--blue);
       outline: 0;
       &:after {
         width: 100%;
       }
       & > * {
-        color: ${props => props.theme.higlight} !important;
+        color: var(--blue) !important;
         transition: var(--transition);
       }
     }
@@ -79,7 +79,7 @@ const mixins = {
       height: 1px;
       position: relative;
       bottom: 0.37em;
-      background-color: ${props => props.theme.higlight};
+      background-color: var(--blue);
       transition: var(--transition);
       opacity: 0.5;
     }
@@ -88,9 +88,9 @@ const mixins = {
   button,
 
   smallButton: css`
-    background-color: ${props => props.theme.higlight};
+    color: var(--blue);
     background-color: transparent;
-    border: 1px solid ${props => props.theme.higlight};
+    border: 1px solid var(--blue);
     border-radius: var(--border-radius);
     padding: 0.75rem 1rem;
     font-size: var(--fz-xs);
@@ -102,7 +102,7 @@ const mixins = {
     &:hover,
     &:focus,
     &:active {
-      background-color: ${props => props.theme.higlighttint};
+      background-color: var(--blue-tint);
       outline: none;
     }
     &:after {
@@ -111,9 +111,9 @@ const mixins = {
   `,
 
   bigButton: css`
-    color: ${props => props.theme.higlight};
+    color: var(--blue);
     background-color: transparent;
-    border: 1px solid ${props => props.theme.higlight};
+    border: 1px solid var(--blue);
     border-radius: var(--border-radius);
     padding: 1.25rem 1.75rem;
     font-size: var(--fz-sm);
@@ -125,7 +125,7 @@ const mixins = {
     &:hover,
     &:focus,
     &:active {
-      background-color: ${props => props.theme.higlighttint};
+      background-color: var(--blue-tint);
       outline: none;
     }
     &:after {
@@ -134,12 +134,12 @@ const mixins = {
   `,
 
   boxShadow: css`
-    box-shadow: 0 10px 30px -15px ${props => props.theme.navyshadow};
+    box-shadow: 0 10px 30px -15px var(--navy-shadow);
     transition: var(--transition);
 
     &:hover,
     &:focus {
-      box-shadow: 0 20px 30px -15px ${props => props.theme.navyshadow};
+      box-shadow: 0 20px 30px -15px var(--navy-shadow);
     }
   `,
 
@@ -156,7 +156,7 @@ const mixins = {
         content: '▹';
         position: absolute;
         left: 0;
-        color: ${props => props.theme.higlight};
+        color: var(--blue);
       }
     }
   `,

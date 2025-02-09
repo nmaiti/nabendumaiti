@@ -16,7 +16,7 @@ const StyledContactSection = styled.section`
   .overline {
     display: block;
     margin-bottom: 20px;
-    color: ${props => props.theme.higlight};
+    color: var(--blue);
     font-family: var(--font-mono);
     font-size: var(--fz-md);
     font-weight: 400;

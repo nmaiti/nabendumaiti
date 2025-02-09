@@ -14,7 +14,7 @@ const StyledLoader = styled.div`
   right: 0;
   width: 100%;
   height: 100%;
-  background-color: ${props => props.theme.darknavy};
+  background-color: var(--dark-navy);
   z-index: 99;
 
   .logo-wrapper {

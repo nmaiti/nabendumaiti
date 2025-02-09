@@ -19,7 +19,7 @@ const StyledSocialList = styled.ul`
     width: 1px;
     height: 90px;
     margin: 0 auto;
-    background-color: ${props => props.theme.lightslate};
+    background-color: var(--light-slate);
   }
 
   li {

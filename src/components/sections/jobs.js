@@ -73,9 +73,9 @@ const StyledTabButton = styled.button`
   width: 100%;
   height: var(--tab-height);
   padding: 0 20px 2px;
-  border-left: 2px solid ${props => props.theme.lightestnavy};
+  border-left: 2px solid var(--lightest-navy);
   background-color: transparent;
-  color: ${({ isActive }) => isActive ? '${props => props.theme.higlight};' : '${props => props.theme.slate};'};
+  color: ${({ isActive }) => (isActive ? 'var(--blue)' : 'var(--slate)')};
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
   text-align: left;
@@ -89,13 +89,13 @@ const StyledTabButton = styled.button`
     min-width: 120px;
     padding: 0 15px;
     border-left: 0;
-    border-bottom: 2px solid ${props => props.theme.lightestnavy};
+    border-bottom: 2px solid var(--lightest-navy);
     text-align: center;
   }
 
   &:hover,
   &:focus {
-    background-color: ${props => props.theme.lightnavy};
+    background-color: var(--light-navy);
   }
 `;
 
@@ -107,7 +107,7 @@ const StyledHighlight = styled.div`
   width: 2px;
   height: var(--tab-height);
   border-radius: var(--border-radius);
-  background: ${props => props.theme.higlight};
+  background: var(--blue);
   transform: translateY(calc(${({ activeTabId }) => activeTabId} * var(--tab-height)));
   transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition-delay: 0.1s;
@@ -152,13 +152,13 @@ const StyledTabPanel = styled.div`
     line-height: 1.3;
 
     .company {
-      color: ${props => props.theme.higlight};
+      color: var(--blue);
     }
   }
 
   .range {
     margin-bottom: 25px;
-    color: ${props => props.theme.lightslate};
+    color: var(--light-slate);
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
   }

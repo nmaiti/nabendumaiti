@@ -117,14 +117,14 @@ const StyledProject = styled.li`
 
   .project-overline {
     margin: 10px 0;
-    color: ${props => props.theme.higlight};
+    color: var(--blue);
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
     font-weight: 400;
   }
 
   .project-title {
-    color: ${props => props.theme.lightestslate};
+    color: var(--lightest-slate);
     font-size: clamp(24px, 5vw, 28px);
 
     @media (min-width: 768px) {
@@ -132,7 +132,7 @@ const StyledProject = styled.li`
     }
 
     @media (max-width: 768px) {
-      color: ${props => props.theme.white};
+      color: var(--white);
 
       a {
         position: static;
@@ -157,8 +157,8 @@ const StyledProject = styled.li`
     z-index: 2;
     padding: 25px;
     border-radius: var(--border-radius);
-    background-color: ${props => props.theme.lightnavy};
-    color: ${props => props.theme.lightslate};
+    background-color: var(--light-navy);
+    color: var(--light-slate);
     font-size: var(--fz-lg);
 
     @media (max-width: 768px) {
@@ -176,7 +176,7 @@ const StyledProject = styled.li`
     }
 
     strong {
-      color: ${props => props.theme.white};
+      color: var(--white);
       font-weight: normal;
     }
   }
@@ -192,7 +192,7 @@ const StyledProject = styled.li`
 
     li {
       margin: 0 20px 5px 0;
-      color: ${props => props.theme.lightestslate};
+      color: var(--light-slate);
       font-family: var(--font-mono);
       font-size: var(--fz-xs);
       white-space: nowrap;
@@ -203,7 +203,7 @@ const StyledProject = styled.li`
 
       li {
         margin: 0 10px 5px 0;
-        color: ${props => props.theme.lightestslate};
+        color: var(--lightest-slate);
       }
     }
   }
@@ -214,7 +214,7 @@ const StyledProject = styled.li`
     position: relative;
     margin-top: 10px;
     margin-left: -10px;
-    color: ${props => props.theme.lightestslate};
+    color: var(--lightest-slate);
 
     a {
       ${({ theme }) => theme.mixins.flexCenter};
@@ -256,7 +256,7 @@ const StyledProject = styled.li`
     a {
       width: 100%;
       height: 100%;
-      background-color: ${props => props.theme.higlight};
+      background-color: var(--blue);
       border-radius: var(--border-radius);
       vertical-align: middle;
 
@@ -283,6 +283,7 @@ const StyledProject = styled.li`
         bottom: 0;
         z-index: 3;
         transition: var(--transition);
+        background-color: var(--navy);
         mix-blend-mode: screen;
       }
     }

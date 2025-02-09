@@ -21,7 +21,7 @@ const StyledSocialLinks = styled.div`
     width: 100%;
     max-width: 270px;
     margin: 0 auto 10px;
-    color: ${props => props.theme.lightslate};
+    color: var(--light-slate);
   }
 
   ul {
@@ -41,7 +41,7 @@ const StyledSocialLinks = styled.div`
 `;
 
 const StyledCredit = styled.div`
-  color: ${props => props.theme.lightslate};
+  color: var(--light-slate);
   font-family: var(--font-mono);
   font-size: var(--fz-xxs);
   line-height: 1;

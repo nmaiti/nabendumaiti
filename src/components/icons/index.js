@@ -17,5 +17,3 @@ export { default as IconSandbox } from './codesandbox';
 export { default as IconStar } from './star';
 export { default as IconTwitter } from './twitter';
 export { default as IconYoutube } from './youtube';
-export { default as IconSun } from './sun';
-export { default as IconMoon } from './moon';

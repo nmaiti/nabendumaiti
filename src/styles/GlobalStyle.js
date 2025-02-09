@@ -21,13 +21,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::selection {
-    background-color: ${props => props.theme.lightestnavy};
-    color: ${props => props.theme.lightestslate};
+    background-color: var(--lightest-navy);
+    color: var(--lightest-slate);
   }
 
   /* Provide basic, default focus styles.*/
   :focus {
-    outline: 2px dashed ${({ theme }) => theme.higlight};
+    outline: 2px dashed var(--blue);
     outline-offset: 3px;
   }
 
@@ -46,24 +46,24 @@ const GlobalStyle = createGlobalStyle`
     focus.
   */
   :focus-visible {
-    outline: 2px dashed ${props => props.theme.higlight};
+    outline: 2px dashed var(--blue);
     outline-offset: 3px;
   }
 
   /* Scrollbar Styles */
   html {
     scrollbar-width: thin;
-    scrollbar-color: ${props => props.theme.darkslate} ${props => props.theme.navy};
+    scrollbar-color: var(--dark-slate) var(--navy);
   }
   ::-webkit-scrollbar {
     width: 12px;
   }
   ::-webkit-scrollbar-track {
-    background: ${props => props.theme.navy};
+    background: var(--navy);
   }
   ::-webkit-scrollbar-thumb {
-    background-color: ${props => props.theme.darkslate};
-    border: 3px solid ${props => props.theme.navy};
+    background-color: var(--dark-slate);
+    border: 3px solid var(--navy);
     border-radius: 10px;
   }
 
@@ -74,8 +74,8 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background-color: ${props => props.theme.navy};
-    color: ${props => props.theme.slate};
+    background-color: var(--navy);
+    color: var(--slate);
     font-family: var(--font-sans);
     font-size: var(--fz-xl);
     line-height: 1.3;
@@ -165,7 +165,7 @@ const GlobalStyle = createGlobalStyle`
   h6 {
     margin: 0 0 10px 0;
     font-weight: 600;
-    color: ${props => props.theme.lightestslate};
+    color: var(--lightest-slate);
     line-height: 1.1;
   }
 
@@ -194,7 +194,7 @@ const GlobalStyle = createGlobalStyle`
       counter-increment: section;
       content: '0' counter(section) '.';
       margin-right: 10px;
-      color: ${({ theme }) => theme.higlight};
+      color: var(--blue);
       font-family: var(--font-mono);
       font-size: clamp(var(--fz-md), 3vw, var(--fz-xl));
       font-weight: 400;
@@ -213,7 +213,7 @@ const GlobalStyle = createGlobalStyle`
       width: 300px;
       height: 1px;
       margin-left: 20px;
-      background-color: ${props => props.theme.lightestnavy};
+      background-color: var(--lightest-navy);
 
       @media (max-width: 1080px) {
         width: 200px;
@@ -261,7 +261,7 @@ const GlobalStyle = createGlobalStyle`
 
     &:hover,
     &:focus {
-      color: ${({ theme }) => theme.higlight};
+      color: var(--blue);
     }
 
     &.inline-link {
@@ -303,8 +303,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     & > code {
-      background-color: ${props => props.theme.lightnavy};
-      color: ${props => props.theme.white};
+      background-color: var(--light-navy);
+      color: var(--white);
       font-size: var(--fz-sm);
       border-radius: var(--border-radius);
       padding: 0.3em 0.5em;
@@ -325,14 +325,14 @@ const GlobalStyle = createGlobalStyle`
           content: '▹';
           position: absolute;
           left: 0;
-          color: ${({ theme }) => theme.higlight};
+          color: var(--blue);
         }
       }
     }
   }
 
   blockquote {
-    border-left-color: ${({ theme }) => theme.higlight};
+    border-left-color: var(--blue);
     border-left-style: solid;
     border-left-width: 1px;
     margin-left: 0px;
@@ -346,7 +346,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   hr {
-    background-color: ${props => props.theme.lightestnavy};
+    background-color: var(--lightest-navy);
     height: 1px;
     border-width: 0px;
     border-style: initial;
@@ -372,8 +372,8 @@ const GlobalStyle = createGlobalStyle`
 
     &:focus,
     &:active {
-      background-color: ${({ theme }) => theme.higlight};
-      color: ${props => props.theme.navy};
+      background-color: var(--blue);
+      color: var(--navy);
       top: 0;
       left: 0;
       width: auto;
@@ -384,18 +384,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #logo {
-    color: ${({ theme }) => theme.higlight};
+    color: var(--blue);
   }
 
   .overline {
-    color: ${({ theme }) => theme.higlight};
+    color: var(--blue);
     font-family: var(--font-mono);
     font-size: var(--fz-md);
     font-weight: 400;
   }
 
   .subtitle {
-    color: ${({ theme }) => theme.higlight};
+    color: var(--blue);
     margin: 0 0 20px 0;
     font-size: var(--fz-md);
     font-family: var(--font-mono);
@@ -418,7 +418,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     align-items: center;
     margin-bottom: 50px;
-    color: ${({ theme }) => theme.higlight};
+    color: var(--blue);
 
     .arrow {
       display: block;

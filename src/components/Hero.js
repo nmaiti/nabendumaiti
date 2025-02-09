@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 const StyledHighlightContainer = styled.span`
-    color: ${props => props.theme.higlight};
+    color: var(--blue);
 `;
 
 export const PHero = ({ highlight, subTitle, title, children, index }) => {

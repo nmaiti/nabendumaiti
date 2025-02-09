@@ -34,7 +34,7 @@ const StyledPostContent = styled.div`
   p {
     margin: 1em 0;
     line-height: 1.5;
-    color: ${props => props.theme.lightslate};
+    color: var(--light-slate);
   }
 
   a {
@@ -42,7 +42,7 @@ const StyledPostContent = styled.div`
   }
 
   code {
-    background-color: ${props => props.theme.lightestnavy};
+    background-color: var(--lightest-navy);
     color: var(--lightest-slate);
     border-radius: var(--border-radius);
     font-size: var(--fz-sm);
