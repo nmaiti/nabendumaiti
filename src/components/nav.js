@@ -85,7 +85,7 @@ const StyledNav = styled.nav`
           fill: ${props => props.theme.higlighttint};
         }
       }
-
+        
       svg {
         fill: none;
         transition: var(--transition);
@@ -196,77 +196,56 @@ const Nav = ({ isHome, changeTheme, isDark }) => {
   return (
     <StyledHeader scrollDirection={scrollDirection} scrolledToTop={scrolledToTop}>
       <StyledNav>
-        {prefersReducedMotion ? (
-          <>
-            {Logo}
+        <>
+          <TransitionGroup component={null}>
+            {isMounted && (
+              <CSSTransition classNames={fadeClass} timeout={timeout}>
+                <>{Logo}</>
+              </CSSTransition>
+            )}
+          </TransitionGroup>
 
-            <StyledLinks>
-              <ol>
-                {navLinks &&
-                  navLinks.map(({ url, name }, i) => (
-                    <li key={i}>
-                      <Link to={url}>{name}</Link>
-                    </li>
-                  ))}
-              </ol>
-
-              <div>{ResumeLink}</div>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}>
-                {DarkMode}
-              </div>
-            </StyledLinks>
-            <Menu />
-          </>
-        ) : (
-          <>
-            <TransitionGroup component={null}>
-              {isMounted && (
-                <CSSTransition classNames={fadeClass} timeout={timeout}>
-                  <>{Logo}</>
-                </CSSTransition>
-              )}
-            </TransitionGroup>
-
-            <StyledLinks>
-              <ol>
-                <TransitionGroup component={null}>
-                  {isMounted &&
-                    navLinks &&
-                    navLinks.map(({ url, name }, i) => (
-                      <CSSTransition key={i} classNames={fadeDownClass} timeout={timeout}>
-                        <li key={i} style={{ transitionDelay: `${isHome ? i * 100 : 0}ms` }}>
-                          <Link to={url}>{name}</Link>
-                        </li>
-                      </CSSTransition>
-                    ))}
-                </TransitionGroup>
-              </ol>
-
+          <StyledLinks>
+            <ol>
               <TransitionGroup component={null}>
-                {isMounted && (
-                  <CSSTransition classNames={fadeDownClass} timeout={timeout}>
-                    <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
-                      {ResumeLink}
-                    </div>
-                  </CSSTransition>
-                )}
+                {isMounted &&
+                  navLinks &&
+                  navLinks.map(({ url, name }, i) => (
+                    <CSSTransition key={i} classNames={fadeDownClass} timeout={timeout}>
+                      <li key={i} style={{ transitionDelay: `${isHome ? i * 100 : 0}ms` }}>
+                        <Link to={url}>{name}</Link>
+                      </li>
+                    </CSSTransition>
+                  ))}
               </TransitionGroup>
-              {DarkMode}
-            </StyledLinks>
+            </ol>
 
             <TransitionGroup component={null}>
               {isMounted && (
-                <CSSTransition classNames={fadeClass} timeout={timeout}>
-                  <Menu />
+                <CSSTransition classNames={fadeDownClass} timeout={timeout}>
+                  <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
+                    {ResumeLink}
+                  </div>
                 </CSSTransition>
               )}
             </TransitionGroup>
-          </>
-        )}
+          </StyledLinks>
+
+          <TransitionGroup component={null}>
+            {isMounted && (
+              <CSSTransition classNames={fadeClass} timeout={timeout}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}>
+                  {DarkMode}
+                  <Menu />
+                </div>
+              </CSSTransition>
+            )}
+          </TransitionGroup>
+        </>
       </StyledNav>
     </StyledHeader>
   );

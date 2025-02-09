@@ -1,11 +1,11 @@
 import mixins from './mixins';
 
 const light = {
-  darknavy: '#c2d3e5',
-  navy: '#fbfefb',
+  darknavy: '#fcf9ea',
+  navy: '#fffef7',
   lightnavy: '#ffffff',
   lightestnavy: '#bcb8b1',
-  navyshadow: 'rgba(2, 12, 27, 0.7)',
+  navyshadow: 'hsla(44, 17.60%, 25.70%, 0.70)',
   darkslate: '#000000',
   slate: '#082032',
   lightslate: '#082032',
@@ -17,7 +17,7 @@ const light = {
 
 const dark = {
   darknavy: '#020e20',
-  navy: '#0a0e20',
+  navy: '#072042',
   lightnavy: '#26509a',
   lightestnavy: '#376ccc',
   navyshadow: 'rgba(2, 14, 32, 0.7)',
