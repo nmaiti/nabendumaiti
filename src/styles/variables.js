@@ -2,26 +2,6 @@ import { css } from 'styled-components';
 
 const variables = css`
   :root {
-    --dark-navy: #010810;
-    --navy: #020E20;
-    --light-navy: #112240;
-    --lightest-navy: #233554;
-    --navy-shadow: rgba(2, 14, 32, 0.7);
-    --dark-slate: #495670;
-    --slate: #8892b0;
-    --light-slate: #a8b2d1;
-    --lightest-slate: #ccd6f6;
-    --white: #e6f1ff;
-    --green: #64ffda;
-    --green-tint: rgba(100, 255, 218, 0.1);
-    --pink: #f57dff;
-    
-    --blue: #24b4fd;
-    --blue-tint:  rgba(36, 180, 253, 0.2);;
-
-    --gerua: #F7DC6F ;
-    --yellow: #f9e900;
-
 
     --font-sans: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui,
       sans-serif;

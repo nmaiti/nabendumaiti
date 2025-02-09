@@ -71,7 +71,7 @@ const StyledProject = styled.li`
     height: 100%;
     padding: 2rem 1.75rem;
     border-radius: var(--border-radius);
-    background-color: var(--light-navy);
+    background-color: ${props => props.theme.lightnavy};
     transition: var(--transition);
     overflow: auto;
   }
@@ -81,7 +81,7 @@ const StyledProject = styled.li`
     margin-bottom: 35px;
 
     .folder {
-      color: var(--blue);
+      color: ${props => props.theme.higlight};
       svg {
         width: 40px;
         height: 40px;
@@ -92,7 +92,7 @@ const StyledProject = styled.li`
       display: flex;
       align-items: center;
       margin-right: -10px;
-      color: var(--light-slate);
+      color: ${props => props.theme.lightslate};
 
       a {
         ${({ theme }) => theme.mixins.flexCenter};
@@ -123,7 +123,7 @@ const StyledProject = styled.li`
 
   .project-title {
     margin: 0 0 10px;
-    color: var(--lightest-slate);
+    color: ${props => props.theme.lightestslate};
     font-size: var(--fz-xxl);
 
     a {
@@ -143,7 +143,7 @@ const StyledProject = styled.li`
   }
 
   .project-description {
-    color: var(--light-slate);
+    color: ${props => props.theme.lightslate};
     font-size: 17px;
 
     a {
