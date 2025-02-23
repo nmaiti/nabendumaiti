@@ -63,8 +63,8 @@ const StyledNav = styled.nav`
   z-index: 12;
 
   .dark-mode {
-    width: 70px;
-    height: 70px;
+    width: 40px;
+    height: 40px;
     background-color: transparent;
     > svg {
       color: ${props => props.theme.higlight};
