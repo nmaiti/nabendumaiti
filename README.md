@@ -103,8 +103,8 @@ Yes, you can fork this repo. Please give me, and others proper credit by linking
 | Navy           | ![Navy](https://img.shields.io/badge/Navy-fbfefb?style=flat&color=fbfefb) `#fbfefb` |
 | Light Navy     | ![Light Navy](https://img.shields.io/badge/Light%20Navy-ffffff?style=flat&color=ffffff) `#ffffff` |
 | Lightest Navy  | ![Lightest Navy](https://img.shields.io/badge/Lightest%20Navy-bcb8b1?style=flat&color=bcb8b1) `#bcb8b1` |
-| Slate          | ![Slate](https://img.shields.io/badge/Slate-000000?style=flat&color=000000) `#000000` |
-| Light Slate    | ![Light Slate](https://img.shields.io/badge/Light%20Slate-082032?style=flat&color=082032) `#082032` |
-| Lightest Slate | ![Lightest Slate](https://img.shields.io/badge/Lightest%20Slate-334756?style=flat&color=334756) `#334756` |
+| Slate          | ![Slate](https://img.shields.io/badge/Slate-8892b0?style=flat&color=8892b0) `#8892b0` |
+| Light Slate    | ![Light Slate](https://img.shields.io/badge/Light%20Slate-a8b2d1?style=flat&color=a8b2d1) `#a8b2d1` |
+| Lightest Slate | ![Lightest Slate](https://img.shields.io/badge/Lightest%20Slate-ccd6f6?style=flat&color=ccd6f6) `#ccd6f6` |
 | White          | ![White](https://img.shields.io/badge/White-fffbff?style=flat&color=fffbff) `#fffbff` |
 | Highlight      | ![Highlight](https://img.shields.io/badge/Highlight-e63946?style=flat&color=e63946) `#e63946` |
