@@ -7,7 +7,7 @@
 <p align="center">
   The first iteration of  my personal site built with <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a> and hosted with <a href="https://www.netlify.com/" target="_blank">Netlify</a>
 </p>
-
+av
 <p align="center">
   <a href="https://app.netlify.com/sites/nabendumaiti/deploys" target="_blank">
     <img src="https://api.netlify.com/api/v1/badges/af29d654-8c1f-46f4-8f24-3388e5087f07/deploy-status" alt="Netlify Status" />
