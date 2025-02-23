@@ -7,7 +7,7 @@
 <p align="center">
   The first iteration of  my personal site built with <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a> and hosted with <a href="https://www.netlify.com/" target="_blank">Netlify</a>
 </p>
-av
+
 <p align="center">
   <a href="https://app.netlify.com/sites/nabendumaiti/deploys" target="_blank">
     <img src="https://api.netlify.com/api/v1/badges/af29d654-8c1f-46f4-8f24-3388e5087f07/deploy-status" alt="Netlify Status" />
@@ -32,7 +32,7 @@ This site is using <a href="https://github.com/bchiang7/v4" target="_blank">brit
 
 
 
-For blog section I used and <a href="https://github.com/taniarascia/taniarascia.com" target="_blank">taniarascia.com</a> with changes to accomodate in current code base.
+For blog section I used and <a href="https://github.com/taniarascia/taniarascia.com" target="_blank">taniarascia.com</a> with changes to accommodate in current code base.
 
 Inspired by <a href="https://github.com/taniarascia/taniarascia.com" target="_blank">taniarascia.com</a> I made content as private.
 
@@ -81,31 +81,30 @@ Yes, you can fork this repo. Please give me, and others proper credit by linking
    yarn run serve
    ```
 
-## 🎨 Color Reference
+## 🎨 Colour Reference
 
 ### Dark
-| Color          | Hex                                                                |
+| Colour         | Hex                                                                |
 | -------------- | ------------------------------------------------------------------ |
-| Navy           | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) `#0a192f` |
-| Light Navy     | ![#112240](https://via.placeholder.com/10/0a192f?text=+) `#112240` |
-| Lightest Navy  | ![#233554](https://via.placeholder.com/10/303C55?text=+) `#233554` |
-| Slate          | ![#8892b0](https://via.placeholder.com/10/8892b0?text=+) `#8892b0` |
-| Light Slate    | ![#a8b2d1](https://via.placeholder.com/10/a8b2d1?text=+) `#a8b2d1` |
-| Lightest Slate | ![#ccd6f6](https://via.placeholder.com/10/ccd6f6?text=+) `#ccd6f6` |
-| White          | ![#e6f1ff](https://via.placeholder.com/10/e6f1ff?text=+) `#e6f1ff` |
-| Green          | ![#64ffda](https://via.placeholder.com/10/64ffda?text=+) `#64ffda` |
-| Blue           | ![#24b4fd](https://via.placeholder.com/10/24b4fd?text=+) `#24b4fd` |
+| Navy           | ![Navy](https://img.shields.io/badge/-%230a192f?style=flat-square&color=0a192f) `#0a192f` |
+| Light Navy     | ![Light Navy](https://img.shields.io/badge/-%23112240?style=flat-square&color=112240) `#112240` |
+| Lightest Navy  | ![Lightest Navy](https://img.shields.io/badge/-%23233554?style=flat-square&color=233554) `#233554` |
+| Slate          | ![Slate](https://img.shields.io/badge/-%238892b0?style=flat-square&color=8892b0) `#8892b0` |
+| Light Slate    | ![Light Slate](https://img.shields.io/badge/-%23a8b2d1?style=flat-square&color=a8b2d1) `#a8b2d1` |
+| Lightest Slate | ![Lightest Slate](https://img.shields.io/badge/-%23ccd6f6?style=flat-square&color=ccd6f6) `#ccd6f6` |
+| White          | ![White](https://img.shields.io/badge/-%23e6f1ff?style=flat-square&color=e6f1ff) `#e6f1ff` |
+| Green          | ![Green](https://img.shields.io/badge/-%2364ffda?style=flat-square&color=64ffda) `#64ffda` |
+| Blue           | ![Blue](https://img.shields.io/badge/-%2324b4fd?style=flat-square&color=24b4fd) `#24b4fd` |
 
 ### Light
-+| Color          | Hex                                                                |
-+| -------------- | ------------------------------------------------------------------ |
-+| Dark Navy      | ![#FFFCF2](https://via.placeholder.com/10/FFFCF2?text=+) `#FFFCF2` |
-+| Navy           | ![#fbfefb](https://via.placeholder.com/10/fbfefb?text=+) `#fbfefb` |
-+| Light Navy     | ![#ffffff](https://via.placeholder.com/10/ffffff?text=+) `#ffffff` |
-+| Lightest Navy  | ![#bcb8b1](https://via.placeholder.com/10/bcb8b1?text=+) `#bcb8b1` |
-+| Slate          | ![#000000](https://via.placeholder.com/10/000000?text=+) `#000000` |
-+| Light Slate    | ![#082032](https://via.placeholder.com/10/082032?text=+) `#082032` |
-+| Lightest Slate | ![#334756](https://via.placeholder.com/10/334756?text=+) `#334756` |
-+| White          | ![#fffbff](https://via.placeholder.com/10/fffbff?text=+) `#fffbff` |
-+| Highlight      | ![#e63946](https://via.placeholder.com/10/e63946?text=+) `#e63946` |
- 
+| Colour         | Hex                                                                |
+| -------------- | ------------------------------------------------------------------ |
+| Dark Navy      | ![Dark Navy](https://img.shields.io/badge/-%23FFFCF2?style=flat-square&color=FFFCF2) `#FFFCF2` |
+| Navy           | ![Navy](https://img.shields.io/badge/-%23fbfefb?style=flat-square&color=fbfefb) `#fbfefb` |
+| Light Navy     | ![Light Navy](https://img.shields.io/badge/-%23ffffff?style=flat-square&color=ffffff) `#ffffff` |
+| Lightest Navy  | ![Lightest Navy](https://img.shields.io/badge/-%23bcb8b1?style=flat-square&color=bcb8b1) `#bcb8b1` |
+| Slate          | ![Slate](https://img.shields.io/badge/-%23000000?style=flat-square&color=000000) `#000000` |
+| Light Slate    | ![Light Slate](https://img.shields.io/badge/-%23082032?style=flat-square&color=082032) `#082032` |
+| Lightest Slate | ![Lightest Slate](https://img.shields.io/badge/-%23334756?style=flat-square&color=334756) `#334756` |
+| White          | ![White](https://img.shields.io/badge/-%23fffbff?style=flat-square&color=fffbff) `#fffbff` |
+| Highlight      | ![Highlight](https://img.shields.io/badge/-%2324b4fd?style=flat-square&color=24b4fd) `#24b4fd` |
