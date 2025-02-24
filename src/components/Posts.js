@@ -1,58 +1,69 @@
-import React, { useMemo } from 'react'
-import '../styles/style.css'
+import React from 'react'
+import { Link } from 'gatsby'
+import styled from 'styled-components'
+import { getFormattedDate } from '../utils/helpers'
 
-import { Post } from './Post'
+const PostLink = styled(Link)`
+  display: flex;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  background: transparent;
+  text-decoration: none;
+  border-bottom: 1px solid var(--darkslate);
 
-export const Posts = ({
-  data = [],
-  showYears,
-  query,
-  prefix,
-  hideDate,
-  yearOnly,
-  ...props
-}) => {
-  const postsByYear = useMemo(() => {
-    const collection = {}
-
-    data.forEach((post) => {
-    //  const year = post.date?.split(', ')[1]
-      const formattedDate = new Date(post.date) //.toLocaleDateString();
-      const year  = formattedDate.getFullYear();
-
-      collection[year] = [...(collection[year] || []), post]
-    })
-
-    return collection
-  }, [data])
-  const years = useMemo(() => Object.keys(postsByYear).reverse(), [postsByYear])
-
-  if (showYears) {
-    return years.map((year) => (
-      <section key={year} className="segment">
-        <h2 className="year">{year}</h2>
-        <div className="posts">
-          {postsByYear[year].map((node) => (
-            <Post key={node.id} node={node} query={query} prefix={prefix} />
-          ))}
-        </div>
-      </section>
-    ))
-  } else {
-    return (
-      <div className={props.newspaper ? 'posts newspaper' : 'posts'}>
-        {data.map((node) => (
-          <Post
-            key={node.id}
-            node={node}
-            query={query}
-            prefix={prefix}
-            hideDate={hideDate}
-            yearOnly={yearOnly}
-            {...props}
-          />
-        ))}
-      </div>
-    )
+  &:last-of-type {
+    border: none;
   }
+
+  &:hover,
+  &:hover h3 {
+    color: var(--higlight);
+  }
+
+  &:hover h3 {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+  }
+`;
+
+const PostTitle = styled.h3`
+  margin: 0;
+  font-size: 1rem;
+  color: var(--font-color-heading);
+  font-weight: 500;
+  font-family: var(--font-family-base);
+  line-height: 1.3;
+
+  @media screen and (min-width: 700px) {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+`;
+
+const PostTime = styled.time`
+  display: none;
+  font-family: var(--font-family-monospace);
+  color: var(--higlight);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-left: auto;
+
+  @media screen and (min-width: 700px) {
+    display: block;
+  }
+`;
+
+export const Post = ({ node, prefix, newspaper }) => {
+  let formattedDate = new Date(node.date)
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const monthName = months[formattedDate.getMonth()]
+  formattedDate = monthName + ' ' + formattedDate.getDate()
+
+  return (
+    <PostLink to={node.slug} key={node.id}>
+      <PostTitle>{node.title}</PostTitle>
+      <PostTime>{formattedDate}</PostTime>
+    </PostLink>
+  )
 }
