@@ -352,7 +352,7 @@ const Featured = () => {
 
       <StyledProjectsGrid>
         {featuredProjects &&
-          featuredProjects.map(({ node }, i) => {
+          [...featuredProjects].reverse().map(({ node }, i) => {
             const { frontmatter, html } = node;
             const { external, title, tech, github, cover, cta } = frontmatter;
             const image = getImage(cover);
