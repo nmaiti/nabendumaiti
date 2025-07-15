@@ -1,18 +1,18 @@
 import mixins from './mixins';
 
 const light = {
-  darknavy: '#fcf9ea',
-  navy: '#fffef7',
-  lightnavy: '#ffffff',
-  lightestnavy: '#bcb8b1',
-  navyshadow: 'hsla(44, 17.60%, 25.70%, 0.70)',
-  darkslate: '#000000',
-  slate: '#082032',
-  lightslate: '#082032',
-  lightestslate: '#334756',
-  white: '#fffbff',
-  higlight: '#2080ff',
-  higlighttint: 'rgba(30, 125, 250, 0.2)',
+  darknavy: '#e9fdffff',
+  navy: '#fcfffffd',
+  lightnavy: '#cff6fcf3',
+  lightestnavy: '#dbfff7e8',
+  navyshadow: 'hsla(193, 18%, 26%, 0.2)',
+  darkslate: '#000000ff',
+  slate: '#132330ff',
+  lightslate: '#193c3fff',
+  lightestslate: '#37586eff',
+  white: '#ffffffff',
+  higlight: '#2457fdff',
+  higlighttint: 'rgba(114, 192, 216, 0.94)',
 };
 
 const dark = {
