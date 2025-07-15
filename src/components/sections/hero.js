@@ -38,6 +38,8 @@ const StyledHeroSection = styled.section`
   h4 {
     margin-top: 4px;
     color: ${props => props.theme.slate};
+    font-size: clamp(var(--fz-md),  5vw, var(--fz-xxl));
+    font-weight: 800;
     line-height: 0.8;
 
   }
@@ -68,12 +70,13 @@ const Hero = () => {
 
   const one = <h1>Hi, my name is</h1>;
   const two = <h2 className="big-heading">Nabendu Bikash Maiti.</h2>;
-  const three = <h3 className="medium-heading">I build, tinker both software and hardware.</h3>;
+  const three = <h4 className="medium-heading">I build, tinker both software and hardware.</h4>;
   const four = (
     <>
       <p>
-      I am a Senior Software Security Engineer, specializing in designing and implementing
-      secure platform software solutions. With a strong background in both hardware and software, my current focus is on platform security, specifically on technologies like SGX and TPM, as well as identifying vulnerabilities through bug bounty programs.{' '}
+        I am a Senior Software Engineer skilled in creating and securing platform software solutions. With deep expertise in both hardware and software,
+        I focus on platform security, utilizing technologies like SGX and TPM, and actively participate in bug bounty programs to identify vulnerabilities.
+        I have recently begun working on Zephyr-based MCTP and PLDM implementations for an embedded controller.{' '}
       </p>
     </>
   );
