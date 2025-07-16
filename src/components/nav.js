@@ -7,7 +7,7 @@ import { navLinks } from '@config';
 import { loaderDelay } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
 import { Menu } from '@components';
-import { IconLogo,  IconSun, IconMoon } from '@components/icons';
+import { IconLogo, IconSun, IconMoon } from '@components/icons';
 
 const StyledHeader = styled.header`
   ${({ theme }) => theme.mixins.flexBetween};
@@ -33,9 +33,9 @@ const StyledHeader = styled.header`
 
   @media (prefers-reduced-motion: no-preference) {
     ${props =>
-    props.scrollDirection === 'up' &&
-    !props.scrolledToTop &&
-    css`
+      props.scrollDirection === 'up' &&
+      !props.scrolledToTop &&
+      css`
         height: var(--nav-scroll-height);
         transform: translateY(0px);
         background-color: ${props => props.theme.darknavy};
@@ -43,9 +43,9 @@ const StyledHeader = styled.header`
       `};
 
     ${props =>
-    props.scrollDirection === 'down' &&
-    !props.scrolledToTop &&
-    css`
+      props.scrollDirection === 'down' &&
+      !props.scrolledToTop &&
+      css`
         height: var(--nav-scroll-height);
         transform: translateY(calc(var(--nav-scroll-height) * -1));
         box-shadow: 0 10px 30px -10px ${props => props.theme.navyshadow};
@@ -63,8 +63,8 @@ const StyledNav = styled.nav`
   z-index: 12;
 
   .dark-mode {
-    width: 70px;
-    height: 70px;
+    width: 40px;
+    height: 40px;
     background-color: transparent;
     > svg {
       color: ${props => props.theme.higlight};
@@ -85,7 +85,7 @@ const StyledNav = styled.nav`
           fill: ${props => props.theme.higlighttint};
         }
       }
-        
+
       svg {
         fill: none;
         transition: var(--transition);
@@ -188,7 +188,12 @@ const Nav = ({ isHome, changeTheme, isDark }) => {
   );
 
   const ResumeLink = (
-    <a className="resume-button" href="/Nabendu_Resume.pdf" target="_blank" rel="noopener noreferrer">
+    <a
+      className="resume-button"
+      href="/Nabendu_Resume.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Resume
     </a>
   );
@@ -238,7 +243,8 @@ const Nav = ({ isHome, changeTheme, isDark }) => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                  }}>
+                  }}
+                >
                   {DarkMode}
                   <Menu />
                 </div>

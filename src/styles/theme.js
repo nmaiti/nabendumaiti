@@ -5,7 +5,7 @@ const light = {
   navy: '#fcfffffd',
   lightnavy: '#cff6fcf3',
   lightestnavy: '#dbfff7e8',
-  navyshadow: 'hsla(193, 18%, 26%, 0.2)',
+  navyshadow: 'hsla(195, 22%, 38%, 0.37)',
   darkslate: '#000000ff',
   slate: '#132330ff',
   lightslate: '#193c3fff',

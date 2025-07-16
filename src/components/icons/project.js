@@ -1,31 +1,22 @@
 import React from 'react';
 
 const IconProject = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    role="img"
-    width={28}
-    height={28}
-    viewBox="0 0 21 21"
-
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" role="img" width={28} height={28} viewBox="0 0 21 21">
     <path
       d="M275.707 133c-8.774 8.727 -22.913 8.727 -31.687 0l-18.573 -18.62c-8.727 -8.727 -8.727 -22.913 0 -31.64L267.54 40.6c0.14 -0.14 0.233 -0.42 0.187 -0.653 -0.047 -0.187 -0.187 -0.42 -0.42 -0.513 -27.16 -11.62 -62.393 -5.693 -84.747 16.52 -21.42 21.233 -22.633 53.2 -14.793 81.107 2.287 8.073 -0.187 16.753 -6.347 22.447L44.8 266c-9.38 8.307 -13.347 21.14 -10.36 33.32 2.987 12.133 12.507 21.653 24.64 24.64 12.18 2.987 25.013 -0.98 33.32 -10.36l107.707 -116.9c5.6 -6.067 14.14 -8.493 22.12 -6.393 27.673 7.42 59.173 6.02 80.313 -14.84 22.727 -22.4 27.627 -61.974 16.613 -84.654a0.722 0.722 0 0 0 -0.513 -0.373 0.691 0.691 0 0 0 -0.607 0.187Zm0 0"
       transform="scale(.0586)"
-      fill= "none"
-      strokeWidth= {32}
-      strokeLinecap= "round"
-      strokeLinejoin= "miter"
-      stroke= "#06abfd"
-      strokeMiterlimit= {10}
+      fill="none"
+      strokeWidth={32}
+      strokeLinecap="round"
+      strokeLinejoin="miter"
+      stroke="#06abfd"
+      strokeMiterlimit={10}
     />
     <path
-      
-      stroke= "none"
-      fillRule= "nonzero"
-      fill= "#06abfd"
-      fillOpacity= {1}
-      
+      stroke="none"
+      fillRule="nonzero"
+      fill="#06abfd"
+      fillOpacity={1}
       d="M4.594 17.062c0 0.364 -0.293 0.657 -0.657 0.657a0.654 0.654 0 0 1 -0.657 -0.657c0 -0.364 0.293 -0.657 0.657 -0.657s0.657 0.293 0.657 0.657Zm0 0"
     />
   </svg>

@@ -176,8 +176,11 @@ const Projects = () => {
   const data = useStaticQuery(graphql`
     query {
       projects: allMarkdownRemark(
-        filter: {fileAbsolutePath: {regex: "/content/projects/"}, frontmatter: {showInProjects: {ne: false}}}
-        sort: {frontmatter: {date: DESC}}
+        filter: {
+          fileAbsolutePath: { regex: "/content/projects/" }
+          frontmatter: { showInProjects: { ne: false } }
+        }
+        sort: { frontmatter: { date: DESC } }
       ) {
         edges {
           node {
@@ -228,7 +231,6 @@ const Projects = () => {
               <Icon name="Project" />
             </div>
             <div className="project-links">
-
               {github && (
                 <a href={github} aria-label="GitHub Link" target="_blank" rel="noreferrer">
                   <Icon name="GitHub" />
@@ -240,7 +242,8 @@ const Projects = () => {
                   aria-label="External Link"
                   className="external"
                   target="_blank"
-                  rel="noreferrer">
+                  rel="noreferrer"
+                >
                   <Icon name="External" />
                 </a>
               )}
@@ -250,7 +253,8 @@ const Projects = () => {
                   aria-label="Article Link"
                   className="external"
                   target="_blank"
-                  rel="noreferrer">
+                  rel="noreferrer"
+                >
                   <Icon name="Post" />
                 </a>
               )}
@@ -303,13 +307,15 @@ const Projects = () => {
                   key={i}
                   classNames="fadeup"
                   timeout={i >= GRID_LIMIT ? (i - GRID_LIMIT) * 300 : 300}
-                  exit={false}>
+                  exit={false}
+                >
                   <StyledProject
                     key={i}
                     ref={el => (revealProjects.current[i] = el)}
                     style={{
                       transitionDelay: `${i >= GRID_LIMIT ? (i - GRID_LIMIT) * 100 : 0}ms`,
-                    }}>
+                    }}
+                  >
                     {projectInner(node)}
                   </StyledProject>
                 </CSSTransition>

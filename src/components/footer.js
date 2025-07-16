@@ -77,7 +77,6 @@ const Footer = () => {
     if (process.env.NODE_ENV !== 'production') {
       return;
     }
-
   }, []);
 
   return (
@@ -96,9 +95,10 @@ const Footer = () => {
       </StyledSocialLinks>
 
       <StyledCredit tabindex="-1">
-        <div>Built by <a href="https://github.com/nmaiti/nabendumaiti">Nabendu Maiti,</a> Inspired from
-          <a href="https://github.com/bchiang7/v4">
-            Brittany Chiang,</a></div>
+        <div>
+          Built by <a href="https://github.com/nmaiti/nabendumaiti">Nabendu Maiti,</a> Inspired from
+          <a href="https://github.com/bchiang7/v4">Brittany Chiang,</a>
+        </div>
       </StyledCredit>
     </StyledFooter>
   );
