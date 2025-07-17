@@ -180,24 +180,26 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! My name is Nabendu Bikash Maiti and I am passionate about creating,
-              experimenting, and developing software and hardware. I grew interest in electronics
-              long back in my school days (2000)
+              Hello! I'm Nabendu Bikash Maiti, a dedicated software professional with a long-standing passion for technology. 
+              My journey began in 2000 during my school days, driven by an early fascination with electronics.
             </p>
 
             <p>
-              Fast-forward to the present day, and I've had the privilege of gaining work experience
-              at <a href="https://www.intel.com/">Biggest Semiconductor manufacturer</a>, and{' '}
-              <a href="https://www.broadcom.com/">Network Giant</a>, and{' '}
-              <a href="https://www.capgemini.com/">IT Service company</a>,{' '}
-              <a href="https://global.abb/group/en">a renowned Automation giant</a>. Currently, my
-              main focus is on building and developing platform software that is both convenient and
-              secure for both OEMs and end-users.
+              Over the years, I’ve had the opportunity to work with a Fast-forward to the present day, and
+              I've had the privilege of gaining work experience at
+              <a href="https://www.intel.com/">Semiconductor</a>, and{' '}
+              <a href="https://www.broadcom.com/">Network</a>, and{' '}
+              <a href="https://www.capgemini.com/">IT Service</a>,{' '}
+              <a href="https://global.abb/group/en">an Automation</a>   company.
+              These experiences have enriched my understanding of both hardware and software domains.
             </p>
 
             <p>
-              I also recently started experimenting on cutting edge ML based fuzzing to ensure AI
-              can fully utilized for few Intel software products.
+              Currently, my focus is on developing secure, user-friendly platform software tailored for OEMs and end-users. 
+              Although I have a strong background in schematic and PCB design, my core professional expertise lies in software development—delivering robust and scalable solutions.
+            </p>
+            <p>
+              Recently, I’ve been exploring machine learning-based fuzzing to strengthen the security of Intel software products, using AI to push the boundaries of innovation.
             </p>
 
             <p>Here are a few technologies I’ve worked on:</p>
