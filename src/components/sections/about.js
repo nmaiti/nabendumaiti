@@ -180,26 +180,20 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! My name is Nabendu Bikash Maiti and I am passionate about creating,
-              experimenting, and developing software and hardware. I grew interest in electronics
-              long back in my school days (2000)
+              Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with electronics in 2000.
+              I've worked across industries—from {' '}
+              <a href="https://www.intel.com/">Semiconductor</a>, and{' '}
+              <a href="https://www.broadcom.com/">Network</a>, and{' '}
+              <a href="https://www.capgemini.com/">IT Service</a>,{' '}
+              <a href="https://global.abb/group/en">an Automation</a>company.
+              These experiences have enriched my understanding of both hardware and software domains.
             </p>
 
             <p>
-              Fast-forward to the present day, and I've had the privilege of gaining work experience
-              at <a href="https://www.intel.com/">Biggest Semiconductor manufacturer</a>, and{' '}
-              <a href="https://www.broadcom.com/">Network Giant</a>, and{' '}
-              <a href="https://www.capgemini.com/">IT Service company</a>,{' '}
-              <a href="https://global.abb/group/en">a renowned Automation giant</a>. Currently, my
-              main focus is on building and developing platform software that is both convenient and
-              secure for both OEMs and end-users.
+              Currently, I develop secure, user-friendly platform software for OEMs and end-users.
+              While I have a background in schematic and PCB design, my main focus is system software development.
+              Lately, I’ve been exploring machine learning-based fuzzing to enhance Intel software security using AI.
             </p>
-
-            <p>
-              I also recently started experimenting on cutting edge ML based fuzzing to ensure AI
-              can fully utilized for few Intel software products.
-            </p>
-
             <p>Here are a few technologies I’ve worked on:</p>
           </div>{' '}
           <p />
