@@ -1,12 +1,11 @@
-import React, { useMemo } from 'react'
-import { graphql } from 'gatsby'
+import React, { useMemo } from 'react';
+import { graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 
-
-import { Posts } from '../components/Posts'
-import { PHero } from '../components/Hero'
-import { SidebarLayout } from '../components/SidebarLayout'
-import { getSimplifiedPosts } from '../utils/helpers'
+import { Posts } from '../components/Posts';
+import { PHero } from '../components/Hero';
+import { SidebarLayout } from '../components/SidebarLayout';
+import { getSimplifiedPosts } from '../utils/helpers';
 
 import styled from 'styled-components';
 import { Layout } from '@components';
@@ -55,38 +54,35 @@ const StyledPostContent = styled.div`
   }
 `;
 
-
 export default function TagTemplate({ data, pageContext }) {
-  const { tag } = pageContext
-  const { totalCount } = data.allMarkdownRemark
-  const posts = data.allMarkdownRemark.edges
-  const simplifiedPosts = useMemo(() => getSimplifiedPosts(posts), [posts])
-  const message = totalCount === 1 ? ' post tagged:' : ' posts tagged:'
+  const { tag } = pageContext;
+  const { totalCount } = data.allMarkdownRemark;
+  const posts = data.allMarkdownRemark.edges;
+  const simplifiedPosts = useMemo(() => getSimplifiedPosts(posts), [posts]);
+  const message = totalCount === 1 ? ' post tagged:' : ' posts tagged:';
 
   return (
     <div>
       <Layout>
-      <Helmet title={`Posts tagged: #${tag} `} />
+        <Helmet title={`Posts tagged: #${tag} `} />
         <StyledPostContainer>
-
           <SidebarLayout>
             <PHero highlight={totalCount} subTitle={message} title={tag} />
             <Posts data={simplifiedPosts} showYears />
           </SidebarLayout>
         </StyledPostContainer>
       </Layout>
-
     </div>
-  )
+  );
 }
 
-TagTemplate.Layout = Layout
+TagTemplate.Layout = Layout;
 
 export const pageQuery = graphql`
   query TagPage($tag: String) {
     allMarkdownRemark(
-      sort: {frontmatter: {date: DESC}}
-      filter: {frontmatter: {tags: {in: [$tag]}}}
+      sort: { frontmatter: { date: DESC } }
+      filter: { frontmatter: { tags: { in: [$tag] } } }
     ) {
       totalCount
       edges {
@@ -104,4 +100,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

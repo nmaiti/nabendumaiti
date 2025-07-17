@@ -25,7 +25,7 @@ const PrismStyles = css`
   .gatsby-highlight {
     background-color: ${prismColors.bg};
     color: ${prismColors.variable};
-	
+
     border-radius: var(--border-radius);
     margin: 2em 0;
     padding: 1.25em;
@@ -48,7 +48,6 @@ const PrismStyles = css`
     hyphens: none;
   }
 
-  
   /**
   * Remove the default PrismJS theme background-color, border-radius, margin,
   * padding and overflow.
@@ -57,16 +56,16 @@ const PrismStyles = css`
   * 3. Adjust the position of the line numbers
   */
   .gatsby-highlight pre[class*='language-'] {
-	color: #fbf1c7; /* fg0 */
+    color: #fbf1c7; /* fg0 */
 
-	padding: 1em;
-	margin: 0.5em 0;
-	overflow: auto;
+    padding: 1em;
+    margin: 0.5em 0;
+    overflow: auto;
     overflow: initial;
     float: left; /* 1 */
     min-width: 100%; /* 2 */
     padding-top: 1em;
-	padding-bottom: 0.2em;
+    padding-bottom: 0.2em;
   }
 
   /* File names */
@@ -172,83 +171,83 @@ const PrismStyles = css`
 
   /* Prism Styles */
   .token.comment,
-.token.prolog,
-.token.cdata {
-	color: #a89984; /* fg4 / gray1 */
-}
+  .token.prolog,
+  .token.cdata {
+    color: #a89984; /* fg4 / gray1 */
+  }
 
-.token.delimiter,
-.token.boolean,
-.token.keyword,
-.token.selector,
-.token.important,
-.token.atrule {
-	color: #fb4934; /* red2 */
-}
+  .token.delimiter,
+  .token.boolean,
+  .token.keyword,
+  .token.selector,
+  .token.important,
+  .token.atrule {
+    color: #fb4934; /* red2 */
+  }
 
-.token.operator,
-.token.punctuation,
-.token.attr-name {
-	color: #a89984; /* fg4 / gray1 */
-}
+  .token.operator,
+  .token.punctuation,
+  .token.attr-name {
+    color: #a89984; /* fg4 / gray1 */
+  }
 
-.token.tag,
-.token.tag .punctuation,
-.token.doctype,
-.token.builtin {
-	color: #fabd2f; /* yellow2 */
-}
+  .token.tag,
+  .token.tag .punctuation,
+  .token.doctype,
+  .token.builtin {
+    color: #fabd2f; /* yellow2 */
+  }
 
-.token.entity,
-.token.number,
-.token.symbol {
-	color: #d3869b; /* purple2 */
-}
+  .token.entity,
+  .token.number,
+  .token.symbol {
+    color: #d3869b; /* purple2 */
+  }
 
-.token.property,
-.token.constant,
-.token.variable {
-	color: #fb4934; /* red2 */
-}
+  .token.property,
+  .token.constant,
+  .token.variable {
+    color: #fb4934; /* red2 */
+  }
 
-.token.string,
-.token.char {
-	color: #b8bb26; /* green2 */
-}
+  .token.string,
+  .token.char {
+    color: #b8bb26; /* green2 */
+  }
 
-.token.attr-value,
-.token.attr-value .punctuation {
-	color: #a89984; /* fg4 / gray1 */
-}
+  .token.attr-value,
+  .token.attr-value .punctuation {
+    color: #a89984; /* fg4 / gray1 */
+  }
 
-.token.url {
-	color: #b8bb26; /* green2 */
-	text-decoration: underline;
-}
+  .token.url {
+    color: #b8bb26; /* green2 */
+    text-decoration: underline;
+  }
 
-.token.function {
-	color: #fabd2f; /* yellow2 */
-}
+  .token.function {
+    color: #fabd2f; /* yellow2 */
+  }
 
-.token.regex {
-	background: #b8bb26; /* green2 */
-}
+  .token.regex {
+    background: #b8bb26; /* green2 */
+  }
 
-.token.bold {
-	font-weight: bold;
-}
+  .token.bold {
+    font-weight: bold;
+  }
 
-.token.italic {
-	font-style: italic;
-}
+  .token.italic {
+    font-style: italic;
+  }
 
-.token.inserted {
-	background: #a89984; /* fg4 / gray1 */
-}
+  .token.inserted {
+    background: #a89984; /* fg4 / gray1 */
+  }
 
-.token.deleted {
-	background: #fb4934; /* red2 */
-}
+  .token.deleted {
+    background: #fb4934; /* red2 */
+  }
 `;
 
 export default PrismStyles;

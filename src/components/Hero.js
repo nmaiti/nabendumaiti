@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledHighlightContainer = styled.span`
-    color: ${props => props.theme.higlight};
+  color: ${props => props.theme.higlight};
 `;
 
 export const PHero = ({ highlight, subTitle, title, children, index }) => {
@@ -17,5 +17,5 @@ export const PHero = ({ highlight, subTitle, title, children, index }) => {
       {title && <h1>{title}</h1>}
       {children && children}
     </header>
-  )
-}
+  );
+};

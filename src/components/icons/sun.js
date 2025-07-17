@@ -10,7 +10,8 @@ const IconSun = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="feather feather-sun">
+    className="feather feather-sun"
+  >
     <title>Sun</title>
     <circle cx="12" cy="12" r="5"></circle>
     <line x1="12" y1="1" x2="12" y2="3"></line>

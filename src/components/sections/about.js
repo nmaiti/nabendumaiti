@@ -18,14 +18,13 @@ const StyledAboutSection = styled.section`
     }
   }
 `;
- //  grid-template-columns: repeat(4, minmax(180px, 500px));
- //grid-template-columns: repeat(4, 1fr);
+//  grid-template-columns: repeat(4, minmax(180px, 500px));
+//grid-template-columns: repeat(4, 1fr);
 const StyledText = styled.div`
   ul.skills-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr ));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
 
-    
     grid-gap: 0 10px;
     padding: 0;
     margin: 5px 0 0 0;
@@ -130,10 +129,48 @@ const About = () => {
     sr.reveal(revealContainer.current, srConfig());
   }, []);
 
-  const skillsSW = ['C', 'Python', 'shellscript', 'Linux/VxWorks',  'SQL', 'OpenWrt', 'Cryptography', 'Git', 'JIRA', 'AFL', 'restler-fuzzer', 'Uboot', 'Docker/kubernets', 'Fuzzing', 'AWS', 'JavaScript (ES6+)', 'React', 'Flask' ];
-  const skillsHW = ['JTAGS', 'Intel', 'PIC', 'Optiga SE', 'Atinny85', 'ESP-8266/32', 'RT5350', 'SDcard', 'I2C/SPI', 'PIR', 'EagleCAD', 'ProteousCAD', 'AutoCAD Fusion360'];
-  const randomFacts = ['Certified Scuba Diver', 'Love travel', 'Adventurers sports', 'Love Gadgets', 'Stock Technical Analysis'];
-
+  const skillsSW = [
+    'C',
+    'Python',
+    'shellscript',
+    'Linux/VxWorks',
+    'SQL',
+    'OpenWrt',
+    'Cryptography',
+    'Git',
+    'JIRA',
+    'AFL',
+    'restler-fuzzer',
+    'Uboot',
+    'Docker/kubernets',
+    'Fuzzing',
+    'AWS',
+    'JavaScript (ES6+)',
+    'React',
+    'Flask',
+  ];
+  const skillsHW = [
+    'JTAGS',
+    'Intel',
+    'PIC',
+    'Optiga SE',
+    'Atinny85',
+    'ESP-8266/32',
+    'RT5350',
+    'SDcard',
+    'I2C/SPI',
+    'PIR',
+    'EagleCAD',
+    'ProteousCAD',
+    'AutoCAD Fusion360',
+  ];
+  const randomFacts = [
+    'Certified Scuba Diver',
+    'Love travel',
+    'Adventurers sports',
+    'Love Gadgets',
+    'Stock Technical Analysis',
+  ];
 
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
@@ -143,27 +180,31 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! My name is Nabendu Bikash Maiti and I am passionate about creating, experimenting, and developing software and hardware.
-              I grew interest in electronics long back in my school days (2000)
+              Hello! My name is Nabendu Bikash Maiti and I am passionate about creating,
+              experimenting, and developing software and hardware. I grew interest in electronics
+              long back in my school days (2000)
             </p>
 
             <p>
-             Fast-forward to the present day, and I've had the privilege of gaining work experience at {' '}
-              <a href="https://www.intel.com/">Biggest Semiconductor manufacturer</a>, and{' '}
-              <a href="https://www.broadcom.com/">Network Giant</a>,{' '} and {' '}
+              Fast-forward to the present day, and I've had the privilege of gaining work experience
+              at <a href="https://www.intel.com/">Biggest Semiconductor manufacturer</a>, and{' '}
+              <a href="https://www.broadcom.com/">Network Giant</a>, and{' '}
               <a href="https://www.capgemini.com/">IT Service company</a>,{' '}
-              <a href="https://global.abb/group/en">a renowned  Automation giant</a>. 
-              Currently, my main focus is on building and developing platform software that is both convenient and secure for both OEMs and end-users.
+              <a href="https://global.abb/group/en">a renowned Automation giant</a>. Currently, my
+              main focus is on building and developing platform software that is both convenient and
+              secure for both OEMs and end-users.
             </p>
 
             <p>
-              I also recently{' '} started experimenting on cutting edge ML based fuzzing to ensure AI can fully utilized
-              for few Intel software products.
+              I also recently started experimenting on cutting edge ML based fuzzing to ensure AI
+              can fully utilized for few Intel software products.
             </p>
 
             <p>Here are a few technologies I’ve worked on:</p>
-          </div> <p/>
-          <p/>Software:
+          </div>{' '}
+          <p />
+          <p />
+          Software:
           <ul className="skills-list">
             {skillsSW && skillsSW.map((skill, i) => <li key={i}>{skill}</li>)}
           </ul>
@@ -171,7 +212,6 @@ const About = () => {
           <ul className="skills-list">
             {skillsHW && skillsHW.map((skill, i) => <li key={i}>{skill}</li>)}
           </ul>
-         
           <p> </p>
           <p>Other than work some Random Facts about Me:</p>
           <ul className="skills-list">

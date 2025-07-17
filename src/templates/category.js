@@ -1,15 +1,13 @@
-import React, { useMemo } from 'react'
-import { graphql } from 'gatsby'
-import Helmet from 'react-helmet'
+import React, { useMemo } from 'react';
+import { graphql } from 'gatsby';
+import Helmet from 'react-helmet';
 
-
-import { Posts } from '../components/Posts'
-import { PHero } from '../components/Hero'
+import { Posts } from '../components/Posts';
+import { PHero } from '../components/Hero';
 import styled from 'styled-components';
 import { Layout } from '@components';
-import { SidebarLayout } from '../components/SidebarLayout'
-import { getSimplifiedPosts } from '../utils/helpers'
-
+import { SidebarLayout } from '../components/SidebarLayout';
+import { getSimplifiedPosts } from '../utils/helpers';
 
 const StyledPostContainer = styled.main`
   max-width: 1700px;
@@ -56,37 +54,34 @@ const StyledPostContent = styled.div`
 `;
 
 export default function CategoryTemplate({ data, pageContext }) {
-  let { category } = pageContext
-  const { totalCount } = data.allMarkdownRemark
-  const posts = data.allMarkdownRemark.edges
-  const simplifiedPosts = useMemo(() => getSimplifiedPosts(posts), [posts])
-  const message =
-    totalCount === 1 ? ' post categorized as:' : ' posts categorized as:'
+  let { category } = pageContext;
+  const { totalCount } = data.allMarkdownRemark;
+  const posts = data.allMarkdownRemark.edges;
+  const simplifiedPosts = useMemo(() => getSimplifiedPosts(posts), [posts]);
+  const message = totalCount === 1 ? ' post categorized as:' : ' posts categorized as:';
 
   return (
     <div>
-      <Layout >
+      <Layout>
         <Helmet title={`${category} `} />
         <StyledPostContainer>
-
           <SidebarLayout>
             <PHero highlight={totalCount} subTitle={message} title={category} />
             <Posts data={simplifiedPosts} showYears />
           </SidebarLayout>
         </StyledPostContainer>
       </Layout>
-
-    </div >
-  )
+    </div>
+  );
 }
 
-CategoryTemplate.Layout = Layout
+CategoryTemplate.Layout = Layout;
 
 export const pageQuery = graphql`
   query CategoryPage($category: String) {
     allMarkdownRemark(
-      sort: {frontmatter: {date: DESC}}
-      filter: {frontmatter: {categories: {in: [$category]}}}
+      sort: { frontmatter: { date: DESC } }
+      filter: { frontmatter: { categories: { in: [$category] } } }
     ) {
       totalCount
       edges {
@@ -104,4 +99,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;

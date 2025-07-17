@@ -170,19 +170,13 @@ const ArchivePage = ({ location, data }) => {
             <tbody>
               {projects.length > 0 &&
                 projects.map(({ node }, i) => {
-                  const {
-                    date,
-                    github,
-                    external,
-                    blog,
-                    android,
-                    title,
-                    tech,
-                    company,
-                  } = node.frontmatter;
+                  const { date, github, external, blog, android, title, tech, company } =
+                    node.frontmatter;
                   return (
                     <tr key={i} ref={el => (revealProjects.current[i] = el)}>
-                      <td className="overline year"><p>{`${new Date(date).getFullYear()}`}</p></td>
+                      <td className="overline year">
+                        <p>{`${new Date(date).getFullYear()}`}</p>
+                      </td>
 
                       <td className="title">{title}</td>
 
@@ -245,8 +239,8 @@ export default ArchivePage;
 export const pageQuery = graphql`
   {
     allMarkdownRemark(
-      filter: {fileAbsolutePath: {regex: "/content/projects/"}}
-      sort: {frontmatter: {date: DESC}}
+      filter: { fileAbsolutePath: { regex: "/content/projects/" } }
+      sort: { frontmatter: { date: DESC } }
     ) {
       edges {
         node {

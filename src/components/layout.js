@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled, { ThemeProvider, ThemeContext } from 'styled-components';
-import { Head, Loader, Nav, Social, Email, Footer, useDarkMode} from '@components';
+import { Head, Loader, Nav, Social, Email, Footer, useDarkMode } from '@components';
 import { GlobalStyle, theme as getTheme } from '@styles';
-import '../styles/style.css'
 
 const StyledContent = styled.div`
   display: flex;
@@ -55,7 +54,7 @@ const Layout = ({ children, location }) => {
       <Head />
 
       <div id="root">
-      <ThemeProvider theme={getTheme(isDark())}>
+        <ThemeProvider theme={getTheme(isDark())}>
           <GlobalStyle />
 
           <a className="skip-to-content" href="#content">
