@@ -180,13 +180,8 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! I'm Nabendu Bikash Maiti, a dedicated software professional with a long-standing passion for technology. 
-              My journey began in 2000 during my school days, driven by an early fascination with electronics.
-            </p>
-
-            <p>
-              Over the years, I’ve had the opportunity to work with a Fast-forward to the present day, and
-              I've had the privilege of gaining work experience at
+              Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with electronics in 2000.
+              I've worked across industries—from
               <a href="https://www.intel.com/">Semiconductor</a>, and{' '}
               <a href="https://www.broadcom.com/">Network</a>, and{' '}
               <a href="https://www.capgemini.com/">IT Service</a>,{' '}
@@ -195,13 +190,10 @@ const About = () => {
             </p>
 
             <p>
-              Currently, my focus is on developing secure, user-friendly platform software tailored for OEMs and end-users. 
-              Although I have a strong background in schematic and PCB design, my core professional expertise lies in software development—delivering robust and scalable solutions.
+              Currently, I develop secure, user-friendly platform software for OEMs and end-users.
+              While I have a background in schematic and PCB design, my main focus is software development.
+              Lately, I’ve been exploring machine learning-based fuzzing to enhance Intel software security using AI.
             </p>
-            <p>
-              Recently, I’ve been exploring machine learning-based fuzzing to strengthen the security of Intel software products, using AI to push the boundaries of innovation.
-            </p>
-
             <p>Here are a few technologies I’ve worked on:</p>
           </div>{' '}
           <p />
