@@ -9,7 +9,7 @@ const IconLogo = () => (
           d="M50 4.167s-37.5 10.625-37.5 12.5v37.916c0 19.167 27.708 36.042 35.417 40.625a3.751 3.751 0 0 0 4.166 0C60 90.833 87.5 73.75 87.5 54.583V16.667c0-1.875-37.5-12.5-37.5-12.5Z"
           style={{
             fill: 'none',
-            stroke: '#06a8fa',
+            stroke: props => props.theme.lightestnavy,
             strokeWidth: 5,
             strokeLinecap: 'round',
           }}
