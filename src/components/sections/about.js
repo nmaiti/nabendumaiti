@@ -191,7 +191,7 @@ const About = () => {
 
             <p>
               Currently, I develop secure, user-friendly platform software for OEMs and end-users.
-              While I have a background in schematic and PCB design, my main focus is software development.
+              While I have a background in schematic and PCB design, my main focus is system software development.
               Lately, I’ve been exploring machine learning-based fuzzing to enhance Intel software security using AI.
             </p>
             <p>Here are a few technologies I’ve worked on:</p>
