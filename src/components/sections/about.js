@@ -181,11 +181,11 @@ const About = () => {
           <div>
             <p>
               Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with electronics in 2000.
-              I've worked across industries—from
+              I've worked across industries—from {' '}
               <a href="https://www.intel.com/">Semiconductor</a>, and{' '}
               <a href="https://www.broadcom.com/">Network</a>, and{' '}
               <a href="https://www.capgemini.com/">IT Service</a>,{' '}
-              <a href="https://global.abb/group/en">an Automation</a>   company.
+              <a href="https://global.abb/group/en">an Automation</a>company.
               These experiences have enriched my understanding of both hardware and software domains.
             </p>
 
