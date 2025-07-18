@@ -32,6 +32,7 @@
     ]
   },
   "dependencies": {
+    "@giscus/react": "^3.1.0",
     "@parcel/core": "^2.8.3",
     "@parcel/reporter-dev-server": "^2.8.3",
     "animejs": "^3.1.0",
