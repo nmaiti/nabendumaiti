@@ -5,9 +5,9 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Layout } from '@components';
 
+
 import { PostSidebar } from '../components/PostSidebar';
-//import { Comments } from '../components/Comments'
-//import config from '../utils/config'
+import Giscus from '@giscus/react';
 
 const StyledPostContainer = styled.main`
   max-width: 1700px;
@@ -87,6 +87,22 @@ export default function PostTemplate({ data, location }) {
                 className="post-content"
                 dangerouslySetInnerHTML={{ __html: post.html }}
               />
+              <div style={{ marginTop: '3rem' }}>
+                <Giscus
+                  id="comments"
+                  repo="nmaiti/nabendumaiti"
+                  repoId="R_kgDOJLdIMg"
+                  category="General"
+                  categoryId="DIC_kwDOJLdIMs4CtFYL"
+                  mapping="pathname"
+                  reactionsEnabled="1"
+                  emitMetadata="0"
+                  inputPosition="bottom"
+                  theme="light"
+                  lang="en"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </ArticleContent>
           <PostSidebar date={date} tags={tags} categories={categories} thumbnail={thumbnail} />
