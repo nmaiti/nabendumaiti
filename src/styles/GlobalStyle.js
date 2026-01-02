@@ -249,9 +249,15 @@ const GlobalStyle = createGlobalStyle`
     &.feather {
       fill: none;
     }
+
   }
 
-  a {
+  /* Target mermaid SVGs by ID pattern */
+  svg[id^="mermaid"] {
+    background-color: #f7f7f7ff !important;
+  }
+
+  svg {
     display: inline-block;
     text-decoration: none;
     text-decoration-skip-ink: auto;
