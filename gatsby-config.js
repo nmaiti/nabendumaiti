@@ -92,6 +92,15 @@ module.exports = {
             resolve: 'gatsby-remark-code-titles',
           }, // IMPORTANT: this must be ahead of other plugins that use code blocks
           {
+            resolve: 'gatsby-remark-mermaid',
+            options: {
+              language: 'mermaid',
+              mermaidConfig: {
+                theme: 'light',
+              },
+            },
+          },
+          {
             // https://www.gatsbyjs.org/packages/gatsby-remark-prismjs
             resolve: `gatsby-remark-prismjs`,
             options: {
