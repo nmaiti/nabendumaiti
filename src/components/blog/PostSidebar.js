@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { SidebarCard, Category} from './BlogSidebar';
 import { Tag } from './BlogSidebar';
 import { getFormattedDate, slugify } from '@/utils/helpers';
+import SidebarContent from '../common/SidebarContent';
 //import me from '../../content/images/tania2020small.jpg'
 
 const TagsContainer = styled.div`
@@ -37,10 +38,9 @@ export const PostSidebar = ({ tags = [], date, categories = [], thumbnail }) => 
   const formattedDate = formtdte;
 
   return (
-    <aside className="post-sidebar">
+    <SidebarContent>
       <SidebarCard>
         <h2>About me</h2>
-
         <p>
           Hello and thanks for visiting! My name is Nabendu Maiti, and this is my personal website.
         </p>
@@ -50,13 +50,11 @@ export const PostSidebar = ({ tags = [], date, categories = [], thumbnail }) => 
           mostly, sometime on life/travel.
         </p>
       </SidebarCard>
-
       <SidebarCard>
         <h2>Post Details</h2>
         <ul>
           <li>Published {formattedDate}</li>
         </ul>
-
         {categoryAll && (
           <div>
             <h2>Category</h2>
@@ -71,7 +69,6 @@ export const PostSidebar = ({ tags = [], date, categories = [], thumbnail }) => 
             </ul>
           </div>
         )}
-
         <h2>Tags</h2>
         <TagsContainer>
           {tags.map(tag => {
@@ -83,7 +80,7 @@ export const PostSidebar = ({ tags = [], date, categories = [], thumbnail }) => 
           })}
         </TagsContainer>
       </SidebarCard>
-    </aside>
+    </SidebarContent>
   );
 };
 // </aside>      <div className="post-sidebar-card">

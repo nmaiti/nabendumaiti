@@ -30,7 +30,7 @@ export default function BlogsPage() {
     <ClientPageContainer>
       <SidebarLayout categories={categories} tags={tags}>
         <header className="hero">
-          <h1>Writing</h1>
+          <h1 style={{ fontSize: '2em' }}>Writing</h1>
         </header>
         <Posts data={posts} showYears />
       </SidebarLayout>

@@ -7,18 +7,45 @@ import mermaid from 'mermaid';
 import { useTheme } from '@/components/common';
 
 const StyledPostContainer = styled.main`
-  max-width: 1700px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 130px 120px;
+  min-height: calc(100vh - 200px);
+
+  /* Tablet */
+  @media (max-width: 1080px) {
+    padding: 100px 80px;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    padding: 80px 70px;
+  }
+
+  /* Small mobile */
+  @media (max-width: 480px) {
+    padding: 100px 20px;
+  }
 `;
+
 const StyledPostHeader = styled.header`
   margin-bottom: 50px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 30px;
+  }
+
   .tag {
     margin-right: 10px;
   }
 `;
 const StyledPostContent = styled.div`
   margin-bottom: 100px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 60px;
+  }
+
   h1,
   h2,
   h3,
@@ -28,10 +55,29 @@ const StyledPostContent = styled.div`
     margin: 2em 0 1em;
   }
 
+  h1 {
+    font-size: clamp(32px, 5vw, 48px);
+  }
+
+  h2 {
+    font-size: clamp(28px, 4vw, 40px);
+  }
+
+  h3 {
+    font-size: clamp(24px, 3.5vw, 32px);
+  }
+
+  @media (max-width: 768px) {
+    h1, h2, h3, h4, h5, h6 {
+      margin: 1.5em 0 0.8em;
+    }
+  }
+
   p {
     margin: 1em 0;
     line-height: 1.5;
     color: ${props => props.theme.lightslate};
+    font-size: clamp(16px, 1.5vw, 18px);
   }
 
   a {
@@ -62,11 +108,21 @@ const StyledPostContent = styled.div`
     border-spacing: 0;
     margin: 2em 0;
     font-size: var(--fz-md);
+    overflow-x: auto;
+    display: block;
+
+    @media (max-width: 768px) {
+      font-size: var(--fz-sm);
+    }
   }
 
   th, td {
     padding: 10px;
     border: 1px solid ${props => props.theme.lightestnavy};
+
+    @media (max-width: 768px) {
+      padding: 8px 6px;
+    }
   }
 
   th {
@@ -83,17 +139,27 @@ const StyledPostContent = styled.div`
     border: 0;
     margin: 2em 0;
     display: block;
+
+    @media (max-width: 768px) {
+      margin: 1.5em 0;
+    }
   }
   
   iframe.instagram-embed {
     width: 100%;
     max-width: 450px;
-    height: 580px; /* Give it enough height for caption */
+    height: 580px;
     border: 0;
     margin: 2em auto;
     display: block;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    @media (max-width: 768px) {
+      max-width: 100%;
+      height: 500px;
+      margin: 1.5em auto;
+    }
   }
 
   /* Fallback for other iframes */
@@ -104,6 +170,10 @@ const StyledPostContent = styled.div`
     border: 0;
     margin: 2em 0;
     display: block;
+
+    @media (max-width: 768px) {
+      margin: 1.5em 0;
+    }
   }
 `;
 
@@ -111,15 +181,54 @@ const PostGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 320px;
   gap: 2rem;
-  margin: 150px;
+  /* margin: 0 0; */
+  padding-top: 10px;
+
+  @media (max-width: 1280px) {
+    margin: 5px 0;
+    padding-top: 5px;
+  }
+
   @media (max-width: 1060px) {
     grid-template-columns: 1fr;
+    margin: 5px 0;
+    padding-top: 5px;
+    gap: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    margin: 40px 0;
+    padding-top: 50px;
+  }
+
+  @media (max-width: 480px) {
+    margin: 20px 0;
+    padding-top: 40px;
+    gap: 2rem;
   }
 `;
 
 const ArticleContent = styled.div`
   max-width: 100%;
   min-width: 0;
+
+  .post-header {
+    margin-bottom: 40px;
+
+    @media (max-width: 768px) {
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 60px);
+      line-height: 1.2;
+      margin: 0;
+
+      @media (max-width: 768px) {
+        font-size: clamp(28px, 7vw, 40px);
+      }
+    }
+  }
 `;
 
 export default function PostContent({ post }) {
@@ -127,7 +236,7 @@ export default function PostContent({ post }) {
   const { isDark } = useTheme();
 
   useEffect(() => {
-    mermaid.initialize({ startOnLoad: false, theme: isDark() ? 'neutral' : 'default' });
+    mermaid.initialize({ startOnLoad: false, theme: 'default' });
     
     // Select both .language-mermaid (standard remark) and data-language="mermaid" (rehype-pretty-code)
     const mermaidBlocks = document.querySelectorAll('pre code.language-mermaid, code[data-language="mermaid"]');
