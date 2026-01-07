@@ -1,7 +1,7 @@
 import { getPostsByTag, getSortedPostsData } from '@/lib/api'
 import { computeTaxonomy, normalizePostsForDisplay } from '@/lib/taxonomy'
 import { Posts, SidebarLayout } from '@/components/blog'
-import { pageContainerStyle, pageHeaderStyle } from '@/components/common'
+import { ClientPageContainer, PageHeader } from '@/components/common'
 import { notFound } from 'next/navigation'
 import { slugify } from '@/utils/helpers'
 
@@ -44,15 +44,20 @@ export default function TagPage({ params }) {
   // Find original tag name
   const tagObj = tags.find(t => slugify(t.name) === slug)
   const tagName = tagObj ? tagObj.name : slug
+  const totalCount = posts.length;
 
   return (
-    <main style={pageContainerStyle}>
-       <SidebarLayout categories={categories} tags={tags}>
-        <header style={pageHeaderStyle()}>
-          <h1>Tag: {tagName}</h1>
-        </header>
+    <ClientPageContainer>
+      <SidebarLayout categories={categories} tags={tags} currentTag={slug}>
+        <PageHeader $align="left">
+          <div className="subtitle">
+            <span className="highlight">{totalCount}</span>
+            {totalCount === 1 ? ' post tagged as:' : ' posts tagged as:'}
+          </div>
+          <h1 style={{ fontSize: '2em' }}>Tag: {tagName}</h1>
+        </PageHeader>
         <Posts data={normalizedPosts} showYears />
       </SidebarLayout>
-    </main>
+    </ClientPageContainer>
   )
 }

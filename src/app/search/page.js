@@ -61,7 +61,7 @@ function SearchContent() {
   return (
     <ClientPageContainer>
       <SidebarLayout categories={categories} tags={tags} currentSearchQuery={query}>
-        <PageHeader align="left">
+        <PageHeader $align="left">
           {query ? (
             <>
               <div className="subtitle">
@@ -74,7 +74,7 @@ function SearchContent() {
                     'No results found for'
                 )}
               </div>
-              <h1>
+              <h1 style={{ fontSize: '2em' }}>
                 <span style={{ textTransform: 'none' }}>&ldquo;{query}&rdquo;</span>
               </h1>
             </>

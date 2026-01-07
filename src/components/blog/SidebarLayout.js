@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BlogSidebar } from './BlogSidebar';
 import SearchWidget from './SearchWidget';
+import SidebarContent from '../common/SidebarContent';
 
 const SidebarSection = styled.section`
   max-width: var(--content-width);
@@ -41,9 +42,7 @@ const ArticleContent = styled.div`
   }
 `;
 
-const SidebarContent = styled.div`
-  min-width: 0;
-`;
+
 
 export const SidebarLayout = ({ children, categories, tags, currentCategory, currentTag, currentSearchQuery }) => (
   <SidebarSection>

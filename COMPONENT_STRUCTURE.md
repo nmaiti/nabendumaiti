@@ -80,22 +80,63 @@ import SearchWidget from '@/components/blog'
 ### `/src/components/common/`
 Common/shared components used throughout the application.
 
-- `PageLayout.js` - Server-safe inline style objects for layouts
-- `PageLayoutClient.js` - Client-side styled-components for layouts
+- `PageLayout.js` - Server-safe inline style objects (legacy, for basic layouts)
+- `PageLayoutClient.js` - **Responsive styled-components** for all layouts
 - `Providers.js` - Theme and context providers
 - `ClientLayout.js` - Main client-side layout wrapper
 
-**Server Component Imports:**
-```javascript
-import { pageContainerStyle, pageHeaderStyle } from '@/components/common'
-```
-
-**Client Component Imports:**
+**Server Component Usage (Responsive Styled-Components):**
 ```javascript
 import { ClientPageContainer, PageHeader } from '@/components/common'
-import { Providers, useTheme } from '@/components/common'
-import ClientLayout from '@/components/common'
+
+export default async function ServerPage() {
+  const data = await fetchData()
+  
+  return (
+    <ClientPageContainer>
+      <PageHeader align="left">
+        <div className="subtitle">
+          <span className="highlight">42</span> items found
+        </div>
+        <h1>Page Title</h1>
+      </PageHeader>
+      <div>Content goes here</div>
+    </ClientPageContainer>
+  )
+}
 ```
+
+**Client Component Usage (Same API):**
+```javascript
+'use client'
+import { ClientPageContainer, PageHeader } from '@/components/common'
+
+export default function ClientPage() {
+  return (
+    <ClientPageContainer>
+      <PageHeader>
+        <h1>Interactive Page</h1>
+      </PageHeader>
+      <div>Interactive content</div>
+    </ClientPageContainer>
+  )
+}
+```
+
+**Responsive Breakpoints (Styled-Components):**
+- **Desktop**: 100px vertical, 50px horizontal padding
+- **Tablet (≤1080px)**: 80px vertical, 40px horizontal
+- **Mobile (≤768px)**: 60px vertical, 25px horizontal
+- **Small Mobile (≤480px)**: 50px vertical, 15px horizontal
+- **Font Sizes**: Use `clamp()` for fluid typography (auto-scales between breakpoints)
+
+**Why Styled-Components?**
+- ✅ Responsive media queries built-in
+- ✅ Works in both server and client components (client component can wrap server children)
+- ✅ Theme integration with `${({ theme }) => ...}`
+- ✅ Dynamic props for alignment, spacing, etc.
+- ✅ Type-safe with TypeScript
+- ✅ Scoped styles (no CSS conflicts)
 
 ### `/src/components/sections/`
 Page section components (hero, about, projects, etc.)
