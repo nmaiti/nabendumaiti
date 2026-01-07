@@ -38,7 +38,7 @@ export const Side = ({ children, isHome, orientation }) => {
 
   return (
     <StyledSideElement orientation={orientation}>
-      {isMounted || prefersReducedMotion ? children : null}
+      {children}
     </StyledSideElement>
   );
 };
