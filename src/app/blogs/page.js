@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { Posts, SidebarLayout } from '@/components/blog';
-import { ClientPageContainer } from '@/components/common';
+import { AppPageContainer } from '@/components/common';
 
 export default function BlogsPage() {
   const [posts, setPosts] = useState([]);
@@ -27,13 +27,13 @@ export default function BlogsPage() {
   }, []);
 
   return (
-    <ClientPageContainer>
+    <AppPageContainer>
       <SidebarLayout categories={categories} tags={tags}>
         <header className="hero">
           <h1 style={{ fontSize: '2em' }}>Writing</h1>
         </header>
         <Posts data={posts} showYears />
       </SidebarLayout>
-    </ClientPageContainer>
+    </AppPageContainer>
   );
 }

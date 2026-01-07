@@ -77,57 +77,48 @@ import { BlogSidebar, Tag, Category } from '@/components/blog'
 import SearchWidget from '@/components/blog'
 ```
 
+
 ### `/src/components/common/`
-Common/shared components used throughout the application.
+Common/shared components used throughout the application. All layout is now unified and minimal:
 
-- `PageLayout.js` - Server-safe inline style objects (legacy, for basic layouts)
-- `PageLayoutClient.js` - **Responsive styled-components** for all layouts
-- `Providers.js` - Theme and context providers
-- `ClientLayout.js` - Main client-side layout wrapper
+- `AppPageLayout.js` - Exports `AppPageContainer` and `AppPageHeader` (responsive, styled-components)
+- `AppClientLayout.js` - Main client-side layout wrapper (site chrome, navigation, footer)
+- `Providers.js` - Theme and context providers (`Providers`, `useTheme`)
+- `SidebarContent.js` - Shared sidebar container, also exports `SidebarContentWithDelay` for animation-friendly delayed rendering
 
-**Server Component Usage (Responsive Styled-Components):**
+**Usage Example:**
 ```javascript
-import { ClientPageContainer, PageHeader } from '@/components/common'
+import { AppPageContainer, AppPageHeader } from '@/components/common'
 
-export default async function ServerPage() {
-  const data = await fetchData()
-  
+export default function SomePage() {
   return (
-    <ClientPageContainer>
-      <PageHeader align="left">
+    <AppPageContainer>
+      <AppPageHeader $align="left">
         <div className="subtitle">
           <span className="highlight">42</span> items found
         </div>
         <h1>Page Title</h1>
-      </PageHeader>
+      </AppPageHeader>
       <div>Content goes here</div>
-    </ClientPageContainer>
+    </AppPageContainer>
   )
 }
 ```
 
-**Client Component Usage (Same API):**
+**Sidebar Animation Example:**
 ```javascript
-'use client'
-import { ClientPageContainer, PageHeader } from '@/components/common'
+import { SidebarContentWithDelay } from '@/components/common/SidebarContent'
 
-export default function ClientPage() {
-  return (
-    <ClientPageContainer>
-      <PageHeader>
-        <h1>Interactive Page</h1>
-      </PageHeader>
-      <div>Interactive content</div>
-    </ClientPageContainer>
-  )
-}
+<SidebarContentWithDelay delay={300}>
+  {/* Sidebar children here */}
+</SidebarContentWithDelay>
 ```
 
 **Responsive Breakpoints (Styled-Components):**
-- **Desktop**: 100px vertical, 50px horizontal padding
-- **Tablet (≤1080px)**: 80px vertical, 40px horizontal
-- **Mobile (≤768px)**: 60px vertical, 25px horizontal
-- **Small Mobile (≤480px)**: 50px vertical, 15px horizontal
+- **Desktop**: 150px vertical, 120px horizontal padding
+- **Tablet (≤1080px)**: 140px vertical, 100px horizontal
+- **Mobile (≤768px)**: 120px vertical, 90px horizontal
+- **Small Mobile (≤480px)**: 100px vertical, 35px horizontal
 - **Font Sizes**: Use `clamp()` for fluid typography (auto-scales between breakpoints)
 
 **Why Styled-Components?**
@@ -152,19 +143,19 @@ Page section components (hero, about, projects, etc.)
 
 ## Server vs Client Components
 
+
 ### Client Components ('use client')
 All components in the following directories require 'use client' directive:
 - `/components/layout/*` - All use styled-components
 - `/components/blog/*` - All use styled-components
 - `/components/sections/*` - All use styled-components
-- `/components/common/ClientLayout.js`
-- `/components/common/PageLayoutClient.js`
+- `/components/common/AppClientLayout.js`
+- `/components/common/AppPageLayout.js`
 - `/components/common/Providers.js`
 
+
 ### Server-Safe Exports
-- `/components/common/PageLayout.js` - Exports plain JavaScript objects for inline styles
-  - `pageContainerStyle` - Container style object
-  - `pageHeaderStyle()` - Header style function
+(No longer used; all layout is handled via styled-components for consistency)
 
 ## Barrel Exports
 
@@ -181,8 +172,7 @@ import { Nav, Menu } from '@/components/layout'
 
 ## Best Practices
 
-1. **Server Components**: Use `pageContainerStyle` and `pageHeaderStyle` from `@/components/common` for inline styles
-2. **Client Components**: Use `ClientPageContainer` and `PageHeader` from `@/components/common` for styled-components
+1. **Client Components**: Use `AppPageContainer` and `AppPageHeader` from `@/components/common` for styled-components
 3. **Imports**: Use barrel imports from directories for cleaner code
 4. **Styled Components**: All components using `styled-components` MUST have `'use client'` directive
 5. **Separation**: Keep server/client boundary clear - don't import client components into server component files
@@ -191,6 +181,6 @@ import { Nav, Menu } from '@/components/layout'
 
 - Moved from flat `/components` to organized subdirectories
 - Added barrel exports (`index.js`) in each directory
-- Separated server-safe and client-only exports in `/components/common`
+- Separated client-only exports in `/components/common` (all layout is now client-side for consistency)
 - All import paths updated to use new structure
 - Fixed export/import mismatches (named vs default exports)

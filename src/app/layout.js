@@ -1,5 +1,5 @@
 import StyledComponentsRegistry from '@/lib/registry'
-import { Providers, ClientLayout } from '@/components/common'
+import { Providers, AppClientLayout } from '@/components/common'
 import { calibre, sfMono } from './fonts'
 
 export const metadata = {
@@ -20,9 +20,9 @@ export default function RootLayout({ children }) {
       <body>
         <StyledComponentsRegistry>
           <Providers>
-            <ClientLayout>
+            <AppClientLayout>
               {children}
-            </ClientLayout>
+            </AppClientLayout>
           </Providers>
         </StyledComponentsRegistry>
       </body>
