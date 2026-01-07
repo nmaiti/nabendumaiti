@@ -1,11 +1,10 @@
+'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
-import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
-import { srConfig } from '@config';
-import { KEY_CODES } from '@utils';
-import sr from '@utils/sr';
-import { usePrefersReducedMotion } from '@hooks';
+import { srConfig } from '@/config';
+import { KEY_CODES } from '@/utils';
+import sr from '@/utils/sr';
+import { usePrefersReducedMotion } from '@/hooks';
 
 const StyledJobsSection = styled.section`
   max-width: 700px;
@@ -166,35 +165,28 @@ const StyledTabPanel = styled.div`
 `;
 
 const Jobs = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      jobs: allMarkdownRemark(
-        filter: { fileAbsolutePath: { regex: "/content/jobs/" } }
-        sort: { frontmatter: { date: DESC } }
-      ) {
-        edges {
-          node {
-            frontmatter {
-              title
-              company
-              location
-              range
-              url
-            }
-            html
-          }
-        }
-      }
-    }
-  `);
-
-  const jobsData = data.jobs.edges;
+  const [jobsData, setJobsData] = useState([]);
 
   const [activeTabId, setActiveTabId] = useState(0);
   const [tabFocus, setTabFocus] = useState(null);
   const tabs = useRef([]);
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/jobs');
+        if (!res.ok) throw new Error(`Failed to fetch jobs (${res.status})`);
+        const data = await res.json();
+        setJobsData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    load();
+  }, []);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -221,6 +213,10 @@ const Jobs = () => {
 
   // Only re-run the effect if tabFocus changes
   useEffect(() => focusTab(), [tabFocus]);
+
+  if (jobsData.length === 0) {
+    return null; // Don't render if no data
+  }
 
   // Focus on tabs when using up & down arrow keys
   const onKeyDown = e => {
@@ -250,8 +246,8 @@ const Jobs = () => {
       <div className="inner">
         <StyledTabList role="tablist" aria-label="Job tabs" onKeyDown={e => onKeyDown(e)}>
           {jobsData &&
-            jobsData.map(({ node }, i) => {
-              const { company } = node.frontmatter;
+            jobsData.map((job, i) => {
+              const { company } = job;
               return (
                 <StyledTabButton
                   key={i}
@@ -273,35 +269,33 @@ const Jobs = () => {
 
         <StyledTabPanels>
           {jobsData &&
-            jobsData.map(({ node }, i) => {
-              const { frontmatter, html } = node;
-              const { title, url, company, range } = frontmatter;
+            jobsData.map((job, i) => {
+              const { title, url, company, range, content } = job;
 
               return (
-                <CSSTransition key={i} in={activeTabId === i} timeout={250} classNames="fade">
-                  <StyledTabPanel
-                    id={`panel-${i}`}
-                    role="tabpanel"
-                    tabIndex={activeTabId === i ? '0' : '-1'}
-                    aria-labelledby={`tab-${i}`}
-                    aria-hidden={activeTabId !== i}
-                    hidden={activeTabId !== i}
-                  >
-                    <h3>
-                      <span>{title}</span>
-                      <span className="company">
-                        &nbsp;@&nbsp;
-                        <a href={url} className="inline-link">
-                          {company}
-                        </a>
-                      </span>
-                    </h3>
+                <StyledTabPanel
+                  key={i}
+                  id={`panel-${i}`}
+                  role="tabpanel"
+                  tabIndex={activeTabId === i ? '0' : '-1'}
+                  aria-labelledby={`tab-${i}`}
+                  aria-hidden={activeTabId !== i}
+                  hidden={activeTabId !== i}
+                >
+                  <h3>
+                    <span>{title}</span>
+                    <span className="company">
+                      &nbsp;@&nbsp;
+                      <a href={url} className="inline-link">
+                        {company}
+                      </a>
+                    </span>
+                  </h3>
 
-                    <p className="range">{range}</p>
+                  <p className="range">{range}</p>
 
-                    <div dangerouslySetInnerHTML={{ __html: html }} />
-                  </StyledTabPanel>
-                </CSSTransition>
+                  <div dangerouslySetInnerHTML={{ __html: content }} />
+                </StyledTabPanel>
               );
             })}
         </StyledTabPanels>

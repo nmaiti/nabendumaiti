@@ -33,6 +33,7 @@ const dark = {
 const theme = isDark => {
   const colors = isDark ? dark : light;
   return {
+    isDark,
     bp: {
       mobileS: `max-width: 330px`,
       mobileM: `max-width: 400px`,
