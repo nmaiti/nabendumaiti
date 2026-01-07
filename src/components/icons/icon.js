@@ -21,7 +21,7 @@ import {
   IconYoutube,
   IconSun,
   IconMoon,
-} from '@components/icons';
+} from '@/components/icons';
 
 const Icon = ({ name }) => {
   switch (name) {

@@ -1,11 +1,11 @@
+'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useStaticQuery, graphql } from 'gatsby';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Link from 'next/link';
 import styled from 'styled-components';
-import { srConfig } from '@config';
-import sr from '@utils/sr';
-import { Icon } from '@components/icons';
-import { usePrefersReducedMotion } from '@hooks';
+import { srConfig } from '@/config';
+import sr from '@/utils/sr';
+import { Icon } from '@/components/icons';
+import { usePrefersReducedMotion } from '@/hooks';
 
 const StyledProjectsSection = styled.section`
   display: flex;
@@ -173,36 +173,28 @@ const StyledProject = styled.li`
 `;
 
 const Projects = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      projects: allMarkdownRemark(
-        filter: {
-          fileAbsolutePath: { regex: "/content/projects/" }
-          frontmatter: { showInProjects: { ne: false } }
-        }
-        sort: { frontmatter: { date: DESC } }
-      ) {
-        edges {
-          node {
-            frontmatter {
-              title
-              tech
-              github
-              blog
-              external
-            }
-            html
-          }
-        }
-      }
-    }
-  `);
+  const [projects, setProjects] = useState([]);
 
   const [showMore, setShowMore] = useState(false);
   const revealTitle = useRef(null);
   const revealArchiveLink = useRef(null);
   const revealProjects = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/projects');
+        if (!res.ok) throw new Error(`Failed to fetch projects (${res.status})`);
+        const data = await res.json();
+        setProjects(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    load();
+  }, []);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -212,16 +204,14 @@ const Projects = () => {
     sr.reveal(revealTitle.current, srConfig());
     sr.reveal(revealArchiveLink.current, srConfig());
     revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
-  }, []);
+  }, [prefersReducedMotion, projects]);
 
   const GRID_LIMIT = 6;
-  const projects = data.projects.edges.filter(({ node }) => node);
   const firstSix = projects.slice(0, GRID_LIMIT);
   const projectsToShow = showMore ? projects : firstSix;
 
-  const projectInner = node => {
-    const { frontmatter, html } = node;
-    const { github, external, blog, title, tech } = frontmatter;
+  const projectInner = project => {
+    const { github, external, blog, title, tech, description, cover } = project;
 
     return (
       <div className="project-inner">
@@ -262,12 +252,23 @@ const Projects = () => {
           </div>
 
           <h3 className="project-title">
-            <a href={external} target="_blank" rel="noreferrer">
+            <a href={external || github || blog || '#'} target="_blank" rel="noreferrer">
               {title}
             </a>
           </h3>
 
-          <div className="project-description" dangerouslySetInnerHTML={{ __html: html }} />
+          <div className="project-description" dangerouslySetInnerHTML={{ __html: description }} />
+          {cover && (
+            <div style={{ marginTop: '16px' }}>
+              <img
+                src={cover}
+                alt={title || 'Project image'}
+                style={{ width: '100%', borderRadius: '8px' }}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          )}
         </header>
 
         <footer>
@@ -287,41 +288,17 @@ const Projects = () => {
     <StyledProjectsSection>
       <h2 ref={revealTitle}>Other Noteworthy Projects</h2>
 
-      <Link className="inline-link archive-link" to="/archive" ref={revealArchiveLink}>
+      <Link className="inline-link archive-link" href="/archive" ref={revealArchiveLink}>
         view the archive
       </Link>
 
       <ul className="projects-grid">
-        {prefersReducedMotion ? (
-          <>
-            {projectsToShow &&
-              projectsToShow.map(({ node }, i) => (
-                <StyledProject key={i}>{projectInner(node)}</StyledProject>
-              ))}
-          </>
-        ) : (
-          <TransitionGroup component={null}>
-            {projectsToShow &&
-              projectsToShow.map(({ node }, i) => (
-                <CSSTransition
-                  key={i}
-                  classNames="fadeup"
-                  timeout={i >= GRID_LIMIT ? (i - GRID_LIMIT) * 300 : 300}
-                  exit={false}
-                >
-                  <StyledProject
-                    key={i}
-                    ref={el => (revealProjects.current[i] = el)}
-                    style={{
-                      transitionDelay: `${i >= GRID_LIMIT ? (i - GRID_LIMIT) * 100 : 0}ms`,
-                    }}
-                  >
-                    {projectInner(node)}
-                  </StyledProject>
-                </CSSTransition>
-              ))}
-          </TransitionGroup>
-        )}
+        {projectsToShow &&
+          projectsToShow.map((project, i) => (
+            <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
+              {projectInner(project)}
+            </StyledProject>
+          ))}
       </ul>
 
       <button className="more-button" onClick={() => setShowMore(!showMore)}>

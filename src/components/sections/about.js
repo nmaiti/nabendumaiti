@@ -1,9 +1,11 @@
+'use client'
 import React, { useEffect, useRef } from 'react';
-import { StaticImage } from 'gatsby-plugin-image';
+import Image from 'next/image';
 import styled from 'styled-components';
-import { srConfig } from '@config';
-import sr from '@utils/sr';
-import { usePrefersReducedMotion } from '@hooks';
+import { srConfig } from '@/config';
+import sr from '@/utils/sr';
+import { usePrefersReducedMotion } from '@/hooks';
+import avatar from '@/images/avtar.jpg';
 
 const StyledAboutSection = styled.section`
   max-width: 900px;
@@ -64,6 +66,7 @@ const StyledPic = styled.div`
     display: block;
     position: relative;
     width: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: var(--border-radius);
     background-color: ${props => props.theme.higlight};
 
@@ -87,6 +90,9 @@ const StyledPic = styled.div`
       border-radius: var(--border-radius);
       mix-blend-mode: multiply;
       filter: grayscale(100%) contrast(1);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       transition: var(--transition);
     }
 
@@ -180,24 +186,21 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with electronics in 2000.
-              I've worked across industries—from {' '}
-              <a href="https://www.intel.com/">Semiconductor</a>, and{' '}
-              <a href="https://www.broadcom.com/">Network</a>, and{' '}
-              <a href="https://www.capgemini.com/">IT Service</a>,{' '}
-              <a href="https://global.abb/group/en">an Automation</a>company.
-              These experiences have enriched my understanding of both hardware and software domains.
+              Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with
+              electronics in 2000. I've worked across industries—from <a href="https://www.intel.com/">Semiconductor</a>
+              , and <a href="https://www.broadcom.com/">Network</a>, and <a href="https://www.capgemini.com/">IT Service</a>,{' '}
+              <a href="https://global.abb/group/en">an Automation</a> company. These experiences have enriched my
+              understanding of both hardware and software domains.
             </p>
 
             <p>
-              Currently, I develop secure, user-friendly platform software for OEMs and end-users.
-              While I have a background in schematic and PCB design, my main focus is system software development.
-              Lately, I’ve been exploring machine learning-based fuzzing to enhance Intel software security using AI.
+              Currently, I develop secure, user-friendly platform software for OEMs and end-users. While I have a
+              background in schematic and PCB design, my main focus is system software development. Lately, I’ve been
+              exploring machine learning-based fuzzing to enhance Intel software security using AI.
             </p>
             <p>Here are a few technologies I’ve worked on:</p>
-          </div>{' '}
-          <p />
-          <p />
+          </div>
+
           Software:
           <ul className="skills-list">
             {skillsSW && skillsSW.map((skill, i) => <li key={i}>{skill}</li>)}
@@ -206,7 +209,6 @@ const About = () => {
           <ul className="skills-list">
             {skillsHW && skillsHW.map((skill, i) => <li key={i}>{skill}</li>)}
           </ul>
-          <p> </p>
           <p>Other than work some Random Facts about Me:</p>
           <ul className="skills-list">
             {randomFacts && randomFacts.map((skill, i) => <li key={i}>{skill}</li>)}
@@ -215,12 +217,12 @@ const About = () => {
 
         <StyledPic>
           <div className="wrapper">
-            <StaticImage
+            <Image
               className="img"
-              src="../../images/avtar.jpg"
+              src={avatar}
               width={500}
+              height={300}
               quality={95}
-              formats={['AUTO', 'WEBP', 'AVIF']}
               alt="Headshot"
             />
           </div>

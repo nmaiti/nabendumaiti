@@ -1,6 +1,6 @@
-import ScrollReveal from 'scrollreveal';
-
-const isSSR = typeof window === 'undefined';
-const sr = isSSR ? null : ScrollReveal();
+// Lightweight no-op scroll reveal helper to avoid pulling in scrollreveal dependency.
+const sr = {
+	reveal: () => {},
+};
 
 export default sr;
