@@ -4,12 +4,12 @@ import React, { useState, useEffect } from 'react';
 // Common styled container for sidebar content
 import styled from 'styled-components';
 
-const SidebarContent = styled.div`
+const SidebarContent = React.memo(styled.div`
   min-width: 0;
-`;
+`);
 
 // Delays rendering children for animation using local state
-export function SidebarContentWithDelay({ children, delay = 300 }) {
+export const SidebarContentWithDelay = React.memo(function SidebarContentWithDelay({ children, delay = 300 }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -18,6 +18,6 @@ export function SidebarContentWithDelay({ children, delay = 300 }) {
   }, [delay]);
 
   return <SidebarContent>{isMounted ? children : null}</SidebarContent>;
-}
+});
 
 export default SidebarContent;
