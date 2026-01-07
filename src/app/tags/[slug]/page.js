@@ -1,7 +1,7 @@
 import { getPostsByTag, getSortedPostsData } from '@/lib/api'
 import { computeTaxonomy, normalizePostsForDisplay } from '@/lib/taxonomy'
 import { Posts, SidebarLayout } from '@/components/blog'
-import { ClientPageContainer, PageHeader } from '@/components/common'
+import { AppPageContainer, AppPageHeader } from '@/components/common'
 import { notFound } from 'next/navigation'
 import { slugify } from '@/utils/helpers'
 
@@ -47,17 +47,17 @@ export default function TagPage({ params }) {
   const totalCount = posts.length;
 
   return (
-    <ClientPageContainer>
+    <AppPageContainer>
       <SidebarLayout categories={categories} tags={tags} currentTag={slug}>
-        <PageHeader $align="left">
+        <AppPageHeader $align="left">
           <div className="subtitle">
             <span className="highlight">{totalCount}</span>
             {totalCount === 1 ? ' post tagged as:' : ' posts tagged as:'}
           </div>
           <h1 style={{ fontSize: '2em' }}>Tag: {tagName}</h1>
-        </PageHeader>
+        </AppPageHeader>
         <Posts data={normalizedPosts} showYears />
       </SidebarLayout>
-    </ClientPageContainer>
+    </AppPageContainer>
   )
 }

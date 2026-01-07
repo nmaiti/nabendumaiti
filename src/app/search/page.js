@@ -3,7 +3,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Posts, SidebarLayout } from '@/components/blog';
-import { ClientPageContainer, PageHeader } from '@/components/common';
+import { AppPageContainer, AppPageHeader } from '@/components/common';
 
 function SearchContent() {
   const searchParams = useSearchParams();
@@ -52,16 +52,16 @@ function SearchContent() {
 
   if (loading) {
       return (
-          <ClientPageContainer>
+          <AppPageContainer>
               <div style={{ textAlign: 'center' }}>Loading...</div>
-          </ClientPageContainer>
+          </AppPageContainer>
       )
   }
 
   return (
-    <ClientPageContainer>
+    <AppPageContainer>
       <SidebarLayout categories={categories} tags={tags} currentSearchQuery={query}>
-        <PageHeader $align="left">
+        <AppPageHeader $align="left">
           {query ? (
             <>
               <div className="subtitle">
@@ -81,12 +81,12 @@ function SearchContent() {
           ) : (
              <h1>Search</h1>
           )}
-        </PageHeader>
+        </AppPageHeader>
 
         {filteredPosts.length > 0 && <Posts data={filteredPosts} />}
         
       </SidebarLayout>
-    </ClientPageContainer>
+    </AppPageContainer>
   );
 }
 

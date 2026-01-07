@@ -1,7 +1,7 @@
 import { getPostsByCategory, getSortedPostsData } from '@/lib/api'
 import { computeTaxonomy, normalizePostsForDisplay } from '@/lib/taxonomy'
 import { Posts, SidebarLayout } from '@/components/blog'
-import { ClientPageContainer, PageHeader } from '@/components/common'
+import { AppPageContainer, AppPageHeader } from '@/components/common'
 import { notFound } from 'next/navigation'
 import { slugify } from '@/utils/helpers'
 
@@ -47,9 +47,9 @@ export default function CategoryPage({ params }) {
   const totalCount = posts.length
 
   return (
-    <ClientPageContainer>
+    <AppPageContainer>
       <SidebarLayout categories={categories} tags={tags} currentCategory={slug}>
-        <PageHeader $align="left">
+        <AppPageHeader $align="left">
           <div
             className="subtitle"
             style={{ marginBottom: '5px' }}
@@ -60,10 +60,10 @@ export default function CategoryPage({ params }) {
           <h1 style={{ textTransform: 'uppercase', fontSize: '2em' }}>
             {catName}
           </h1>
-        </PageHeader>
+        </AppPageHeader>
         <Posts data={normalizedPosts} showYears />
       </SidebarLayout>
-    </ClientPageContainer>
+    </AppPageContainer>
   )
 }
 
