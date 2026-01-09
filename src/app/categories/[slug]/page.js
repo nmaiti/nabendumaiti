@@ -15,38 +15,34 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = params
-  const posts = getPostsByCategory(slug)
-  if (posts.length === 0) return {}
-  
-  const allPosts = getSortedPostsData()
-  const { categories } = computeTaxonomy(allPosts)
-  const catObj = categories.find(c => slugify(c.name) === slug)
-  const catName = catObj ? catObj.name : slug
-  
+  const awaitedParams = await params;
+  const slug = awaitedParams.slug;
+  const posts = getPostsByCategory(slug);
+  if (posts.length === 0) return {};
+  const allPosts = getSortedPostsData();
+  const { categories } = computeTaxonomy(allPosts);
+  const catObj = categories.find(c => slugify(c.name) === slug);
+  const catName = catObj ? catObj.name : slug;
   return {
     title: `${catName} - Blog Categories`,
     description: `${posts.length} posts categorized as ${catName}`,
-  }
+  };
 }
 
-export default function CategoryPage({ params }) {
-  const { slug } = params
-  const posts = getPostsByCategory(slug)
-
+export default async function CategoryPage({ params }) {
+  const awaitedParams = await params;
+  const slug = awaitedParams.slug;
+  const posts = getPostsByCategory(slug);
   if (posts.length === 0) {
-    notFound()
+    notFound();
   }
-
-  const allPosts = getSortedPostsData()
-  const { categories, tags } = computeTaxonomy(allPosts)
-  const normalizedPosts = normalizePostsForDisplay(posts)
-
+  const allPosts = getSortedPostsData();
+  const { categories, tags } = computeTaxonomy(allPosts);
+  const normalizedPosts = normalizePostsForDisplay(posts);
   // Find original category name
-  const catObj = categories.find(c => slugify(c.name) === slug)
-  const catName = catObj ? catObj.name : slug
-  const totalCount = posts.length
-
+  const catObj = categories.find(c => slugify(c.name) === slug);
+  const catName = catObj ? catObj.name : slug;
+  const totalCount = posts.length;
   return (
     <>
       <AppPageContainer>
@@ -69,6 +65,6 @@ export default function CategoryPage({ params }) {
       <Social isHome={false} />
       <Email isHome={false} />
     </>
-  )
+  );
 }
 

@@ -188,13 +188,12 @@ export function getSortedPostsData() {
 
     // Use frontmatter slug if available, otherwise derive from path
     let slug = matterResult.data.slug
-    if (!slug) {
+    if (!slug || typeof slug !== 'string') {
         const relativePath = path.relative(postsDirectory, fullPath)
         slug = relativePath.replace(/\/index\.md$/, '').replace(/\.md$/, '')
     }
-    
-    // Ensure slug starts with / if needed, or just be consistent
-    if (slug.startsWith('/')) slug = slug.slice(1);
+    // Always remove leading slash if present
+    slug = slug.replace(/^\/+/, '');
 
     return {
       ...matterResult.data,
@@ -204,26 +203,26 @@ export function getSortedPostsData() {
   })
 
   // Sort posts by date
-  postsCache = allPostsData.sort((a, b) => {
+  return allPostsData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
-  
-  return postsCache;
+  });
 }
 
 export function getAllPostSlugs() {
   const posts = getSortedPostsData()
-  return posts.map(post => {
-    return {
-      params: {
-        slug: post.slug.split('/')
+  return posts
+    .filter(post => post.slug && typeof post.slug === 'string' && post.slug.length > 0)
+    .map(post => {
+      return {
+        params: {
+          slug: post.slug.split('/').filter(Boolean)
+        }
       }
-    }
-  })
+    })
 }
 
 export function getPostsByTag(tag) {
@@ -380,62 +379,39 @@ export function readUpload(pathParts = []) {
 }
 
 export async function getPostData(slugArray) {
-  const slugPath = slugArray.join('/')
-  // if (process.env.NODE_ENV !== 'production') {
-  //   console.log('[getPostData] slugPath', slugPath)
-  // }
-  // If the slug resolves to an asset (image), bail early so the posts route
-  // does not try to read it as markdown. This prevents 500s when images under
-  // posts paths are requested directly.
+  if (!Array.isArray(slugArray) || slugArray.length === 0 || slugArray.some(s => typeof s !== 'string')) {
+    console.warn('[getPostData] Invalid slugArray:', slugArray);
+    return null;
+  }
+  const slugPath = slugArray.filter(Boolean).join('/');
   if (/\.(png|jpe?g|gif|webp|svg)$/i.test(slugPath)) {
-    return null
+    return null;
   }
-  // We need to find the file that corresponds to this slug.
-  // Since we don't have a direct mapping from slug to file path without scanning, 
-  // we might need to scan or assume a structure.
-  // For now, let's assume the slug matches the folder structure inside content/posts
-  
-  // Try finding the file. It could be slug/index.md or slug.md
-  let fullPath = path.join(postsDirectory, `${slugPath}/index.md`)
-  
+  let fullPath = path.join(postsDirectory, `${slugPath}/index.md`);
   if (!fs.existsSync(fullPath)) {
-      fullPath = path.join(postsDirectory, `${slugPath}.md`)
+    fullPath = path.join(postsDirectory, `${slugPath}.md`);
   }
-  
-  // If still not found, we might need to search by frontmatter slug (slower)
   if (!fs.existsSync(fullPath)) {
-    const allFiles = getSortedPostsData(); // This reads all files, which is heavy but accurate if slug is in frontmatter
+    const allFiles = getSortedPostsData();
     const post = allFiles.find(p => p.slug === slugPath);
     if (!post) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('[getPostData] no post for slug', slugPath, 'available slugs:', allFiles.map(f => f.slug))
-      }
+      console.warn('[getPostData] No post for slug:', slugPath, 'Available slugs:', allFiles.map(f => f.slug));
       return null;
     }
     fullPath = post.filePath || fullPath;
     if (!fullPath || !fs.existsSync(fullPath)) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('[getPostData] resolved file missing for slug', slugPath, 'filePath', fullPath)
-      }
+      console.warn('[getPostData] Resolved file missing for slug:', slugPath, 'filePath:', fullPath);
       return null;
     }
   }
-
-  const fileContents = fs.readFileSync(fullPath, 'utf8')
-
-  // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents)
-
-  // Calculate relative folder for image resolution within posts
-  // This helps resolving co-located images like ./image.png -> /api/uploads/2026/01/image.png
+  const fileContents = fs.readFileSync(fullPath, 'utf8');
+  const matterResult = matter(fileContents);
   const relativeFolder = path.relative(postsDirectory, path.dirname(fullPath));
-
-  // Use remark to convert markdown into HTML string
-  const contentHtml = await markdownToHtml(matterResult.content, relativeFolder)
-
-  return {
+  const contentHtml = await markdownToHtml(matterResult.content, relativeFolder);
+  const result = {
     slug: slugPath,
     contentHtml,
     ...matterResult.data
-  }
+  };
+  return result;
 }

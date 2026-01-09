@@ -11,16 +11,23 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const post = await getPostData(params.slug)
-  if (!post) return {}
+  const awaitedParams = await params;
+  const slug = awaitedParams.slug;
+  const post = await getPostData(slug);
+  if (!post) return {};
   return {
     title: post.title,
     description: post.description,
-  }
+  };
 }
 
 export default async function Post({ params }) {
-  let slugPath = Array.isArray(params.slug) ? params.slug.join('/') : '';
+  const awaitedParams = await params;
+  const slug = awaitedParams.slug;
+  let slugPath = '';
+  if (Array.isArray(slug)) {
+    slugPath = slug.join('/');
+  }
   if (/\.(png|jpe?g|gif|webp|svg)$/i.test(slugPath)) {
     if (slugPath.startsWith('uploads/')) {
       slugPath = slugPath.replace(/^uploads\//, '');
@@ -28,7 +35,7 @@ export default async function Post({ params }) {
     redirect(`/api/uploads/${slugPath}`);
   }
 
-  const post = await getPostData(params.slug);
+  const post = await getPostData(slug);
   if (!post) {
     notFound();
   }

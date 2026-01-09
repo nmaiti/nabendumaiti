@@ -7,6 +7,7 @@ export const metadata = {
   description: 'A big list of things I’ve worked on',
 };
 
+export default async function Archive() {
   const projects = await getProjects();
   return (
     <>

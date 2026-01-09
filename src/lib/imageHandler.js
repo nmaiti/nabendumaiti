@@ -31,8 +31,10 @@ export function mimeFromExt(ext) {
  */
 export async function handleCoverImage(contentDir, slug, isFolder = true) {
   try {
+    if (!slug || typeof slug !== 'string') {
+      return NextResponse.json({ error: 'Invalid slug' }, { status: 400 });
+    }
     let indexPath, folder;
-    
     if (isFolder) {
       folder = path.join(contentDir, slug);
       indexPath = path.join(folder, 'index.md');
@@ -40,27 +42,21 @@ export async function handleCoverImage(contentDir, slug, isFolder = true) {
       indexPath = path.join(contentDir, `${slug}.md`);
       folder = path.dirname(indexPath);
     }
-
     if (!fs.existsSync(indexPath)) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
-
     const fileContents = fs.readFileSync(indexPath, 'utf8');
     const { data } = matter(fileContents);
     const cover = data.cover?.replace(/^\.\//, '');
-
     if (!cover) {
       return NextResponse.json({ error: 'Cover not found' }, { status: 404 });
     }
-
     const coverPath = path.join(folder, cover);
     if (!fs.existsSync(coverPath)) {
       return NextResponse.json({ error: 'Cover file missing' }, { status: 404 });
     }
-
     let buffer = fs.readFileSync(coverPath);
     let mimeType = mimeFromExt(path.extname(coverPath));
-
     // Optimize images using sharp
     try {
       if (mimeType.startsWith('image/')) {
@@ -71,9 +67,8 @@ export async function handleCoverImage(contentDir, slug, isFolder = true) {
         mimeType = 'image/webp';
       }
     } catch (e) {
-      console.error('Sharp optimization failed, serving original', e);
+      // If sharp fails, serve original
     }
-
     return new NextResponse(buffer, {
       status: 200,
       headers: {
@@ -82,7 +77,6 @@ export async function handleCoverImage(contentDir, slug, isFolder = true) {
       },
     });
   } catch (error) {
-    console.error('Failed to serve cover image', error);
     return NextResponse.json({ error: 'Failed to load cover' }, { status: 500 });
   }
 }
