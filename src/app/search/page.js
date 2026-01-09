@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState, Suspense } from 'react';
+import { Social, Email } from '@/components/layout';
 import { useSearchParams } from 'next/navigation';
 import { Posts, SidebarLayout } from '@/components/blog';
 import { AppPageContainer, AppPageHeader } from '@/components/common';
@@ -59,34 +60,38 @@ function SearchContent() {
   }
 
   return (
-    <AppPageContainer>
-      <SidebarLayout categories={categories} tags={tags} currentSearchQuery={query}>
-        <AppPageHeader $align="left">
-          {query ? (
-            <>
-              <div className="subtitle">
-                {filteredPosts.length > 0 ? (
-                    <>
-                        <span className="highlight">{filteredPosts.length}</span>
-                        {filteredPosts.length === 1 ? ' result found for' : ' results found for'}
-                    </>
-                ) : (
-                    'No results found for'
-                )}
-              </div>
-              <h1 style={{ fontSize: '2em' }}>
-                <span style={{ textTransform: 'none' }}>&ldquo;{query}&rdquo;</span>
-              </h1>
-            </>
-          ) : (
-             <h1>Search</h1>
-          )}
-        </AppPageHeader>
+    <>
+      <AppPageContainer>
+        <SidebarLayout categories={categories} tags={tags} currentSearchQuery={query}>
+          <AppPageHeader $align="left">
+            {query ? (
+              <>
+                <div className="subtitle">
+                  {filteredPosts.length > 0 ? (
+                      <>
+                          <span className="highlight">{filteredPosts.length}</span>
+                          {filteredPosts.length === 1 ? ' result found for' : ' results found for'}
+                      </>
+                  ) : (
+                      'No results found for'
+                  )}
+                </div>
+                <h1 style={{ fontSize: '2em' }}>
+                  <span style={{ textTransform: 'none' }}>&ldquo;{query}&rdquo;</span>
+                </h1>
+              </>
+            ) : (
+               <h1>Search</h1>
+            )}
+          </AppPageHeader>
 
-        {filteredPosts.length > 0 && <Posts data={filteredPosts} />}
-        
-      </SidebarLayout>
-    </AppPageContainer>
+          {filteredPosts.length > 0 && <Posts data={filteredPosts} />}
+          
+        </SidebarLayout>
+      </AppPageContainer>
+      <Social isHome={false} />
+      <Email isHome={false} />
+    </>
   );
 }
 

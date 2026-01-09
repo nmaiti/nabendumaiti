@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import { getPostData, getAllPostSlugs } from '@/lib/api'
 import PostContent from './PostContent'
+import { Social, Email } from '@/components/layout'
 
 export async function generateStaticParams() {
   const paths = getAllPostSlugs()
@@ -19,18 +20,23 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Post({ params }) {
-  let slugPath = Array.isArray(params.slug) ? params.slug.join('/') : ''
+  let slugPath = Array.isArray(params.slug) ? params.slug.join('/') : '';
   if (/\.(png|jpe?g|gif|webp|svg)$/i.test(slugPath)) {
-    // Handle relative paths that resolve to /posts/uploads/...
     if (slugPath.startsWith('uploads/')) {
-      slugPath = slugPath.replace(/^uploads\//, '')
+      slugPath = slugPath.replace(/^uploads\//, '');
     }
-    redirect(`/api/uploads/${slugPath}`)
+    redirect(`/api/uploads/${slugPath}`);
   }
 
-  const post = await getPostData(params.slug)
+  const post = await getPostData(params.slug);
   if (!post) {
-    notFound()
+    notFound();
   }
-  return <PostContent post={post} />
+  return (
+    <>
+      <PostContent post={post} />
+      <Social isHome={false} />
+      <Email isHome={false} />
+    </>
+  );
 }

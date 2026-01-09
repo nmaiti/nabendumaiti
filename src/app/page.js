@@ -1,4 +1,6 @@
-'use client'
+"use client";
+import { AppClientLayout } from '@/components/common';
+import { Social, Email, Footer } from '@/components/layout';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import Hero from '@/components/sections/hero';
@@ -17,13 +19,18 @@ const StyledMainContainer = styled.main`
 
 export default function Home() {
   return (
-    <StyledMainContainer className="fillHeight">
-      <Hero />
-      <About />
-      <Jobs />
-      <Featured />
-      <Projects />
-      <Contact />
-    </StyledMainContainer>
+    <AppClientLayout>
+      <StyledMainContainer className="fillHeight">
+        <Hero />
+        <About />
+        <Jobs />
+        <Featured />
+        <Projects />
+        <Contact />
+      </StyledMainContainer>
+      <Social isHome={true} />
+      <Email isHome={true} />
+      <Footer />
+    </AppClientLayout>
   );
 }
