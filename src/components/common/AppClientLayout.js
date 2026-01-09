@@ -2,27 +2,24 @@
 'use client'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Loader, Nav, Social, Email, Footer } from '@/components/layout'
+import { Loader } from '@/components/layout'
 
 export default function AppClientLayout({ children }) {
-  const pathname = usePathname()
-  const isHome = pathname === '/'
-  const [isLoading, setIsLoading] = useState(isHome)
+  const pathname = usePathname();
+  const isHome = pathname === '/';
+  const [isLoading, setIsLoading] = useState(isHome);
 
   const handleFinishLoading = () => {
-    setIsLoading(false)
-  }
+    setIsLoading(false);
+  };
 
   return (
     <>
-      {isLoading && isHome && <Loader finishLoading={handleFinishLoading} />}
-      <Nav isHome={isHome} />
-      <Social isHome={isHome} />
-      <Email isHome={isHome} />
+      {/* Only show loader on homepage */}
+      {isHome && isLoading && <Loader finishLoading={handleFinishLoading} />}
       <div id="content">
         {children}
-        <Footer />
       </div>
     </>
-  )
+  );
 }
