@@ -15,38 +15,34 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = params
-  const posts = getPostsByTag(slug)
-  if (posts.length === 0) return {}
-  
-  const allPosts = getSortedPostsData()
-  const { tags } = computeTaxonomy(allPosts)
-  const tagObj = tags.find(t => slugify(t.name) === slug)
-  const tagName = tagObj ? tagObj.name : slug
-  
+  const awaitedParams = await params;
+  const slug = awaitedParams.slug;
+  const posts = getPostsByTag(slug);
+  if (posts.length === 0) return {};
+  const allPosts = getSortedPostsData();
+  const { tags } = computeTaxonomy(allPosts);
+  const tagObj = tags.find(t => slugify(t.name) === slug);
+  const tagName = tagObj ? tagObj.name : slug;
   return {
     title: `${tagName} - Blog Tags`,
     description: `Posts tagged with ${tagName}`,
-  }
+  };
 }
 
-export default function TagPage({ params }) {
-  const { slug } = params
-  const posts = getPostsByTag(slug)
-
+export default async function TagPage({ params }) {
+  const awaitedParams = await params;
+  const slug = awaitedParams.slug;
+  const posts = getPostsByTag(slug);
   if (posts.length === 0) {
-    notFound()
+    notFound();
   }
-
-  const allPosts = getSortedPostsData()
-  const { categories, tags } = computeTaxonomy(allPosts)
-  const normalizedPosts = normalizePostsForDisplay(posts)
-
+  const allPosts = getSortedPostsData();
+  const { categories, tags } = computeTaxonomy(allPosts);
+  const normalizedPosts = normalizePostsForDisplay(posts);
   // Find original tag name
-  const tagObj = tags.find(t => slugify(t.name) === slug)
-  const tagName = tagObj ? tagObj.name : slug
+  const tagObj = tags.find(t => slugify(t.name) === slug);
+  const tagName = tagObj ? tagObj.name : slug;
   const totalCount = posts.length;
-
   return (
     <>
       <AppPageContainer>
@@ -64,5 +60,5 @@ export default function TagPage({ params }) {
       <Social isHome={false} />
       <Email isHome={false} />
     </>
-  )
+  );
 }

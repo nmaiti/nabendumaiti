@@ -20,23 +20,46 @@ const mimeFromExt = ext => {
 }
 
 export async function GET(_req, { params }) {
+  const awaitedParams = await params;
   try {
-    const parts = Array.isArray(params.path) ? params.path : []
-    // console.log('uploads request parts', parts)
-    const result = readUpload(parts)
+    const parts = Array.isArray(awaitedParams?.path) ? awaitedParams.path : [];
+    // Try uploads first
+    let result = readUpload(parts);
+    // Fallback: try posts, featured, jobs, projects
     if (!result) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 })
+      const { join } = require('path');
+      const fs = require('fs');
+      const baseDirs = [
+        join(process.cwd(), 'content/posts'),
+        join(process.cwd(), 'content/featured'),
+        join(process.cwd(), 'content/jobs'),
+        join(process.cwd(), 'content/projects'),
+      ];
+      for (const baseDir of baseDirs) {
+        const targetPath = join(baseDir, ...parts);
+        // Prevent path traversal
+        if (!targetPath.startsWith(baseDir)) continue;
+        if (fs.existsSync(targetPath) && fs.statSync(targetPath).isFile()) {
+          const buffer = fs.readFileSync(targetPath);
+          const ext = require('path').extname(targetPath);
+          result = { buffer, ext };
+          break;
+        }
+      }
     }
-    const { buffer, ext } = result
+    if (!result) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+    const { buffer, ext } = result;
     return new NextResponse(buffer, {
       status: 200,
       headers: {
         'Content-Type': mimeFromExt(ext),
         'Cache-Control': 'public, max-age=3600',
       },
-    })
+    });
   } catch (error) {
-    console.error('Failed to serve upload', error)
-    return NextResponse.json({ error: 'Failed to load upload' }, { status: 500 })
+    console.error('Failed to serve upload', error);
+    return NextResponse.json({ error: 'Failed to load upload' }, { status: 500 });
   }
 }
