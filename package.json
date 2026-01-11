@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "next experimental-analyze --output",
     "start": "next start",
     "lint": "next lint",
     "clean": "rm -rf .next .swc out",
@@ -14,9 +15,12 @@
   },
   "dependencies": {
     "@giscus/react": "^3.1.0",
+    "@next/bundle-analyzer": "^16.1.1",
     "animejs": "3.2.2",
     "date-fns": "^3.3.1",
     "gray-matter": "^4.0.3",
+    "html-react-parser": "^5.2.11",
+    "image-size": "^2.0.2",
     "mermaid": "^10.9.0",
     "next": "16.1.1",
     "react": "19.2.3",

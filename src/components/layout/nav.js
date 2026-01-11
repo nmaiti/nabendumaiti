@@ -56,7 +56,6 @@ const StyledNav = styled.nav`
   ${({ theme }) => theme.mixins.flexBetween};
   position: relative;
   width: 100%;
-  color: ${props => props.theme.lightestslate};
   font-family: var(--font-mono);
   counter-reset: item 0;
   z-index: 12;
@@ -69,43 +68,53 @@ const StyledNav = styled.nav`
     cursor: pointer;
     padding: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    > svg {
+    align-items: right;
+    justify-content: end;
+    
+    svg {
       color: ${props => props.theme.higlight};
+    }
+
+    &:hover,
+    &:focus {
+      transform: translate(+2px, +2px);
+      svg {
+        color: ${props => props.theme.higlighttint};
+      }
     }
   }
 
   .logo {
     ${({ theme }) => theme.mixins.flexCenter};
-
     a {
-      color: ${props => props.theme.higlight};
       width: 42px;
       height: 42px;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+  
+    svg {
+      color: ${props => props.theme.higlight};
+    }
 
-      &:hover,
-      &:focus {
-        svg {
-          fill: ${props => props.theme.higlighttint};
-        }
-      }
-
+    &:hover,
+    &:focus {
+      transform: translate(+2px, +2px);
+      color: ${props => props.theme.higlighttint};
       svg {
-        fill: none;
-        transition: var(--transition);
-        user-select: none;
+        color: ${props => props.theme.higlight};
       }
     }
+  
   }
 `;
 
 const StyledLinks = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 94%;   
 
   @media (max-width: 768px) {
     display: none;
@@ -198,9 +207,9 @@ const Nav = () => {
                 </li>
               ))}
           </ol>
-          <div>{ResumeLink}</div>
+          <div style={{ marginLeft: '20x' }}>{ResumeLink}</div>
         </StyledLinks>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+       <div style={{ display: 'flex', alignItems: 'center' ,padding: '5px'}}>
           {DarkMode}
           <Menu />
         </div>

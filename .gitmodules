@@ -1,4 +1,3 @@
 [submodule "content"]
 	path = content
-	branch = cleanup_unnecessary_next
     url = git@github.com:nmaiti/nabendumaiti-content.git

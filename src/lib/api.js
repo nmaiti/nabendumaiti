@@ -8,16 +8,48 @@ import remarkDirective from 'remark-directive'
 import remarkGithub from 'remark-github'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeStringify from 'rehype-stringify'
-import { visit } from 'unist-util-visit'
-import { slugify } from '../utils/helpers'
+import { visit } from 'unist-util-visit';
+import sizeOf from 'image-size';
+import { slugify } from '../utils/helpers';
 
-const postsDirectory = path.join(process.cwd(), 'content/posts')
-const featuredDirectory = path.join(process.cwd(), 'content/featured')
-const jobsDirectory = path.join(process.cwd(), 'content/jobs')
-const projectsDirectory = path.join(process.cwd(), 'content/projects')
-const uploadsDirectory = path.join(process.cwd(), 'content/uploads')
+const postsDirectory = path.join(process.cwd(), 'content/posts');
+const featuredDirectory = path.join(process.cwd(), 'content/featured');
+const jobsDirectory = path.join(process.cwd(), 'content/jobs');
+const projectsDirectory = path.join(process.cwd(), 'content/projects');
+const uploadsDirectory = path.join(process.cwd(), 'content/uploads');
 
 let postsCache = null;
+
+function rehypeImageSize() {
+  return (tree) => {
+    visit(tree, 'element', (node) => {
+      if (node.tagName === 'img' && node.properties && node.properties.src) {
+        const src = node.properties.src;
+        if (src.startsWith('/api/uploads/')) {
+          const imagePath = src.replace('/api/uploads/', '');
+          const pathParts = imagePath.split('/');
+
+          // Try to resolve the image path relative to the `uploads` and `posts` directories.
+          let imageFilePath = path.join(uploadsDirectory, ...pathParts);
+          if (!fs.existsSync(imageFilePath)) {
+            imageFilePath = path.join(postsDirectory, ...pathParts);
+          }
+
+          if (fs.existsSync(imageFilePath)) {
+            try {
+              const fileBuffer = fs.readFileSync(imageFilePath);
+              const dimensions = sizeOf(fileBuffer);
+              node.properties.width = dimensions.width;
+              node.properties.height = dimensions.height;
+            } catch (e) {
+              console.error(`Error getting image size for ${imageFilePath}`, e);
+            }
+          }
+        }
+      }
+    });
+  };
+}
 
 function myDirectiveTransformer() {
   return (tree) => {
@@ -106,10 +138,21 @@ function remarkRelativeImages(relativeFolder) {
   return (tree) => {
     visit(tree, 'image', (node) => {
       if (node.url && !node.url.startsWith('http') && !node.url.startsWith('//') && !node.url.startsWith('/') && !node.url.startsWith('mailto:')) {
-         const cleanUrl = node.url.replace(/^\.\//, '');
-         // Ensure forward slashes for URL
-         const folderPart = relativeFolder.split(path.sep).join('/');
-         node.url = `/api/uploads/${folderPart}/${cleanUrl}`;
+         const markdownFileDir = path.join(postsDirectory, relativeFolder);
+         const imageAbsolutePath = path.resolve(markdownFileDir, node.url);
+
+         let imageRelativePath;
+         if (imageAbsolutePath.startsWith(uploadsDirectory)) {
+            imageRelativePath = path.relative(uploadsDirectory, imageAbsolutePath);
+         } else if (imageAbsolutePath.startsWith(postsDirectory)) {
+            imageRelativePath = path.relative(postsDirectory, imageAbsolutePath);
+         } else {
+            // Cannot determine a relative path for the API. Keep original.
+            return;
+         }
+
+         const finalUrl = `/api/uploads/${imageRelativePath.split(path.sep).join('/')}`;
+         node.url = finalUrl;
       }
     });
   };
@@ -126,6 +169,7 @@ async function markdownToHtml(markdown, relativeFolder = '') {
     .use(remarkDirective)
     .use(myDirectiveTransformer)
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeImageSize)
     .use(rehypePrettyCode, {
       theme: {
         dark: 'catppuccin-mocha',
@@ -173,30 +217,44 @@ export function getSortedPostsData() {
     
     let matterResult;
     try {
-        // Optimization: read only first 2KB for metadata
+        // Optimization: read only first 4KB for metadata (increased from 2KB)
         const fd = fs.openSync(fullPath, 'r')
-        const buf = Buffer.alloc(2048)
-        const len = fs.readSync(fd, buf, 0, 2048, 0)
+        const buf = Buffer.alloc(4096)
+        const len = fs.readSync(fd, buf, 0, 4096, 0)
         fs.closeSync(fd)
         const fileHead = buf.toString('utf8', 0, len)
-        matterResult = matter(fileHead)
+        // Check if we actually got a complete frontmatter block
+        if (fileHead.startsWith('---') && fileHead.slice(3).includes('---')) {
+            matterResult = matter(fileHead)
+        } else {
+            throw new Error('Incomplete frontmatter')
+        }
     } catch (e) {
-        // Fallback or if header is too large
+        // Fallback: read the entire file
         const fileContents = fs.readFileSync(fullPath, 'utf8')
         matterResult = matter(fileContents)
     }
 
+    // Ensure matterResult.data exists
+    const data = matterResult.data || {}
+
     // Use frontmatter slug if available, otherwise derive from path
-    let slug = matterResult.data.slug
+    let slug = data.slug
     if (!slug || typeof slug !== 'string') {
         const relativePath = path.relative(postsDirectory, fullPath)
-        slug = relativePath.replace(/\/index\.md$/, '').replace(/\.md$/, '')
+        // slugify the path but keep slashes
+        slug = relativePath
+            .replace(/\/index\.md$/, '')
+            .replace(/\.md$/, '')
+            .split('/')
+            .map(part => slugify(part))
+            .join('/')
     }
     // Always remove leading slash if present
     slug = slug.replace(/^\/+/, '');
 
     return {
-      ...matterResult.data,
+      ...data,
       slug,
       filePath: fullPath,
     }

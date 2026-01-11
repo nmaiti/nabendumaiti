@@ -180,6 +180,12 @@ const StyledProject = styled.li`
       color: ${props => props.theme.white};
       font-weight: normal;
     }
+    a,
+    img {
+      display: block;
+      width: 50%;
+      margin: 0 auto;
+    }
   }
 
   .project-tech-list {

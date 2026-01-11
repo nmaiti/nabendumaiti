@@ -8,6 +8,20 @@ import { usePrefersReducedMotion } from '@/hooks';
 import avatar from '@/images/avtar.jpg';
 
 const StyledAboutSection = styled.section`
+    .fadeup {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s forwards;
+      animation-timing-function: cubic-bezier(0.645,0.045,0.355,1);
+      animation-delay: var(--fadeup-delay, 0ms);
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   max-width: 900px;
 
   .inner {
@@ -123,17 +137,18 @@ const StyledPic = styled.div`
   }
 `;
 
+import { useState } from 'react';
+
 const About = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
+    if (!prefersReducedMotion) {
+      setMounted(true);
     }
-
-    sr.reveal(revealContainer.current, srConfig());
-  }, []);
+  }, [prefersReducedMotion]);
 
   const skillsSW = [
     'C',
@@ -181,52 +196,54 @@ const About = () => {
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
       <h2 className="numbered-heading">About Me</h2>
+      <div className={mounted && !prefersReducedMotion ? 'fadeup' : ''} style={mounted ? { '--fadeup-delay': '300ms' } : {}}>
+        <div className="inner">
+          <StyledText>
+            <div>
+              <p>
+                Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with
+                electronics in 2000. I've worked across industries—from <a href="https://www.intel.com/">Semiconductor</a>
+                , and <a href="https://www.broadcom.com/">Network</a>, and <a href="https://www.capgemini.com/">IT Service</a>,{' '}
+                <a href="https://global.abb/group/en">an Automation</a> company. These experiences have enriched my
+                understanding of both hardware and software domains.
+              </p>
 
-      <div className="inner">
-        <StyledText>
-          <div>
-            <p>
-              Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with
-              electronics in 2000. I've worked across industries—from <a href="https://www.intel.com/">Semiconductor</a>
-              , and <a href="https://www.broadcom.com/">Network</a>, and <a href="https://www.capgemini.com/">IT Service</a>,{' '}
-              <a href="https://global.abb/group/en">an Automation</a> company. These experiences have enriched my
-              understanding of both hardware and software domains.
-            </p>
+              <p>
+                Currently, I develop secure, user-friendly platform software for OEMs and end-users. While I have a
+                background in schematic and PCB design, my main focus is system software development. Lately, I’ve been
+                exploring machine learning-based fuzzing to enhance Intel software security using AI.
+              </p>
+              <p>Here are a few technologies I’ve worked on:</p>
+            </div>
 
-            <p>
-              Currently, I develop secure, user-friendly platform software for OEMs and end-users. While I have a
-              background in schematic and PCB design, my main focus is system software development. Lately, I’ve been
-              exploring machine learning-based fuzzing to enhance Intel software security using AI.
-            </p>
-            <p>Here are a few technologies I’ve worked on:</p>
-          </div>
+            Software:
+            <ul className="skills-list">
+              {skillsSW && skillsSW.map((skill, i) => <li key={i}>{skill}</li>)}
+            </ul>
+            <span>Hardware:</span>
+            <ul className="skills-list">
+              {skillsHW && skillsHW.map((skill, i) => <li key={i}>{skill}</li>)}
+            </ul>
+            <p>Other than work some Random Facts about Me:</p>
+            <ul className="skills-list">
+              {randomFacts && randomFacts.map((skill, i) => <li key={i}>{skill}</li>)}
+            </ul>
+          </StyledText>
 
-          Software:
-          <ul className="skills-list">
-            {skillsSW && skillsSW.map((skill, i) => <li key={i}>{skill}</li>)}
-          </ul>
-          <span>Hardware:</span>
-          <ul className="skills-list">
-            {skillsHW && skillsHW.map((skill, i) => <li key={i}>{skill}</li>)}
-          </ul>
-          <p>Other than work some Random Facts about Me:</p>
-          <ul className="skills-list">
-            {randomFacts && randomFacts.map((skill, i) => <li key={i}>{skill}</li>)}
-          </ul>
-        </StyledText>
-
-        <StyledPic>
-          <div className="wrapper">
-            <Image
-              className="img"
-              src={avatar}
-              width={500}
-              height={300}
-              quality={95}
-              alt="Headshot"
-            />
-          </div>
-        </StyledPic>
+          <StyledPic>
+            <div className="wrapper">
+              <Image
+                className="img"
+                src={avatar}
+                width={500}
+                height={500}
+                quality={95}
+                alt="Headshot"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
+          </StyledPic>
+        </div>
       </div>
     </StyledAboutSection>
   );

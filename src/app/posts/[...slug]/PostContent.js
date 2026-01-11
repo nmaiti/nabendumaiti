@@ -5,6 +5,8 @@ import Giscus from '@giscus/react';
 import { PostSidebar } from '@/components/blog';
 import mermaid from 'mermaid';
 import { useTheme } from '@/components/common';
+import parse, { domToReact } from 'html-react-parser';
+import Image from 'next/image';
 
 const StyledPostContainer = styled.main`
   max-width: 1600px;
@@ -235,6 +237,28 @@ export default function PostContent({ post }) {
   const { tags, categories, title, date, thumbnail } = post;
   const { isDark } = useTheme();
 
+  const parseOptions = {
+    replace: (domNode) => {
+      if (domNode.name === 'img') {
+        const { src, alt, width, height } = domNode.attribs;
+        return (
+          <Image
+            src={src}
+            alt={alt || ''}
+            width={width ? parseInt(width, 10) : 800}
+            height={height ? parseInt(height, 10) : 500}
+            unoptimized
+            style={{
+              width: '100%',
+              height: 'auto',
+            }}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 100vw"
+          />
+        );
+      }
+    },
+  };
+
   useEffect(() => {
     mermaid.initialize({ startOnLoad: false, theme: 'default' });
     
@@ -276,8 +300,9 @@ export default function PostContent({ post }) {
               key={isDark() ? 'dark' : 'light'}
               id={post.slug}
               className="post-content"
-              dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-            />
+            >
+              {parse(post.contentHtml, parseOptions)}
+            </div>
             <div style={{ marginTop: '3rem' }}>
               <Giscus
                 id="comments"

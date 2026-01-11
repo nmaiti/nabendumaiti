@@ -42,6 +42,12 @@ src/app/
 
 ## Component Directory Structure
 
+The `src/components` directory contains all reusable components, organized into subdirectories by feature or type.
+
+### Root Components
+- `PageLayout.js` - Main page layout wrapper.
+- `PageLayoutClient.js` - Client-side counterpart for the page layout.
+
 ### `/src/components/layout/`
 Layout-related components used across the entire application.
 
@@ -83,6 +89,7 @@ Common/shared components used throughout the application. All layout is now unif
 
 - `AppPageLayout.js` - Exports `AppPageContainer` and `AppPageHeader` (responsive, styled-components)
 - `AppClientLayout.js` - Main client-side layout wrapper (site chrome, navigation, footer)
+- `ClientLayout.js` - Another client-side layout component.
 - `Providers.js` - Theme and context providers (`Providers`, `useTheme`)
 - `SidebarContent.js` - Shared sidebar container, also exports `SidebarContentWithDelay` for animation-friendly delayed rendering
 
@@ -128,6 +135,18 @@ import { SidebarContentWithDelay } from '@/components/common/SidebarContent'
 - ✅ Dynamic props for alignment, spacing, etc.
 - ✅ Type-safe with TypeScript
 - ✅ Scoped styles (no CSS conflicts)
+
+### `/src/components/icons/`
+A collection of SVG icon components.
+
+- `github.js`, `linkedin.js`, `twitter.js`, `instagram.js` - Social media icons.
+- `folder.js`, `project.js`, `posting.js` - Icons for different content types.
+- `sun.js`, `moon.js` - Theme toggle icons.
+- `loader.js` - A loader icon.
+- ...and many more.
+
+**Import:** `import { IconGitHub, IconLinkedIn } from '@/components/icons'` (example)
+
 
 ### `/src/components/sections/`
 Page section components (hero, about, projects, etc.)
