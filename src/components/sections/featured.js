@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
-import { GatsbyImage, getImage } from 'gatsby-plugin-image';
+'use client'
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import sr from '@utils/sr';
-import { srConfig } from '@config';
-import { Icon } from '@components/icons';
-import { usePrefersReducedMotion } from '@hooks';
+import sr from '@/utils/sr';
+import { srConfig } from '@/config';
+import { Icon } from '@/components/icons';
+import { usePrefersReducedMotion } from '@/hooks';
 
 const StyledProjectsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
@@ -58,9 +57,11 @@ const StyledProject = styled.li`
     }
     .project-tech-list {
       justify-content: flex-end;
+      margin-left: auto; // Align container to right
 
       @media (max-width: 768px) {
         justify-content: flex-start;
+        margin-left: 0;
       }
 
       li {
@@ -132,7 +133,7 @@ const StyledProject = styled.li`
     }
 
     @media (max-width: 768px) {
-      color: ${props => props.theme.white};
+      // color: ${props => props.theme.white};
 
       a {
         position: static;
@@ -179,6 +180,12 @@ const StyledProject = styled.li`
       color: ${props => props.theme.white};
       font-weight: normal;
     }
+    a,
+    img {
+      display: block;
+      width: 50%;
+      margin: 0 auto;
+    }
   }
 
   .project-tech-list {
@@ -186,9 +193,16 @@ const StyledProject = styled.li`
     flex-wrap: wrap;
     position: relative;
     z-index: 2;
-    margin: 25px 0 10px;
-    padding: 0;
+    margin: 10px 0 10px;
+    padding: 10px 15px; // Add padding around list
     list-style: none;
+
+    // Semi-blur background
+    background-color: ${props => props.theme.isDark ? 'rgba(12, 45, 95, 0.6)' : 'rgba(255, 255, 255, 0.5)'};
+    backdrop-filter: blur(2px);
+    border-radius: var(--border-radius);
+    width: fit-content;
+    max-width: 100%;
 
     li {
       margin: 0 20px 5px 0;
@@ -246,10 +260,13 @@ const StyledProject = styled.li`
     grid-row: 1 / -1;
     position: relative;
     z-index: 1;
+    width: 100%;
+    max-width: 900px;
+    height: auto;
 
     @media (max-width: 768px) {
       grid-column: 1 / -1;
-      height: 100%;
+      height: auto;
       opacity: 0.25;
     }
 
@@ -259,6 +276,12 @@ const StyledProject = styled.li`
       background-color: ${props => props.theme.higlighttint};
       border-radius: var(--border-radius);
       vertical-align: middle;
+      overflow: hidden;
+      display: block; // Ensures anchor takes up space
+      position: relative; // For the pseudo-element
+
+      // Removed fixed aspect-ratio to allow image to dictate size on desktop
+      // aspect-ratio: 16 / 9; 
 
       &:hover,
       &:focus {
@@ -269,6 +292,8 @@ const StyledProject = styled.li`
         .img {
           background: transparent;
           filter: none;
+          transform: translateY(-4px) scale(1.02);
+          opacity: 1;
         }
       }
 
@@ -291,10 +316,15 @@ const StyledProject = styled.li`
       border-radius: var(--border-radius);
       mix-blend-mode: multiply;
       filter: grayscale(100%) contrast(1) brightness(90%);
+      width: 100%;
+      height: auto; // Allow natural height on desktop
+      object-fit: contain; // Ensure full image is seen if it has constraints
+      opacity: 0.97;
+      transition: transform 200ms ease, opacity 200ms ease, filter 200ms ease;
 
       @media (max-width: 768px) {
-        object-fit: cover;
-        width: auto;
+        object-fit: cover; // Keep background effect on mobile
+        width: 100%;
         height: 100%;
         filter: grayscale(100%) contrast(1) brightness(50%);
       }
@@ -303,46 +333,44 @@ const StyledProject = styled.li`
 `;
 
 const Featured = () => {
-  const data = useStaticQuery(graphql`
-    {
-      featured: allMarkdownRemark(
-        filter: { fileAbsolutePath: { regex: "/content/featured/" } }
-        sort: { frontmatter: { date: ASC } }
-      ) {
-        edges {
-          node {
-            frontmatter {
-              title
-              cover {
-                childImageSharp {
-                  gatsbyImageData(width: 700, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
-                }
-              }
-              tech
-              github
-              external
-              cta
-            }
-            html
-          }
-        }
-      }
-    }
-  `);
-
-  const featuredProjects = data.featured.edges.filter(({ node }) => node);
+  const [featuredProjects, setFeaturedProjects] = useState([]);
+  const prefersReducedMotion = usePrefersReducedMotion();
   const revealTitle = useRef(null);
   const revealProjects = useRef([]);
-  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/featured');
+        if (!res.ok) throw new Error(`Failed to fetch featured (${res.status})`);
+        const data = await res.json();
+        setFeaturedProjects(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    load();
+  }, []);
 
   useEffect(() => {
     if (prefersReducedMotion) {
       return;
     }
 
-    sr.reveal(revealTitle.current, srConfig());
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
-  }, []);
+    if (revealTitle.current) {
+      sr.reveal(revealTitle.current, srConfig());
+    }
+
+    revealProjects.current.forEach((ref, i) => {
+      if (!ref) return;
+      sr.reveal(ref, srConfig(i * 100));
+    });
+  }, [prefersReducedMotion, featuredProjects]);
+
+  if (featuredProjects.length === 0) {
+    return null;
+  }
 
   return (
     <section id="projects">
@@ -351,63 +379,67 @@ const Featured = () => {
       </h2>
 
       <StyledProjectsGrid>
-        {featuredProjects &&
-          [...featuredProjects].reverse().map(({ node }, i) => {
-            const { frontmatter, html } = node;
-            const { external, title, tech, github, cover, cta } = frontmatter;
-            const image = getImage(cover);
+        {featuredProjects.map((project, i) => {
+          const { external, title, tech = [], github, cover, cta, description } = project;
+          const projectLink = external || github || '#';
 
-            return (
-              <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
-                <div className="project-content">
-                  <div>
-                    <p className="project-overline">Featured Project</p>
+          return (
+            <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
+              <div className="project-content">
+                <div>
+                  <p className="project-overline">Featured Project</p>
 
-                    <h3 className="project-title">
-                      <a href={external}>{title}</a>
-                    </h3>
+                  <h3 className="project-title">
+                    <a href={projectLink}>{title || 'Untitled project'}</a>
+                  </h3>
 
-                    <div
-                      className="project-description"
-                      dangerouslySetInnerHTML={{ __html: html }}
-                    />
+                  {description && (
+                    <div className="project-description" dangerouslySetInnerHTML={{ __html: description }} />
+                  )}
 
-                    {tech.length && (
-                      <ul className="project-tech-list">
-                        {tech.map((tech, i) => (
-                          <li key={i}>{tech}</li>
-                        ))}
-                      </ul>
+                  {tech.length > 0 && (
+                    <ul className="project-tech-list">
+                      {tech.map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <div className="project-links">
+                    {cta && (
+                      <a href={cta} aria-label="Course Link" className="cta">
+                        Learn More
+                      </a>
                     )}
-
-                    <div className="project-links">
-                      {cta && (
-                        <a href={cta} aria-label="Course Link" className="cta">
-                          Learn More
-                        </a>
-                      )}
-                      {github && (
-                        <a href={github} aria-label="GitHub Link">
-                          <Icon name="GitHub" />
-                        </a>
-                      )}
-                      {external && !cta && (
-                        <a href={external} aria-label="External Link" className="external">
-                          <Icon name="External" />
-                        </a>
-                      )}
-                    </div>
+                    {github && (
+                      <a href={github} aria-label="GitHub Link">
+                        <Icon name="GitHub" />
+                      </a>
+                    )}
+                    {external && !cta && (
+                      <a href={external} aria-label="External Link" className="external">
+                        <Icon name="External" />
+                      </a>
+                    )}
                   </div>
                 </div>
+              </div>
 
+              {cover && (
                 <div className="project-image">
-                  <a href={external ? external : github ? github : '#'}>
-                    <GatsbyImage image={image} alt={title} className="img" />
+                  <a href={projectLink}>
+                    <img
+                      src={cover}
+                      alt={title || 'Project image'}
+                      className="img"
+                      loading="lazy"
+                    />
                   </a>
                 </div>
-              </StyledProject>
-            );
-          })}
+              )}
+            </StyledProject>
+          );
+        })}
       </StyledProjectsGrid>
     </section>
   );

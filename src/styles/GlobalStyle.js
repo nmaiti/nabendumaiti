@@ -1,11 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
-import fonts from './fonts';
 import variables from './variables';
 import TransitionStyles from './TransitionStyles';
-import PrismStyles from './PrismStyles';
+import CodeStyles from './CodeStyles';
 
 const GlobalStyle = createGlobalStyle`
-  ${fonts};
   ${variables};
 
   html {
@@ -204,32 +202,10 @@ const GlobalStyle = createGlobalStyle`
         margin-right: 5px;
       }
     }
-
-    &:after {
-      content: '';
-      display: block;
-      position: relative;
-      top: -5px;
-      width: 300px;
-      height: 1px;
-      margin-left: 20px;
-      background-color: ${props => props.theme.lightestnavy};
-
-      @media (max-width: 1080px) {
-        width: 200px;
-      }
-      @media (max-width: 768px) {
-        width: 100%;
-      }
-      @media (max-width: 600px) {
-        margin-left: 10px;
-      }
-    }
   }
 
   img,
-  svg,
-  .gatsby-image-wrapper {
+  svg {
     width: 100%;
     max-width: 100%;
     vertical-align: middle;
@@ -257,7 +233,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #f7f7f7ff !important;
   }
 
-  svg {
+  a {
     display: inline-block;
     text-decoration: none;
     text-decoration-skip-ink: auto;
@@ -443,13 +419,11 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  .gatsby-image-outer-wrapper {
-    height: 100%;
-  }
+
 
   ${TransitionStyles};
 
-  ${PrismStyles};
+  ${CodeStyles};
 `;
 
 export default GlobalStyle;
