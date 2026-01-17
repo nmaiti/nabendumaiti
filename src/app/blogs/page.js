@@ -8,18 +8,15 @@ export default function BlogsPage() {
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const load = async () => {
       const res = await fetch('/api/posts');
       const data = await res.json();
-      
-      // Use dynamic import for client-side taxonomy computation
       const { computeTaxonomy, normalizePostsForDisplay } = await import('@/lib/taxonomy');
-      
       const normalized = normalizePostsForDisplay(data);
       const { categories, tags } = computeTaxonomy(data);
-
       setCategories(categories);
       setTags(tags);
       setPosts(normalized);
@@ -27,14 +24,29 @@ export default function BlogsPage() {
     load();
   }, []);
 
+  const filteredPosts = posts.filter(post => {
+    if (!search) return true;
+    const lowerQuery = search.toLowerCase();
+    const titleMatch = post.title?.toLowerCase().includes(lowerQuery);
+    const descMatch = post.description?.toLowerCase().includes(lowerQuery);
+    const tagMatch = post.tags?.some(t => t.toLowerCase().includes(lowerQuery));
+    const catMatch = post.categories?.some(c => c.toLowerCase().includes(lowerQuery));
+    return titleMatch || descMatch || tagMatch || catMatch;
+  });
+
   return (
     <>
       <AppPageContainer>
-        <SidebarLayout categories={categories} tags={tags}>
+        <SidebarLayout
+          categories={categories}
+          tags={tags}
+          currentSearchQuery={search}
+          onSearchChange={setSearch}
+        >
           <header className="hero">
             <h1 style={{ fontSize: '2em' }}>Writing</h1>
           </header>
-          <Posts data={posts} showYears />
+          <Posts data={filteredPosts} showYears />
         </SidebarLayout>
       </AppPageContainer>
       <Social isHome={false} />

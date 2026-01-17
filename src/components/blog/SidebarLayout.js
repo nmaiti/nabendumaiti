@@ -38,26 +38,27 @@ const ArticleContent = styled.div`
   min-width: 0;
   
   h1 span.highlight {
-      color: ${props => props.theme.higlight};
+      color: ${props => props.theme.highlight};
   }
 `;
 
 
 
-export const SidebarLayout = ({ children, categories, tags, currentCategory, currentTag, currentSearchQuery }) => (
+export const SidebarLayout = ({ children, categories, tags, currentCategory, currentTag, currentSearchQuery, onSearchChange }) => (
   <SidebarSection>
     <MobileSearchWrapper>
-       <SearchWidget currentSearchQuery={currentSearchQuery} />
+      <SearchWidget value={currentSearchQuery} onChange={onSearchChange} />
     </MobileSearchWrapper>
     <SidebarGrid>
       <ArticleContent>{children}</ArticleContent>
       <SidebarContent>
-        <BlogSidebar 
-            categories={categories} 
-            tags={tags} 
-            currentCategory={currentCategory} 
-            currentTag={currentTag}
-            currentSearchQuery={currentSearchQuery}
+        <BlogSidebar
+          categories={categories}
+          tags={tags}
+          currentCategory={currentCategory}
+          currentTag={currentTag}
+          currentSearchQuery={currentSearchQuery}
+          onSearchChange={onSearchChange}
         />
       </SidebarContent>
     </SidebarGrid>

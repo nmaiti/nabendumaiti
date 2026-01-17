@@ -59,7 +59,7 @@ const StyledText = styled.div`
         content: '▹';
         position: absolute;
         left: 0;
-        color: ${props => props.theme.higlight};
+        color: ${props => props.theme.highlight};
         font-size: var(--fz-sm);
         line-height: 12px;
       }
@@ -82,7 +82,7 @@ const StyledPic = styled.div`
     width: 100%;
     aspect-ratio: 1 / 1;
     border-radius: var(--border-radius);
-    background-color: ${props => props.theme.higlight};
+    background-color: ${props => props.theme.highlight};
 
     &:hover,
     &:focus {
@@ -129,7 +129,7 @@ const StyledPic = styled.div`
     }
 
     &:after {
-      border: 2px solid ${props => props.theme.higlight};
+      border: 2px solid ${props => props.theme.highlight};
       top: 20px;
       left: 20px;
       z-index: -1;
@@ -142,12 +142,12 @@ import { useState } from 'react';
 const About = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!prefersReducedMotion) {
-      setMounted(true);
+    if (prefersReducedMotion) {
+      return;
     }
+    sr.reveal(revealContainer.current, srConfig());
   }, [prefersReducedMotion]);
 
   const skillsSW = [
@@ -196,7 +196,7 @@ const About = () => {
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
       <h2 className="numbered-heading">About Me</h2>
-      <div className={mounted && !prefersReducedMotion ? 'fadeup' : ''} style={mounted ? { '--fadeup-delay': '300ms' } : {}}>
+      <div className={!prefersReducedMotion ? 'fadeup' : ''} style={!prefersReducedMotion ? { '--fadeup-delay': '300ms' } : {}}>
         <div className="inner">
           <StyledText>
             <div>
