@@ -1,5 +1,7 @@
+
 'use client'
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 import { usePrefersReducedMotion } from '@/hooks';
 
@@ -18,7 +20,7 @@ const StyledHeroSection = styled.section`
 
   h1 {
     margin: 0 0 30px 4px;
-    color: ${props => props.theme.higlight};
+    color: ${props => props.theme.highlight};
     font-family: var(--font-mono);
     font-size: clamp(var(--fz-sm), 5vw, var(--fz-md));
     font-weight: 400;
@@ -53,8 +55,27 @@ const StyledHeroSection = styled.section`
   }
 `;
 
+
+const navDelay = 1000;
+const loaderDelay = 500;
+
+
 const Hero = () => {
+  const [isMounted, setIsMounted] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      return;
+    }
+    const timeout = setTimeout(() => setIsMounted(true), navDelay);
+    return () => clearTimeout(timeout);
+  }, [prefersReducedMotion]);
 
   const one = <h1>Hi, my name is</h1>;
   const two = <h2 className="big-heading">Nabendu Bikash Maiti.</h2>;
@@ -82,12 +103,36 @@ const Hero = () => {
   );
 
   const items = [one, two, three, four, five];
+  // Create refs for each item for CSSTransition nodeRef
+  const nodeRefs = useRef(items.map(() => React.createRef()));
+
+  if (!hasMounted) {
+    return null;
+  }
 
   return (
     <StyledHeroSection>
-      {items.map((item, i) => (
-        <div key={i}>{item}</div>
-      ))}
+      {prefersReducedMotion ? (
+        <>
+          {items.map((item, i) => (
+            <div key={i}>{item}</div>
+          ))}
+        </>
+      ) : (
+        <TransitionGroup component={null}>
+          {isMounted &&
+            items.map((item, i) => (
+              <CSSTransition
+                key={i}
+                classNames="fadeup"
+                timeout={loaderDelay}
+                nodeRef={nodeRefs.current[i]}
+              >
+                <div ref={nodeRefs.current[i]} style={{ transitionDelay: `${i + 1}00ms` }}>{item}</div>
+              </CSSTransition>
+            ))}
+        </TransitionGroup>
+      )}
     </StyledHeroSection>
   );
 };

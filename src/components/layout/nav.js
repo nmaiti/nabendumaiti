@@ -1,8 +1,10 @@
-'use client'
-import React, { useState, useEffect } from 'react';
+"use client"
+import React, { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Link from 'next/link';
 import styled, { css } from 'styled-components';
-import { navLinks } from '@/config';
+import config from '@/config';
+import { usePathname } from 'next/navigation';
 import { useScrollDirection } from '@/hooks';
 import { IconLogo, IconSun, IconMoon } from '@/components/icons';
 import { useTheme } from '@/components/common';
@@ -72,14 +74,20 @@ const StyledNav = styled.nav`
     justify-content: end;
     
     svg {
-      color: ${props => props.theme.higlight};
+      color: ${props => props.theme.highlight};
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       transform: translate(+2px, +2px);
       svg {
-        color: ${props => props.theme.higlighttint};
+        color: ${props => props.theme.highlighttint};
+      }
+    }
+    &:active {
+      transform: none;
+      svg {
+        color: ${props => props.theme.highlight};
       }
     }
   }
@@ -95,15 +103,22 @@ const StyledNav = styled.nav`
     }
   
     svg {
-      color: ${props => props.theme.higlight};
+      color: ${props => props.theme.highlight};
     }
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       transform: translate(+2px, +2px);
-      color: ${props => props.theme.higlighttint};
+      color: ${props => props.theme.highlighttint};
       svg {
-        color: ${props => props.theme.higlight};
+        color: ${props => props.theme.highlight};
+      }
+    }
+    &:active {
+      transform: none;
+      color: ${props => props.theme.highlight};
+      svg {
+        color: ${props => props.theme.highlight};
       }
     }
   
@@ -134,11 +149,18 @@ const StyledLinks = styled.div`
 
       a {
         padding: 10px;
+        transition: color 0.2s, background 0.2s;
+
+        &.active {
+          color: ${props => props.theme.highlight || '#fd8624'};
+          font-weight: bold;
+          border-bottom: 2px solid ${props => props.theme.highlight || '#24b4fd'};
+        }
 
         &:before {
           content: '0' counter(item) '.';
           margin-right: 5px;
-          color: ${props => props.theme.higlight};
+          color: ${props => props.theme.highlight};
           font-size: var(--fz-xxs);
           text-align: right;
         }
@@ -153,24 +175,44 @@ const StyledLinks = styled.div`
   }
 `;
 
+
 const Nav = () => {
   const { changeTheme, isDark } = useTheme();
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+  const timeout = 1800;
+  const fadeClass = 'fade';
+  const fadeDownClass = 'fadedown';
+  const pathname = usePathname();
+  const navLinks = config.navLinks || [];
+
+  // nodeRefs for CSSTransition
+  const logoRef = useRef(null);
+  const navLinkRefs = useRef(navLinks.map(() => React.createRef()));
+  const resumeRef = useRef(null);
+  const menuRef = useRef(null);
 
   const handleScroll = () => {
     setScrolledToTop(window.pageYOffset < 50);
   };
 
   useEffect(() => {
+    setHasMounted(true);
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  useEffect(() => {
+    const t = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
   const Logo = (
-    <div className="logo" tabIndex="-1">
+    <div className="logo" tabIndex="-1" ref={logoRef}>
       <Link href="/" aria-label="home">
         <IconLogo />
       </Link>
@@ -189,33 +231,87 @@ const Nav = () => {
       href="/api/uploads/Nabendu_Resume.pdf"
       target="_blank"
       rel="noopener noreferrer"
+      ref={resumeRef}
     >
       Resume
     </a>
   );
 
+  if (!hasMounted) return null;
+
+  // Helper: determine if Blog link should be active (robust for all blog-related pages)
+  const normalizePath = (p) => {
+    if (!p) return '';
+    // Remove trailing slash (except for root)
+    return p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p;
+  };
+  const isBlogActive = () => {
+    // Match /blogs, /categories, /tags, /search, /posts and their subpaths (with or without trailing slash)
+    const blogRegex = /^(\/blogs(\/.*)?|\/categories(\/.*)?|\/tags(\/.*)?|\/search(\/.*)?|\/posts(\/.*)?)$/;
+    return blogRegex.test(normalizePath(pathname));
+  };
+
   return (
     <StyledHeader $scrollDirection={scrollDirection} $scrolledToTop={scrolledToTop}>
       <StyledNav>
-        {Logo}
+        <TransitionGroup component={null}>
+          {isMounted && (
+            <CSSTransition classNames={fadeClass} timeout={timeout} nodeRef={logoRef}>
+              {Logo}
+            </CSSTransition>
+          )}
+        </TransitionGroup>
         <StyledLinks>
           <ol>
-            {navLinks &&
-              navLinks.map(({ url, name }, i) => (
-                <li key={i}>
-                  <Link href={url}>{name}</Link>
-                </li>
-              ))}
+            <TransitionGroup component={null}>
+              {isMounted &&
+                navLinks &&
+                navLinks.map(({ url, name }, i) => {
+                  // For hash links, check if on home and hash matches
+                  let isActive = false;
+                  if (url.startsWith('/#')) {
+                    isActive = typeof window !== 'undefined' && pathname === '/' && window.location.hash === url.replace('/', '');
+                  } else {
+                    isActive = normalizePath(url) === normalizePath(pathname) || (name === 'Blog' && isBlogActive());
+                  }
+                  return (
+                    <CSSTransition key={i} classNames={fadeDownClass} timeout={timeout} nodeRef={navLinkRefs.current[i]}>
+                      <li ref={navLinkRefs.current[i]} style={{ transitionDelay: `${i * 100}ms` }}>
+                        <Link
+                          href={url}
+                          className={isActive ? 'active' : ''}
+                        >
+                          {name}
+                        </Link>
+                      </li>
+                    </CSSTransition>
+                  );
+                })}
+            </TransitionGroup>
           </ol>
-          <div style={{ marginLeft: '20x' }}>{ResumeLink}</div>
+          <TransitionGroup component={null}>
+            {isMounted && (
+              <CSSTransition classNames={fadeDownClass} timeout={timeout} nodeRef={resumeRef}>
+                <div ref={resumeRef} style={{ marginLeft: '20px', transitionDelay: `${navLinks.length * 100}ms` }}>
+                  {ResumeLink}
+                </div>
+              </CSSTransition>
+            )}
+          </TransitionGroup>
         </StyledLinks>
-       <div style={{ display: 'flex', alignItems: 'center' ,padding: '5px'}}>
-          {DarkMode}
-          <Menu />
-        </div>
+        <TransitionGroup component={null}>
+          {isMounted && (
+            <CSSTransition classNames={fadeClass} timeout={timeout} nodeRef={menuRef}>
+              <div ref={menuRef} style={{ display: 'flex', alignItems: 'center', padding: '5px' }}>
+                {DarkMode}
+                <Menu />
+              </div>
+            </CSSTransition>
+          )}
+        </TransitionGroup>
       </StyledNav>
     </StyledHeader>
   );
-};
+}
 
 export default Nav;

@@ -44,7 +44,7 @@ const Sidebar = styled.aside`
 
 export const SidebarCard = styled.div`
   /* .*/
-  border: 1px solid ${props => props.theme.higlighttint};
+  border: 1px solid ${props => props.theme.highlighttint};
   background: var(--card-background-color);
   padding: 1.5rem;
   border-radius: var(--border-radius);
@@ -69,7 +69,7 @@ const List = styled.div`
   }
   a:hover {
     background: ${props => props.theme.lightestnavy};
-    color: ${props => props.theme.higlight};
+    color: ${props => props.theme.highlight};
     text-decoration: none;
   }
 `;
@@ -88,13 +88,13 @@ export const Tag = styled(Link)`
   white-space: normal;
   word-break: break-word;
   &.active {
-    color: ${props => props.theme.higlight};
-    border-color: ${props => props.theme.higlight};
+    color: ${props => props.theme.highlight};
+    border-color: ${props => props.theme.highlight};
     font-weight: 500;
   }
   &:hover {
-    color: ${props => props.theme.higlight};
-    border: 1px solid ${props => props.theme.higlight};
+    color: ${props => props.theme.highlight};
+    border: 1px solid ${props => props.theme.highlight};
     text-decoration: none;
   }
 `;
@@ -106,11 +106,11 @@ export const Category = styled(Link)`
   justify-content: space-between;
   text-decoration: none;
   &.active {
-    color: ${props => props.theme.higlight};
+    color: ${props => props.theme.highlight};
   }
   &:hover .count,
   &.active .count {
-    color: ${props => props.theme.higlight};
+    color: ${props => props.theme.highlight};
   }
 `;
 
@@ -134,13 +134,12 @@ const DesktopSearchCard = styled(SidebarCard)`
    }
 `;
 
-export const BlogSidebar = ({ categories = [], tags = [], currentCategory, currentTag, currentSearchQuery = '' }) => {
-
+export const BlogSidebar = ({ categories = [], tags = [], currentCategory, currentTag, currentSearchQuery = '', onSearchChange }) => {
   return (
     <Sidebar>
       <DesktopSearchCard>
         <h2>Search</h2>
-        <SearchWidget currentSearchQuery={currentSearchQuery} />
+        <SearchWidget value={currentSearchQuery} onChange={onSearchChange} />
       </DesktopSearchCard>
       <SidebarCard>
         <h2>Categories</h2>

@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { srConfig } from '@/config';
@@ -81,7 +82,7 @@ const StyledProject = styled.li`
     margin-bottom: 35px;
 
     .folder {
-      color: ${props => props.theme.higlight};
+      color: ${props => props.theme.highlight};
       svg {
         width: 40px;
         height: 40px;
@@ -200,15 +201,22 @@ const Projects = () => {
     if (prefersReducedMotion) {
       return;
     }
-
     sr.reveal(revealTitle.current, srConfig());
     sr.reveal(revealArchiveLink.current, srConfig());
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
+    // Only reveal visible projects
+    projectsToShow.forEach((_, i) => {
+      if (revealProjects.current[i]) {
+        sr.reveal(revealProjects.current[i], srConfig(i * 100));
+      }
+    });
   }, [prefersReducedMotion, projects]);
 
   const GRID_LIMIT = 6;
   const firstSix = projects.slice(0, GRID_LIMIT);
   const projectsToShow = showMore ? projects : firstSix;
+
+  // nodeRefs for CSSTransition
+  const projectRefs = useRef([]);
 
   const projectInner = project => {
     const { github, external, blog, title, tech, description, cover } = project;
@@ -293,12 +301,34 @@ const Projects = () => {
       </Link>
 
       <ul className="projects-grid">
-        {projectsToShow &&
-          projectsToShow.map((project, i) => (
-            <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
-              {projectInner(project)}
-            </StyledProject>
-          ))}
+        {(!projectsToShow || projectsToShow.length === 0) && (
+          <li style={{ gridColumn: '1/-1', textAlign: 'center', color: '#888', padding: '2rem' }}>
+            No projects found. Please check your API or data source.
+          </li>
+        )}
+        <TransitionGroup component={null}>
+          {projectsToShow &&
+            projectsToShow.map((project, i) => {
+              if (!projectRefs.current[i]) projectRefs.current[i] = React.createRef();
+              // Attach revealProjects ref for scrollreveal
+              if (!revealProjects.current[i]) revealProjects.current[i] = null;
+              return (
+                <CSSTransition
+                  key={i}
+                  classNames="fadeup"
+                  timeout={1800}
+                  nodeRef={projectRefs.current[i]}
+                >
+                  <StyledProject ref={el => {
+                    projectRefs.current[i] = el;
+                    revealProjects.current[i] = el;
+                  }}>
+                    {projectInner(project)}
+                  </StyledProject>
+                </CSSTransition>
+              );
+            })}
+        </TransitionGroup>
       </ul>
 
       <button className="more-button" onClick={() => setShowMore(!showMore)}>

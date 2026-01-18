@@ -65,7 +65,7 @@ const CodeStyles = css`
 
   span[data-highlighted-line] {
     background-color: rgba(200, 200, 255, 0.1);
-    border-left-color: ${props => props.theme.higlight || '#64ffda'};
+    border-left-color: ${props => props.theme.highlight || '#64ffda'};
   }
 
   /* Language badges */

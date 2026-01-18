@@ -118,7 +118,7 @@ const StyledProject = styled.li`
 
   .project-overline {
     margin: 10px 0;
-    color: ${props => props.theme.higlight};
+    color: ${props => props.theme.highlight};
     font-family: var(--font-mono);
     font-size: var(--fz-xs);
     font-weight: 400;
@@ -180,7 +180,7 @@ const StyledProject = styled.li`
       color: ${props => props.theme.white};
       font-weight: normal;
     }
-    a,
+  
     img {
       display: block;
       width: 50%;
@@ -273,7 +273,7 @@ const StyledProject = styled.li`
     a {
       width: 100%;
       height: 100%;
-      background-color: ${props => props.theme.higlighttint};
+      background-color: ${props => props.theme.highlighttint};
       border-radius: var(--border-radius);
       vertical-align: middle;
       overflow: hidden;
@@ -357,11 +357,9 @@ const Featured = () => {
     if (prefersReducedMotion) {
       return;
     }
-
     if (revealTitle.current) {
       sr.reveal(revealTitle.current, srConfig());
     }
-
     revealProjects.current.forEach((ref, i) => {
       if (!ref) return;
       sr.reveal(ref, srConfig(i * 100));

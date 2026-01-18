@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { srConfig } from '@/config';
 import sr from '@/utils/sr';
@@ -130,29 +130,47 @@ const StyledMainContainer = styled.main`
   max-width: 1600px;
 `;
 
-export default function ArchiveClient({ projects }) {
+function ArchiveClient({ projects }) {
   const revealTitle = useRef(null);
   const revealTable = useRef(null);
   const revealProjects = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [search, setSearch] = useState("");
+  const filteredProjects = useMemo(() => {
+    if (!search) return projects;
+    const lower = search.toLowerCase();
+    return projects.filter(project => {
+      const titleMatch = project.title?.toLowerCase().includes(lower);
+      const companyMatch = project.company?.toLowerCase().includes(lower);
+      const techMatch = project.tech?.some(t => t.toLowerCase().includes(lower));
+      return titleMatch || companyMatch || techMatch;
+    });
+  }, [search, projects]);
 
   useEffect(() => {
     if (prefersReducedMotion) {
       return;
     }
-
     sr.reveal(revealTitle.current, srConfig());
     sr.reveal(revealTable.current, srConfig(200, 0));
     revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 10)));
-  }, []);
+  }, [filteredProjects, prefersReducedMotion]);
 
   return (
     <StyledMainContainer>
       <header ref={revealTitle}>
         <h1 className="big-heading">Archive</h1>
         <p className="subtitle">A big list of things I’ve worked on</p>
+        <div style={{ margin: '2rem 0' }}>
+          <input
+            type="text"
+            placeholder="Search projects..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{ width: '100%', padding: '0.5rem 1rem', fontSize: '1.2rem', borderRadius: 6, border: '1px solid #ccc' }}
+          />
+        </div>
       </header>
-
       <StyledTableContainer ref={revealTable}>
         <table>
           <thead>
@@ -165,21 +183,18 @@ export default function ArchiveClient({ projects }) {
             </tr>
           </thead>
           <tbody>
-            {projects.length > 0 &&
-              projects.map((project, i) => {
+            {filteredProjects.length > 0 &&
+              filteredProjects.map((project, i) => {
                 const { date, github, external, blog, android, title, tech, company } = project;
                 return (
                   <tr key={i} ref={el => (revealProjects.current[i] = el)}>
                     <td className="overline year">
                       <p>{date ? new Date(date).getFullYear() : '—'}</p>
                     </td>
-
                     <td className="title">{title}</td>
-
                     <td className="company hide-on-mobile">
                       {company ? <span>{company}</span> : <span>—</span>}
                     </td>
-
                     <td className="tech hide-on-mobile">
                       {tech?.length > 0 &&
                         tech.map((item, i) => (
@@ -190,7 +205,6 @@ export default function ArchiveClient({ projects }) {
                           </span>
                         ))}
                     </td>
-
                     <td className="links">
                       <div>
                         {external && (
@@ -224,3 +238,5 @@ export default function ArchiveClient({ projects }) {
     </StyledMainContainer>
   );
 }
+
+export default ArchiveClient;

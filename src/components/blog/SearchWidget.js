@@ -15,7 +15,7 @@ const SearchInput = styled.input`
   transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
 
   &:focus {
-    border-color: ${props => props.theme.higlight};
+    border-color: ${props => props.theme.highlight};
     outline: none;
   }
   
@@ -28,45 +28,36 @@ const SearchForm = styled.form`
   width: 100%;
 `;
 
-const SearchWidget = ({ currentSearchQuery = '' }) => {
-  const [query, setQuery] = useState(currentSearchQuery);
-  const router = useRouter();
+const SearchWidget = ({ value = '', onChange }) => {
+  const [query, setQuery] = useState(value);
 
-  // Sync with prop change (e.g. navigation / Back button)
   useEffect(() => {
-    setQuery(currentSearchQuery);
-  }, [currentSearchQuery]);
+    setQuery(value);
+  }, [value]);
 
-  // Debounced search effect
-  useEffect(() => {
-     if (query === currentSearchQuery) return;
-
-     const timeoutId = setTimeout(() => {
-         if (query.trim()) {
-            router.push(`/search?q=${encodeURIComponent(query)}`);
-         } else if (currentSearchQuery) {
-            router.push('/search');
-         }
-     }, 300); // 300ms debounce
-
-     return () => clearTimeout(timeoutId);
-  }, [query, currentSearchQuery, router]);
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+    if (onChange) {
+      onChange(e.target.value);
+    }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (query.trim()) {
-      router.push(`/search?q=${encodeURIComponent(query)}`);
+    // No navigation, just filter in parent
+    if (onChange) {
+      onChange(query);
     }
   };
 
   return (
     <SearchForm onSubmit={handleSearch}>
-        <SearchInput
-            type="text"
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-        />
+      <SearchInput
+        type="text"
+        placeholder="Search..."
+        value={query}
+        onChange={handleInputChange}
+      />
     </SearchForm>
   );
 };

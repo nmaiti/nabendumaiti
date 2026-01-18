@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
 
   /* Provide basic, default focus styles.*/
   :focus {
-    outline: 2px dashed ${({ theme }) => theme.higlight};
+    outline: 2px dashed ${({ theme }) => theme.highlight};
     outline-offset: 3px;
   }
 
@@ -44,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
     focus.
   */
   :focus-visible {
-    outline: 2px dashed ${props => props.theme.higlight};
+    outline: 2px dashed ${props => props.theme.highlight};
     outline-offset: 3px;
   }
 
@@ -192,7 +192,7 @@ const GlobalStyle = createGlobalStyle`
       counter-increment: section;
       content: '0' counter(section) '.';
       margin-right: 10px;
-      color: ${({ theme }) => theme.higlight};
+      color: ${({ theme }) => theme.highlight};
       font-family: var(--font-mono);
       font-size: clamp(var(--fz-md), 3vw, var(--fz-xl));
       font-weight: 400;
@@ -243,7 +243,7 @@ const GlobalStyle = createGlobalStyle`
 
     &:hover,
     &:focus {
-      color: ${({ theme }) => theme.higlight};
+      color: ${({ theme }) => theme.highlight};
     }
 
     &.inline-link {
@@ -307,14 +307,14 @@ const GlobalStyle = createGlobalStyle`
           content: '▹';
           position: absolute;
           left: 0;
-          color: ${({ theme }) => theme.higlight};
+          color: ${({ theme }) => theme.highlight};
         }
       }
     }
   }
 
   blockquote {
-    border-left-color: ${({ theme }) => theme.higlight};
+    border-left-color: ${({ theme }) => theme.highlight};
     border-left-style: solid;
     border-left-width: 1px;
     margin-left: 0px;
@@ -354,7 +354,7 @@ const GlobalStyle = createGlobalStyle`
 
     &:focus,
     &:active {
-      background-color: ${({ theme }) => theme.higlight};
+      background-color: ${({ theme }) => theme.highlight};
       color: ${props => props.theme.navy};
       top: 0;
       left: 0;
@@ -366,18 +366,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #logo {
-    color: ${({ theme }) => theme.higlight};
+    color: ${({ theme }) => theme.highlight};
   }
 
   .overline {
-    color: ${({ theme }) => theme.higlight};
+    color: ${({ theme }) => theme.highlight};
     font-family: var(--font-mono);
     font-size: var(--fz-md);
     font-weight: 400;
   }
 
   .subtitle {
-    color: ${({ theme }) => theme.higlight};
+    color: ${({ theme }) => theme.highlight};
     margin: 0 0 20px 0;
     font-size: var(--fz-md);
     font-family: var(--font-mono);
@@ -400,7 +400,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     align-items: center;
     margin-bottom: 50px;
-    color: ${({ theme }) => theme.higlight};
+    color: ${({ theme }) => theme.highlight};
 
     .arrow {
       display: block;

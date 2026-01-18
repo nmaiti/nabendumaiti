@@ -11,8 +11,8 @@ const light = {
   lightslate: '#193c3fff',
   lightestslate: '#37586eff',
   white: '#ffffffff',
-  higlight: 'rgb(36, 148, 253)',
-  higlighttint: 'rgba(93, 203, 247, 0.6)',
+  highlight: 'rgb(36, 148, 253)',
+  highlighttint: 'rgba(93, 203, 247, 0.6)',
 };
 
 const dark = {
@@ -26,8 +26,8 @@ const dark = {
   lightslate: '#ebeffb',
   lightestslate: '#ccd6f6',
   white: '#f7f7fe',
-  higlight: '#24b4fd',
-  higlighttint: 'rgba(39, 167, 231, 0.6)',
+  highlight: '#24b4fd',
+  highlighttint: 'rgba(39, 167, 231, 0.6)',
 };
 
 const theme = isDark => {

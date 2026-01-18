@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { getPostData, getAllPostSlugs } from '@/lib/api'
-import PostContent from './PostContent'
+import PostClient from './PostClient'
 import { Social, Email } from '@/components/layout'
 
 export async function generateStaticParams() {
@@ -41,7 +41,7 @@ export default async function Post({ params }) {
   }
   return (
     <>
-      <PostContent post={post} />
+      <PostClient post={post} />
       <Social isHome={false} />
       <Email isHome={false} />
     </>

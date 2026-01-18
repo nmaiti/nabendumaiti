@@ -1,5 +1,10 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import TransitionStyles from '@/styles/TransitionStyles';
+import { createGlobalStyle } from 'styled-components';
+
+const GlobalTransitionStyles = createGlobalStyle`${TransitionStyles}`;
 import styled from 'styled-components';
 import { srConfig } from '@/config';
 import { KEY_CODES } from '@/utils';
@@ -75,7 +80,7 @@ const StyledTabButton = styled.button`
   border-left: 2px solid ${props => props.theme.lightestnavy};
   background-color: transparent;
   color: ${({ $isActive, theme }) =>
-    $isActive ? theme.higlight : theme.slate};
+    $isActive ? theme.highlight : theme.slate};
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
   text-align: left;
@@ -107,7 +112,7 @@ const StyledHighlight = styled.div`
   width: 2px;
   height: var(--tab-height);
   border-radius: var(--border-radius);
-  background: ${props => props.theme.higlight};
+  background: ${props => props.theme.highlight};
   transform: translateY(calc(${({ $activeTabId }) => $activeTabId} * var(--tab-height)));
   transition: transform 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition-delay: 0.1s;
@@ -152,7 +157,7 @@ const StyledTabPanel = styled.div`
     line-height: 1.3;
 
     .company {
-      color: ${props => props.theme.higlight};
+      color: ${props => props.theme.highlight};
     }
   }
 
@@ -166,12 +171,13 @@ const StyledTabPanel = styled.div`
 
 const Jobs = () => {
   const [jobsData, setJobsData] = useState([]);
-
   const [activeTabId, setActiveTabId] = useState(0);
   const [tabFocus, setTabFocus] = useState(null);
   const tabs = useRef([]);
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  // Animation logic: nodeRefs for each tab panel
+  const tabPanelRefs = useRef([]);
 
   useEffect(() => {
     const load = async () => {
@@ -184,7 +190,6 @@ const Jobs = () => {
         console.error(error);
       }
     };
-
     load();
   }, []);
 
@@ -192,30 +197,40 @@ const Jobs = () => {
     if (prefersReducedMotion) {
       return;
     }
-
     sr.reveal(revealContainer.current, srConfig());
-  }, []);
+    // Reveal each tab panel (job details)
+    tabPanelRefs.current.forEach((ref, i) => {
+      if (ref && ref.current) {
+        sr.reveal(ref.current, srConfig(i * 100));
+      }
+    });
+  }, [prefersReducedMotion, jobsData]);
 
   const focusTab = () => {
     if (tabs.current[tabFocus]) {
       tabs.current[tabFocus].focus();
       return;
     }
-    // If we're at the end, go to the start
     if (tabFocus >= tabs.current.length) {
       setTabFocus(0);
     }
-    // If we're at the start, move to the end
     if (tabFocus < 0) {
       setTabFocus(tabs.current.length - 1);
     }
   };
 
-  // Only re-run the effect if tabFocus changes
   useEffect(() => focusTab(), [tabFocus]);
 
+  // Fallback message if no jobs data
   if (jobsData.length === 0) {
-    return null; // Don't render if no data
+    return (
+      <StyledJobsSection id="jobs">
+        <h2 className="numbered-heading">Where I’ve Worked</h2>
+        <div className="inner">
+          <p>No jobs data found.</p>
+        </div>
+      </StyledJobsSection>
+    );
   }
 
   // Focus on tabs when using up & down arrow keys
@@ -240,9 +255,10 @@ const Jobs = () => {
   };
 
   return (
-    <StyledJobsSection id="jobs" ref={revealContainer}>
+    <>
+      <GlobalTransitionStyles />
+      <StyledJobsSection id="jobs" ref={revealContainer}>
       <h2 className="numbered-heading">Where I’ve Worked</h2>
-
       <div className="inner">
         <StyledTabList role="tablist" aria-label="Job tabs" onKeyDown={e => onKeyDown(e)}>
           {jobsData &&
@@ -266,42 +282,54 @@ const Jobs = () => {
             })}
           <StyledHighlight $activeTabId={activeTabId} />
         </StyledTabList>
-
         <StyledTabPanels>
           {jobsData &&
             jobsData.map((job, i) => {
               const { title, url, company, range, content } = job;
-
+              if (!tabPanelRefs.current[i]) tabPanelRefs.current[i] = React.createRef();
               return (
-                <StyledTabPanel
+                <CSSTransition
                   key={i}
-                  id={`panel-${i}`}
-                  role="tabpanel"
-                  tabIndex={activeTabId === i ? '0' : '-1'}
-                  aria-labelledby={`tab-${i}`}
-                  aria-hidden={activeTabId !== i}
-                  hidden={activeTabId !== i}
+                  nodeRef={tabPanelRefs.current[i]}
+                  in={activeTabId === i}
+                  timeout={1800}
+                  classNames="fade"
+                  unmountOnExit
                 >
-                  <h3>
-                    <span>{title}</span>
-                    <span className="company">
-                      &nbsp;@&nbsp;
-                      <a href={url} className="inline-link">
-                        {company}
-                      </a>
-                    </span>
-                  </h3>
+                  <StyledTabPanel
+                    ref={tabPanelRefs.current[i]}
+                    id={`panel-${i}`}
+                    role="tabpanel"
+                    tabIndex={activeTabId === i ? '0' : '-1'}
+                    aria-labelledby={`tab-${i}`}
+                    aria-hidden={activeTabId !== i}
+                    hidden={activeTabId !== i}
+                  >
+                    <h3>
+                      <span>{title}</span>
+                      <span className="company">
+                        &nbsp;@&nbsp;
+                        {url ? (
+                          <a href={url} className="inline-link" target="_blank" rel="noreferrer">
+                            {company}
+                          </a>
+                        ) : (
+                          company
+                        )}
+                      </span>
+                    </h3>
+                          <p className="range">{range}</p>
+                          <div dangerouslySetInnerHTML={{ __html: content }} />
+                        </StyledTabPanel>
+                      </CSSTransition>
+                    );
+                  })}
 
-                  <p className="range">{range}</p>
-
-                  <div dangerouslySetInnerHTML={{ __html: content }} />
-                </StyledTabPanel>
-              );
-            })}
         </StyledTabPanels>
       </div>
     </StyledJobsSection>
-  );
-};
+  </>
+);
+}
 
 export default Jobs;

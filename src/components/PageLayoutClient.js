@@ -44,7 +44,7 @@ export const PageHeader = styled.header`
     margin-bottom: 5px;
 
     .highlight {
-      color: ${({ theme }) => theme.higlight};
+      color: ${({ theme }) => theme.highlight};
     }
   }
 

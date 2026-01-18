@@ -51,7 +51,7 @@ export const AppPageHeader = styled.header`
     font-family: var(--font-mono);
     margin-bottom: 5px;
     .highlight {
-      color: ${({ theme }) => theme.higlight};
+      color: ${({ theme }) => theme.highlight};
       font-weight: bold;
     }
   }
