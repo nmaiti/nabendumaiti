@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { srConfig, email } from '@/config';
 import sr from '@/utils/sr';
@@ -59,18 +59,23 @@ const StyledContactSection = styled.section`
 const Contact = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  // State to ensure fadeup class/style only applied after hydration
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    setIsHydrated(true);
     if (prefersReducedMotion) {
       return;
     }
-
     sr.reveal(revealContainer.current, srConfig());
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <StyledContactSection id="contact" ref={revealContainer}>
-      <div className={!prefersReducedMotion ? 'fadeup' : ''} style={!prefersReducedMotion ? { '--fadeup-delay': '300ms' } : {}}>
+      <div
+        className={isHydrated && !prefersReducedMotion ? 'fadeup' : ''}
+        style={isHydrated && !prefersReducedMotion ? { '--fadeup-delay': '300ms' } : {}}
+      >
         <h2 className="numbered-heading overline">What’s Next?</h2>
         <h2 className="title">Get In Touch</h2>
         <p>

@@ -201,8 +201,8 @@ const Projects = () => {
     if (prefersReducedMotion) {
       return;
     }
-    sr.reveal(revealTitle.current, srConfig());
-    sr.reveal(revealArchiveLink.current, srConfig());
+    sr.reveal(revealTitle.current, srConfig(200, 0.15)); // Lower viewFactor for title
+    sr.reveal(revealArchiveLink.current, srConfig(300, 0.05)); // Lower viewFactor for link
     // Only reveal visible projects
     projectsToShow.forEach((_, i) => {
       if (revealProjects.current[i]) {
@@ -296,8 +296,8 @@ const Projects = () => {
     <StyledProjectsSection>
       <h2 ref={revealTitle}>Other Noteworthy Projects</h2>
 
-      <Link className="inline-link archive-link" href="/archive" ref={revealArchiveLink}>
-        view the archive
+      <Link className="inline-link archive-link" href="/archive">
+        <span ref={revealArchiveLink}>view the archive</span>
       </Link>
 
       <ul className="projects-grid">
