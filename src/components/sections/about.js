@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { srConfig } from '@/config';
@@ -27,11 +27,26 @@ const StyledAboutSection = styled.section`
   .inner {
     display: grid;
     grid-template-columns: 3fr 2fr;
-    grid-gap: 50px;
-
+    grid-template-rows: auto auto;
+    grid-column-gap: 50px;
+    grid-row-gap: 20px;
     @media (max-width: 768px) {
       display: block;
     }
+  }
+
+  .about-intro {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  .about-pic {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+  .about-skills {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+    margin-top: 10px;
   }
 `;
 //  grid-template-columns: repeat(4, minmax(180px, 500px));
@@ -56,7 +71,7 @@ const StyledText = styled.div`
       font-size: var(--fz-xs);
 
       &:before {
-        content: '▹';
+        content: '*';
         position: absolute;
         left: 0;
         color: ${props => props.theme.highlight};
@@ -137,13 +152,16 @@ const StyledPic = styled.div`
   }
 `;
 
-import { useState } from 'react';
+
 
 const About = () => {
   const revealContainer = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  // State to ensure fadeup class/style only applied after hydration
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    setIsHydrated(true);
     if (prefersReducedMotion) {
       return;
     }
@@ -196,9 +214,12 @@ const About = () => {
   return (
     <StyledAboutSection id="about" ref={revealContainer}>
       <h2 className="numbered-heading">About Me</h2>
-      <div className={!prefersReducedMotion ? 'fadeup' : ''} style={!prefersReducedMotion ? { '--fadeup-delay': '300ms' } : {}}>
-        <div className="inner">
-          <StyledText>
+      <div>
+        <div
+          className={`inner${isHydrated && !prefersReducedMotion ? ' fadeup' : ''}`}
+          style={isHydrated && !prefersReducedMotion ? { '--fadeup-delay': '300ms' } : {}}
+        >
+          <StyledText className="about-intro">
             <div>
               <p>
                 Hello! I'm Nabendu Bikash Maiti, a software professional with a passion for technology that began with
@@ -213,24 +234,10 @@ const About = () => {
                 background in schematic and PCB design, my main focus is system software development. Lately, I’ve been
                 exploring machine learning-based fuzzing to enhance Intel software security using AI.
               </p>
-              <p>Here are a few technologies I’ve worked on:</p>
             </div>
-
-            Software:
-            <ul className="skills-list">
-              {skillsSW && skillsSW.map((skill, i) => <li key={i}>{skill}</li>)}
-            </ul>
-            <span>Hardware:</span>
-            <ul className="skills-list">
-              {skillsHW && skillsHW.map((skill, i) => <li key={i}>{skill}</li>)}
-            </ul>
-            <p>Other than work some Random Facts about Me:</p>
-            <ul className="skills-list">
-              {randomFacts && randomFacts.map((skill, i) => <li key={i}>{skill}</li>)}
-            </ul>
           </StyledText>
 
-          <StyledPic>
+          <StyledPic className="about-pic">
             <div className="wrapper">
               <Image
                 className="img"
@@ -243,6 +250,24 @@ const About = () => {
               />
             </div>
           </StyledPic>
+
+          <StyledText className="about-skills">
+            <p>Here are a few technologies I’ve worked on:</p>
+            <div>
+              <span>Software:</span>
+              <ul className="skills-list">
+                {skillsSW && skillsSW.map((skill, i) => <li key={i}>{skill}</li>)}
+              </ul>
+              <span>Hardware:</span>
+              <ul className="skills-list">
+                {skillsHW && skillsHW.map((skill, i) => <li key={i}>{skill}</li>)}
+              </ul>
+              <p>Other than work some Random Facts about Me:</p>
+              <ul className="skills-list">
+                {randomFacts && randomFacts.map((skill, i) => <li key={i}>{skill}</li>)}
+              </ul>
+            </div>
+          </StyledText>
         </div>
       </div>
     </StyledAboutSection>

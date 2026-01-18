@@ -83,19 +83,3 @@ export const PostSidebar = ({ tags = [], date, categories = [], thumbnail }) => 
     </SidebarContent>
   );
 };
-// </aside>      <div className="post-sidebar-card">
-//</aside>        <h2>Newsletter</h2>
-//</aside>        <p>
-//</aside>          Get updates when I write something new! No spam, I respect your inbox.
-//</aside>        </p>
-//</aside>        <p>
-//</aside>          <a
-//</aside>            href=""
-//</aside>            target="_blank"
-//</aside>            rel="noopener noreferrer"
-//</aside>            className="button highlighted"
-//</aside>          >
-//</aside>            Subscribe to the Newsletter
-//</aside>          </a>
-//</aside>        </p>
-//</aside>      </div>
