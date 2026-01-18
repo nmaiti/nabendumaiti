@@ -130,6 +130,7 @@ const StyledMainContainer = styled.main`
   max-width: 1600px;
 `;
 
+function ArchiveClient({ projects }) {
   const revealTitle = useRef(null);
   const revealTable = useRef(null);
   const revealProjects = useRef([]);
@@ -237,3 +238,5 @@ const StyledMainContainer = styled.main`
     </StyledMainContainer>
   );
 }
+
+export default ArchiveClient;

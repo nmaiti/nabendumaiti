@@ -1,6 +1,8 @@
-# Component Structure
+# Component Structure (Updated for SSR/Client Division and *Client.js Naming)
 
-This document describes the organized component and app structure of the Next.js application.
+This document describes the organized component and app structure of the Next.js application, with explicit notes on server and client components and the new *Client.js naming convention.
+
+---
 
 ## App Directory Structure
 
@@ -9,197 +11,91 @@ Next.js App Router pages and API routes.
 
 ```
 src/app/
-├── api/                      # API routes
+├── api/                      # API routes (server)
 │   ├── featured/            # Featured projects API + cover image handler
 │   ├── jobs/                # Jobs API
 │   ├── posts/               # Posts API
 │   ├── projects/            # Projects API + cover image handler
 │   └── uploads/             # Static file serving for content uploads
 ├── archive/                 # Archive page (server + client split)
-│   ├── page.js              # Server component (fetches data)
-│   └── ArchiveClient.js     # Client component (interactive table)
-├── blogs/                   # All blogs listing page (client-side)
-│   └── page.js              # Client component with data fetching
+│   ├── page.js              # Server component (fetches data, passes to client)
+│   └── ArchiveClient.js     # Client component (interactive table, 'use client')
+├── blogs/                   # All blogs listing page (server + client split)
+│   ├── page.js              # Server component (renders BlogsClient)
+│   └── BlogsClient.js       # Client component ('use client', fetches data client-side)
 ├── categories/[slug]/       # Dynamic category pages (SSG)
-│   └── page.js              # Server component with generateStaticParams
+│   ├── page.js              # Server component (fetches data, passes to client)
+│   └── CategoryClient.js    # Client component (interactive, 'use client')
 ├── posts/[...slug]/         # Dynamic post pages (SSG)
-│   ├── page.js              # Server component with generateStaticParams
-│   └── PostContent.js       # Client component for post content
-├── search/                  # Search results page (client-side)
-│   └── page.js              # Client component with search params
+│   ├── page.js              # Server component (fetches data, passes to client)
+│   └── PostClient.js        # Client component (renders post, comments, 'use client')
+├── profile/                 # Profile page (server + client split)
+│   ├── page.js              # Server component (renders ProfileClient)
+│   └── ProfileClient.js     # Client component ('use client')
+├── search/                  # Search results page (server + client split)
+│   ├── page.js              # Server component (renders SearchClient)
+│   └── SearchClient.js      # Client component ('use client', fetches data client-side)
 ├── tags/[slug]/             # Dynamic tag pages (SSG)
-│   └── page.js              # Server component with generateStaticParams
+│   ├── page.js              # Server component (fetches data, passes to client)
+│   └── TagClient.js         # Client component (interactive, 'use client')
+├── homeClient.js            # Client component for homepage ('use client')
+├── homePage.js              # Server component (renders HomeClient)
 ├── fonts.js                 # Font configuration (local fonts)
-├── layout.js                # Root layout with metadata
-└── page.js                  # Homepage (client component)
+├── layout.js                # Root layout (server component, wraps Providers/Nav/AppClientLayout)
+└── page.js                  # Homepage (server component, renders HomeClient)
 ```
 
-**Key Features:**
-- **93 Static Pages Generated** - Optimized with `generateStaticParams` for categories, tags, and posts
-- **API Routes** - Optimized with shared image handler and caching
-- **Server/Client Split** - Strategic use of server components for data fetching
-- **SEO Optimized** - Metadata exports for all static pages
+**Key SSR/Client Notes:**
+- All `page.js` files in dynamic routes (categories, tags, posts, archive, blogs, search, profile) are **server components**: they fetch data and pass it as props to their respective client components.
+- All `*Client.js` files are **client components** (`'use client'`), handling interactivity, search, and UI state.
+- `/posts/[...slug]/PostContent.js` has been removed; use `PostClient.js` directly for post rendering.
+- `/layout.js` is a **server component** but wraps the entire app in Providers and layout components (which are client components).
+
+---
 
 ## Component Directory Structure
 
 The `src/components` directory contains all reusable components, organized into subdirectories by feature or type.
 
-### Root Components
-- `PageLayout.js` - Main page layout wrapper.
-- `PageLayoutClient.js` - Client-side counterpart for the page layout.
-
 ### `/src/components/layout/`
-Layout-related components used across the entire application.
-
-- `nav.js` - Main navigation bar
-- `menu.js` - Mobile menu component
-- `footer.js` - Site footer
-- `side.js` - Side navigation elements
-- `social.js` - Social media links
-- `email.js` - Email contact link
-- `loader.js` - Loading spinner/animation
-
-**Import:** `import { Nav, Menu, Footer, Side, Social, Email, Loader } from '@/components/layout'`
+- All components are **client components** (`'use client'`), using styled-components.
+- Includes: `nav.js`, `menu.js`, `footer.js`, `side.js`, `social.js`, `email.js`, `loader.js`
 
 ### `/src/components/blog/`
-Blog-specific components for posts, listings, and sidebars.
-
-- `Post.js` - Single post card/preview component
-- `Posts.js` - Post listing container with grid/list layouts
-- `PostSidebar.js` - Sidebar for individual post pages
-- `BlogSidebar.js` - General blog sidebar with categories/tags
-- `SidebarLayout.js` - Layout wrapper for pages with sidebars
-- `SearchWidget.js` - Search functionality widget
-
-**Exports:**
-- Named: `Post`, `Posts`, `PostSidebar`, `SidebarLayout`
-- Named from BlogSidebar: `BlogSidebar`, `SidebarCard`, `Tag`, `Category`
-- Default: `SearchWidget`
-
-**Import Examples:**
-```javascript
-import { Posts, Post, SidebarLayout } from '@/components/blog'
-import { BlogSidebar, Tag, Category } from '@/components/blog'
-import SearchWidget from '@/components/blog'
-```
-
+- All components are **client components** (`'use client'`), using styled-components.
+- Includes: `Post.js`, `Posts.js`, `PostSidebar.js`, `BlogSidebar.js`, `SidebarLayout.js`, `SearchWidget.js`
 
 ### `/src/components/common/`
-Common/shared components used throughout the application. All layout is now unified and minimal:
-
-- `AppPageLayout.js` - Exports `AppPageContainer` and `AppPageHeader` (responsive, styled-components)
-- `AppClientLayout.js` - Main client-side layout wrapper (site chrome, navigation, footer)
-- `ClientLayout.js` - Another client-side layout component.
-- `Providers.js` - Theme and context providers (`Providers`, `useTheme`)
-- `SidebarContent.js` - Shared sidebar container, also exports `SidebarContentWithDelay` for animation-friendly delayed rendering
-
-**Usage Example:**
-```javascript
-import { AppPageContainer, AppPageHeader } from '@/components/common'
-
-export default function SomePage() {
-  return (
-    <AppPageContainer>
-      <AppPageHeader $align="left">
-        <div className="subtitle">
-          <span className="highlight">42</span> items found
-        </div>
-        <h1>Page Title</h1>
-      </AppPageHeader>
-      <div>Content goes here</div>
-    </AppPageContainer>
-  )
-}
-```
-
-**Sidebar Animation Example:**
-```javascript
-import { SidebarContentWithDelay } from '@/components/common/SidebarContent'
-
-<SidebarContentWithDelay delay={300}>
-  {/* Sidebar children here */}
-</SidebarContentWithDelay>
-```
-
-**Responsive Breakpoints (Styled-Components):**
-- **Desktop**: 150px vertical, 120px horizontal padding
-- **Tablet (≤1080px)**: 140px vertical, 100px horizontal
-- **Mobile (≤768px)**: 120px vertical, 90px horizontal
-- **Small Mobile (≤480px)**: 100px vertical, 35px horizontal
-- **Font Sizes**: Use `clamp()` for fluid typography (auto-scales between breakpoints)
-
-**Why Styled-Components?**
-- ✅ Responsive media queries built-in
-- ✅ Works in both server and client components (client component can wrap server children)
-- ✅ Theme integration with `${({ theme }) => ...}`
-- ✅ Dynamic props for alignment, spacing, etc.
-- ✅ Type-safe with TypeScript
-- ✅ Scoped styles (no CSS conflicts)
+- All layout and provider components are **client components** (`'use client'`).
+- Includes: `AppPageLayout.js`, `AppClientLayout.js`, `ClientLayout.js`, `Providers.js`, `SidebarContent.js`
 
 ### `/src/components/icons/`
-A collection of SVG icon components.
-
-- `github.js`, `linkedin.js`, `twitter.js`, `instagram.js` - Social media icons.
-- `folder.js`, `project.js`, `posting.js` - Icons for different content types.
-- `sun.js`, `moon.js` - Theme toggle icons.
-- `loader.js` - A loader icon.
-- ...and many more.
-
-**Import:** `import { IconGitHub, IconLinkedIn } from '@/components/icons'` (example)
-
+- All icon components are **client components**.
 
 ### `/src/components/sections/`
-Page section components (hero, about, projects, etc.)
+- All section components are **client components** (`'use client'`), using styled-components.
+- Includes: `hero.js`, `about.js`, `jobs.js`, `projects.js`, `featured.js`, `contact.js`
 
-- `hero.js` - Homepage hero section
-- `about.js` - About section
-- `jobs.js` - Work experience section
-- `projects.js` - Projects showcase
-- `featured.js` - Featured projects section
-- `contact.js` - Contact section
-
-**Import:** `import { Hero, About, Jobs, Projects, Featured, Contact } from '@/components/sections'`
+---
 
 ## Server vs Client Components
 
+### Server Components
+- All `page.js` files in `/src/app/` (except those named `*Client.js`) are **server components**.
+- These fetch data and pass it to client components as props.
 
-### Client Components ('use client')
-All components in the following directories require 'use client' directive:
-- `/components/layout/*` - All use styled-components
-- `/components/blog/*` - All use styled-components
-- `/components/sections/*` - All use styled-components
-- `/components/common/AppClientLayout.js`
-- `/components/common/AppPageLayout.js`
-- `/components/common/Providers.js`
+### Client Components
+- All files with `'use client'` at the top (including all `/components/`, all `*Client.js`).
+- All interactive, stateful, or styled-components-based UI.
 
-
-### Server-Safe Exports
-(No longer used; all layout is handled via styled-components for consistency)
-
-## Barrel Exports
-
-Each directory has an `index.js` that exports all components. This allows cleaner imports:
-
-```javascript
-// Instead of:
-import Nav from '@/components/layout/nav'
-import Menu from '@/components/layout/menu'
-
-// You can use:
-import { Nav, Menu } from '@/components/layout'
-```
+---
 
 ## Best Practices
 
-1. **Client Components**: Use `AppPageContainer` and `AppPageHeader` from `@/components/common` for styled-components
-3. **Imports**: Use barrel imports from directories for cleaner code
-4. **Styled Components**: All components using `styled-components` MUST have `'use client'` directive
-5. **Separation**: Keep server/client boundary clear - don't import client components into server component files
+- **Data Fetching:** Always fetch data in server components (`page.js`), then pass to client components for interactivity.
+- **Client Components:** Use `'use client'` for all interactive, styled, or stateful components. Name all interactive app directory components as `*Client.js` for consistency.
+- **Imports:** Use barrel exports from directories for cleaner code.
+- **Styled Components:** All components using styled-components must be client components.
+- **Separation:** Never import client components into server component files except as children (i.e., pass as props).
 
-## Migration Notes
-
-- Moved from flat `/components` to organized subdirectories
-- Added barrel exports (`index.js`) in each directory
-- Separated client-only exports in `/components/common` (all layout is now client-side for consistency)
-- All import paths updated to use new structure
-- Fixed export/import mismatches (named vs default exports)
+---

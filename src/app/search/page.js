@@ -5,6 +5,7 @@ import { Social, Email } from '@/components/layout';
 import { useSearchParams } from 'next/navigation';
 import { Posts, SidebarLayout } from '@/components/blog';
 import { AppPageContainer, AppPageHeader } from '@/components/common';
+import SearchClient from './SearchClient';
 
 function SearchContent() {
   const [posts, setPosts] = useState([]);
@@ -91,9 +92,5 @@ function SearchContent() {
 }
 
 export default function SearchPage() {
-    return (
-        <Suspense fallback={<div>Loading search...</div>}>
-            <SearchContent />
-        </Suspense>
-    )
+  return <SearchClient />;
 }
